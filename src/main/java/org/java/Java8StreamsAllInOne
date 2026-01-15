@@ -1,0 +1,515 @@
+
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
+import java.time.LocalDate;
+import java.util.Map.Entry;
+
+public class Java8StreamsAllInOne {
+
+    /* ========= Domain classes kept inside this file for demo convenience ========= */
+
+    static class Employee {
+        private final String name;
+        private final int age;
+        Employee(String name, int age) { this.name = name; this.age = age; }
+        String getName() { return name; }
+        int getAge() { return age; }
+        @Override public String toString() { return "Employee{name='" + name + "', age=" + age + "}"; }
+    }
+
+    static class Student {
+        private final String name;
+        private final int age;
+        Student(String name, int age) { this.name = name; this.age = age; }
+        String getName() { return name; }
+        int getAge() { return age; }
+        @Override public String toString() { return "Student{name='" + name + "', age=" + age + "}"; }
+    }
+
+    static class Tx {
+        private final LocalDate date;
+        private final double amount; // For money, prefer BigDecimal in real apps.
+        Tx(LocalDate date, double amount) { this.date = date; this.amount = amount; }
+        LocalDate getDate() { return date; }
+        double getAmount() { return amount; }
+        @Override public String toString() { return "Tx{date=" + date + ", amount=" + amount + "}"; }
+    }
+
+    /* ======================== Utility methods (scenarios) ======================== */
+
+    // 1) Remove duplicates and preserve order
+    static List<String> removeDuplicatesPreserveOrder(List<String> input) {
+        return input.stream().distinct().collect(Collectors.toList());
+    }
+
+    // 2) Remove duplicates ignoring order (Set)
+    static Set<String> uniqueSetNoOrder(List<String> input) {
+        return new LinkedHashSet<>(input); // preserves encounter order (use HashSet if order does not matter)
+    }
+
+    // 3) Numbers starting with '1' (optionally handle negatives)
+    static List<Integer> numbersStartingWith1(List<Integer> nums, boolean includeNegatives) {
+        return nums.stream()
+                   .filter(n -> {
+                       String s = String.valueOf(n);
+                       return includeNegatives ? (s.startsWith("1") || s.startsWith("-1"))
+                                               : s.startsWith("1");
+                   })
+                   .collect(Collectors.toList());
+    }
+
+    // 4) Join two lists (streams)
+    static List<Integer> concatTwoLists(List<Integer> a, List<Integer> b) {
+        return Stream.concat(a.stream(), b.stream()).collect(Collectors.toList());
+    }
+
+    // 5) Merge two lists into a sorted list
+    static List<Integer> mergeSorted(List<Integer> a, List<Integer> b) {
+        return Stream.concat(a.stream(), b.stream()).sorted().collect(Collectors.toList());
+    }
+
+    // 6) Prime helpers
+    static boolean isPrime(int n) {
+        if (n <= 1) return false;
+        int limit = (int)Math.sqrt(n);
+        return IntStream.rangeClosed(2, limit).noneMatch(i -> n % i == 0);
+    }
+
+    static boolean containsPrime(List<Integer> nums) {
+        return nums.stream().anyMatch(Java8StreamsAllInOne::isPrime);
+    }
+
+    static List<Integer> listPrimes(List<Integer> nums) {
+        return nums.stream().filter(Java8StreamsAllInOne::isPrime).collect(Collectors.toList());
+    }
+
+    // 7) Debug with peek
+    static List<String> debugWithPeek(List<String> words) {
+        return words.stream()
+            .peek(w -> System.out.println("input: " + w))
+            .filter(w -> w.startsWith("a"))
+            .peek(w -> System.out.println("after filter: " + w))
+            .map(String::toUpperCase)
+            .peek(w -> System.out.println("after upper: " + w))
+            .collect(Collectors.toList());
+    }
+
+    // 8) Strings starting with a digit
+    static List<String> stringsStartingWithDigit(List<String> list) {
+        return list.stream()
+            .filter(s -> !s.isEmpty())
+            .filter(s -> Character.isDigit(s.charAt(0)))
+            .collect(Collectors.toList());
+    }
+
+    // 9) Palindrome check (exact)
+    static boolean isPalindrome(String s) {
+        int n = s.length();
+        return IntStream.range(0, n / 2).allMatch(i -> s.charAt(i) == s.charAt(n - 1 - i));
+    }
+
+    // 10) Sort decimals in descending order
+    static List<Double> sortDecimalsDesc(List<Double> ds) {
+        return ds.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+    }
+
+    // 11) Nth smallest / highest
+    static Optional<Integer> nthSmallest(List<Integer> nums, int n) {
+        if (n <= 0) return Optional.empty();
+        return nums.stream().sorted().skip(n - 1).findFirst();
+    }
+
+    static Optional<Integer> nthHighest(List<Integer> nums, int n) {
+        if (n <= 0) return Optional.empty();
+        return nums.stream().sorted(Comparator.reverseOrder()).skip(n - 1).findFirst();
+    }
+
+    // 12) Last element of an array via streams
+    static OptionalInt lastElement(int[] arr) {
+        if (arr.length == 0) return OptionalInt.empty();
+        return Arrays.stream(arr).skip(arr.length - 1).findFirst();
+    }
+
+    // 13) Join strings with bracketed items and comma
+    static String joinWithBracketsAndCommas(List<String> words) {
+        return words.stream().map(w -> "(" + w + ")").collect(Collectors.joining(","));
+    }
+
+    // 14) Join strings with overall prefix/suffix
+    static String joinAllWithOuterBrackets(List<String> words) {
+        return words.stream().collect(Collectors.joining(",", "(", ")"));
+    }
+
+    // 15) Sum of first N elements (limit)
+    static int sumFirstN(List<Integer> nums, int n) {
+        return nums.stream().limit(n).mapToInt(Integer::intValue).sum();
+    }
+
+    // 16) Product of first N elements (reduce)
+    static Optional<Integer> productFirstN(List<Integer> nums, int n) {
+        return nums.stream().limit(n).reduce((a, b) -> a * b);
+    }
+
+    // 17) Sum of unique numbers
+    static int sumOfUniqueNumbers(List<Integer> nums) {
+        return nums.stream().distinct().mapToInt(Integer::intValue).sum();
+    }
+
+    // 18) Count vowels in a word
+    static long countVowels(String word) {
+        return word.chars()
+                   .mapToObj(c -> (char)c)
+                   .filter(ch -> "AEIOUaeiou".indexOf(ch) >= 0)
+                   .count();
+    }
+
+    // 19) Words containing K vowels
+    static List<String> wordsWithKVowels(String sentence, int k) {
+        return Arrays.stream(sentence.split("\\s+"))
+                     .filter(w -> countVowels(w) == k)
+                     .collect(Collectors.toList());
+    }
+
+    // 20) First non-repeated character in a string
+    static Optional<Character> firstNonRepeatedChar(String s) {
+        return s.chars()
+                .mapToObj(c -> (char)c)
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
+                .entrySet().stream()
+                .filter(e -> e.getValue() == 1)
+                .map(Entry::getKey)
+                .findFirst();
+    }
+
+    // 21) Summary statistics
+    static IntSummaryStatistics summaryStats(List<Integer> nums) {
+        return nums.stream().mapToInt(Integer::intValue).summaryStatistics();
+    }
+
+    // 22) Nth longest string (by length)
+    static Optional<String> nthLongest(List<String> words, int n) {
+        if (n <= 0) return Optional.empty();
+        return words.stream()
+                    .sorted(Comparator.comparingInt(String::length).reversed())
+                    .skip(n - 1)
+                    .findFirst();
+    }
+
+    // 23) Sum transaction amounts per day
+    static Map<LocalDate, Double> sumTransactionAmountsPerDay(List<Tx> txs) {
+        return txs.stream().collect(Collectors.groupingBy(Tx::getDate, Collectors.summingDouble(Tx::getAmount)));
+    }
+
+    // 24) Array contains duplicates?
+    static boolean arrayHasDuplicates(int[] arr) {
+        return Arrays.stream(arr).distinct().count() != arr.length;
+    }
+
+    static boolean arrayHasDuplicatesFast(int[] arr) {
+        Set<Integer> seen = new HashSet<>();
+        return Arrays.stream(arr).anyMatch(n -> !seen.add(n)); // add returns false if duplicate
+    }
+
+    // 25) Character counts (ignore spaces)
+    static Map<Character, Long> charCounts(String s, boolean ignoreSpaces) {
+        Stream<Character> chars = s.chars().mapToObj(c -> (char)c);
+        if (ignoreSpaces) chars = chars.filter(ch -> ch != ' ');
+        return chars.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    }
+
+    // 26) First odd number; findFirst vs findAny
+    static Optional<Integer> firstOdd(List<Integer> nums) {
+        return nums.stream().filter(n -> n % 2 != 0).findFirst();
+    }
+
+    static Optional<Integer> anyOddParallel(List<Integer> nums) {
+        return nums.parallelStream().filter(n -> n % 2 != 0).findAny();
+    }
+
+    // 27) Intersection of two lists
+    static List<Integer> intersection(List<Integer> a, List<Integer> b) {
+        Set<Integer> setB = new HashSet<>(b); // faster contains
+        return a.stream().filter(setB::contains).collect(Collectors.toList());
+    }
+
+    // 28) Group employees by age
+    static Map<Integer, List<Employee>> groupEmployeesByAge(List<Employee> employees) {
+        return employees.stream().collect(Collectors.groupingBy(Employee::getAge));
+    }
+
+    // 29) Partition numbers into even/odd
+    static Map<Boolean, List<Integer>> partitionEvenOdd(List<Integer> nums) {
+        return nums.stream().collect(Collectors.partitioningBy(n -> n % 2 == 0));
+    }
+
+    // 30) Average age of students
+    static double averageAge(List<Student> students) {
+        return students.stream().collect(Collectors.averagingInt(Student::getAge));
+    }
+
+    // 31) Sort employees by multiple fields: age, then name
+    static List<Employee> sortEmployeesByAgeThenName(List<Employee> employees, boolean descendingAge) {
+        Comparator<Employee> cmp = Comparator.comparing(Employee::getAge)
+                                             .thenComparing(Employee::getName);
+        if (descendingAge) cmp = Comparator.comparing(Employee::getAge).reversed()
+                                           .thenComparing(Employee::getName);
+        return employees.stream().sorted(cmp).collect(Collectors.toList());
+    }
+
+    // 32) Count each element (word frequency)
+    static Map<String, Long> wordCounts(List<String> words) {
+        return words.stream().collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    }
+
+    // 33) Longest string in a list
+    static Optional<String> longestString(List<String> words) {
+        return words.stream().max(Comparator.comparingInt(String::length));
+    }
+
+    /* ======================= Demo data for quick runs ======================= */
+
+    static List<String> sampleWords() {
+        return Arrays.asList("apple", "banana", "banana", "orange", "strawberry");
+    }
+
+    static List<Integer> sampleNums() {
+        return Arrays.asList(1, 10, 12, 23, 105, -19, 2, 3, 11, 15, 17);
+    }
+
+    static List<Integer> listA() { return Arrays.asList(1,2,3,4,5); }
+    static List<Integer> listB() { return Arrays.asList(4,5,6,7); }
+
+    static List<Employee> sampleEmployees() {
+        return Arrays.asList(
+            new Employee("Alice", 25),
+            new Employee("Bob", 20),
+            new Employee("Charlie", 25),
+            new Employee("David", 30)
+        );
+    }
+
+    static List<Student> sampleStudents() {
+        return Arrays.asList(
+            new Student("A", 18),
+            new Student("B", 21),
+            new Student("C", 24),
+            new Student("D", 21)
+        );
+    }
+
+    static List<Tx> sampleTxs() {
+        return Arrays.asList(
+            new Tx(LocalDate.of(2025,12,20), 10.0),
+            new Tx(LocalDate.of(2025,12,20), 5.5),
+            new Tx(LocalDate.of(2025,12,21), 2.0),
+            new Tx(LocalDate.of(2025,12,21), 7.0),
+            new Tx(LocalDate.of(2025,12,22), 3.0)
+        );
+    }
+
+    /* ============================ Runner (CLI) ============================ */
+
+    public static void main(String[] args) {
+        String scenario = args.length > 0 ? args[0] : "help";
+        switch (scenario) {
+
+            case "dedup":
+                System.out.println(removeDuplicatesPreserveOrder(sampleWords()));
+                break;
+
+            case "uniqueSet":
+                System.out.println(uniqueSetNoOrder(sampleWords()));
+                break;
+
+            case "startsWith1":
+                System.out.println(numbersStartingWith1(sampleNums(), true));
+                break;
+
+            case "concat":
+                System.out.println(concatTwoLists(listA(), listB()));
+                break;
+
+            case "mergeSorted":
+                System.out.println(mergeSorted(listA(), listB()));
+                break;
+
+            case "containsPrime":
+                System.out.println(containsPrime(sampleNums()));
+                break;
+
+            case "listPrimes":
+                System.out.println(listPrimes(sampleNums()));
+                break;
+
+            case "debugPeek":
+                System.out.println(debugWithPeek(Arrays.asList("apple", "banana", "avocado", "blueberry")));
+                break;
+
+            case "startsWithDigit":
+                System.out.println(stringsStartingWithDigit(Arrays.asList("1abc", "abc", "3z", "", "9Nine")));
+                break;
+
+            case "palindrome":
+                System.out.println(isPalindrome("madam"));
+                break;
+
+            case "sortDecimalsDesc":
+                System.out.println(sortDecimalsDesc(Arrays.asList(3.2, 1.5, 7.0, 2.1)));
+                break;
+
+            case "nthSmallest":
+                System.out.println(nthSmallest(Arrays.asList(1,3,5,8,12,19), 3).orElse(null));
+                break;
+
+            case "nthHighest":
+                System.out.println(nthHighest(Arrays.asList(1,3,5,8,12,19), 3).orElse(null));
+                break;
+
+            case "lastElement":
+                System.out.println(lastElement(new int[]{2,4,6,8,10}).orElse(-1));
+                break;
+
+            case "joinBrackets":
+                System.out.println(joinWithBracketsAndCommas(Arrays.asList("apple","banana","orange")));
+                break;
+
+            case "joinOuterBrackets":
+                System.out.println(joinAllWithOuterBrackets(Arrays.asList("apple","banana","orange")));
+                break;
+
+            case "sumFirstN":
+                System.out.println(sumFirstN(Arrays.asList(100, 2, 3, 4, 5), 2));
+                break;
+
+            case "prodFirstN":
+                System.out.println(productFirstN(Arrays.asList(100, 2, 3, 4, 5), 2).orElse(null));
+                break;
+
+            case "sumUnique":
+                System.out.println(sumOfUniqueNumbers(Arrays.asList(1,1,2,3,3,4)));
+                break;
+
+            case "wordsKVowels":
+                System.out.println(wordsWithKVowels("I have an apple and orange on the table", 3));
+                break;
+
+            case "firstNonRepeated":
+                System.out.println(firstNonRepeatedChar("swiss").orElse(null));
+                break;
+
+            case "summaryStats":
+                IntSummaryStatistics stats = summaryStats(Arrays.asList(1,2,3,4,5));
+                System.out.println("min=" + stats.getMin() + ", max=" + stats.getMax() + ", sum=" + stats.getSum() +
+                                   ", avg=" + stats.getAverage() + ", count=" + stats.getCount());
+                break;
+
+            case "nthLongest":
+                System.out.println(nthLongest(Arrays.asList("cat", "strawberry", "apple", "pear", "banana"), 3).orElse(null));
+                break;
+
+            case "sumTxByDay":
+                System.out.println(sumTransactionAmountsPerDay(sampleTxs()));
+                break;
+
+            case "hasDup":
+                System.out.println(arrayHasDuplicates(new int[]{1,2,3,4,5,5}));
+                break;
+
+            case "hasDupFast":
+                System.out.println(arrayHasDuplicatesFast(new int[]{1,2,3,4,5,5}));
+                break;
+
+            case "charCounts":
+                System.out.println(charCounts("hello world", true));
+                break;
+
+            case "firstOdd":
+                System.out.println(firstOdd(sampleNums()).orElse(null));
+                break;
+
+            case "anyOddParallel":
+                System.out.println(anyOddParallel(sampleNums()).orElse(null));
+                break;
+
+            case "intersection":
+                System.out.println(intersection(listA(), listB()));
+                break;
+
+            case "groupByAge":
+                System.out.println(groupEmployeesByAge(sampleEmployees()));
+                break;
+
+            case "partitionEvenOdd":
+                System.out.println(partitionEvenOdd(sampleNums()));
+                break;
+
+            case "averageAge":
+                System.out.println(averageAge(sampleStudents()));
+                break;
+
+            case "sortByAgeThenNameAsc":
+                System.out.println(sortEmployeesByAgeThenName(sampleEmployees(), false));
+                break;
+
+            case "sortByAgeThenNameDesc":
+                System.out.println(sortEmployeesByAgeThenName(sampleEmployees(), true));
+                break;
+
+            case "wordCounts":
+                System.out.println(wordCounts(Arrays.asList("apple","banana","apple","orange","banana","apple")));
+                break;
+
+            case "longestString":
+                System.out.println(longestString(sampleWords()).orElse(null));
+                break;
+
+            case "help":
+            default:
+                printHelp();
+                break;
+        }
+    }
+
+    private static void printHelp() {
+        System.out.println("Usage: java Java8StreamsAllInOne <scenario>");
+        System.out.println("Scenarios:");
+        System.out.println("  dedup                   - remove duplicates (preserve order)");
+        System.out.println("  uniqueSet               - unique set (preserve encounter order)");
+        System.out.println("  startsWith1             - numbers starting with '1' (incl. negatives)");
+        System.out.println("  concat                  - concat two lists");
+        System.out.println("  mergeSorted             - merge into sorted list");
+        System.out.println("  containsPrime           - check any prime present");
+        System.out.println("  listPrimes              - list all primes");
+        System.out.println("  debugPeek               - show peek debugging");
+        System.out.println("  startsWithDigit         - strings starting with a digit");
+        System.out.println("  palindrome              - check palindrome 'madam'");
+        System.out.println("  sortDecimalsDesc        - sort decimals in descending order");
+        System.out.println("  nthSmallest             - example: 3rd smallest");
+        System.out.println("  nthHighest              - example: 3rd highest");
+        System.out.println("  lastElement             - last element in int[] via streams");
+        System.out.println("  joinBrackets            - (apple),(banana),(orange)");
+        System.out.println("  joinOuterBrackets       - (apple,banana,orange)");
+        System.out.println("  sumFirstN               - sum of first N numbers");
+        System.out.println("  prodFirstN              - product of first N numbers");
+        System.out.println("  sumUnique               - sum of unique numbers");
+        System.out.println("  wordsKVowels            - words with exactly K vowels");
+        System.out.println("  firstNonRepeated        - first non-repeated char in 'swiss'");
+        System.out.println("  summaryStats            - min, max, sum, avg, count");
+        System.out.println("  nthLongest              - nth longest string by length");
+        System.out.println("  sumTxByDay              - sum transaction amounts per day");
+        System.out.println("  hasDup                  - array has duplicates? (distinct/count)");
+        System.out.println("  hasDupFast              - array has duplicates? (HashSet short-circuit)");
+        System.out.println("  charCounts              - character counts (ignore spaces)");
+        System.out.println("  firstOdd                - first odd number");
+        System.out.println("  anyOddParallel          - any odd (parallel findAny)");
+        System.out.println("  intersection            - intersection of two lists");
+        System.out.println("  groupByAge              - group employees by age");
+        System.out.println("  partitionEvenOdd        - partition numbers into even/odd");
+        System.out.println("  averageAge              - average age of students");
+        System.out.println("  sortByAgeThenNameAsc    - sort employees by age then name (asc)");
+        System.out.println("  sortByAgeThenNameDesc   - sort employees by age then name (desc)");
+        System.out.println("  wordCounts              - word frequency with groupingBy");
+        System.out.println("  longestString           - longest string in list");
+    }
+}

@@ -1,0 +1,911 @@
+Codebase
+Dependcies
+config
+backing Services --database  
+build release
+process  --event or stateless
+port binding 
+concurrency --multiple deployment 
+disposability  ---
+dev/prod parity 
+logs 
+Admin process 
+*****
+Solid prinipales 
+1. Single Responsibility Principle (SRP)
+Analogy: A cashier only handles payments, not cooking food. Code:
+// Java
+public class Cashier {
+    public void processPayment() { /* handle payment */ }
+}
+
+2. Open/Closed Principle (OCP) Analogy: You can add new toppings to a pizza without changing the basic pizza recipe. Code:
+// Java
+public interface Topping {
+    void add();
+}
+
+public class Cheese implements Topping {
+    public void add() { /* add cheese */ }
+}
+
+3. Liskov Substitution Principle (LSP) Analogy: Any electric car can be used wherever a regular car is used. Code:
+// Java
+public class Car {
+    public void drive() { /* driving */ }
+}
+
+public class ElectricCar extends Car { }
+
+4. Interface Segregation Principle (ISP) Analogy: A printer shouldn’t force you to use a scanner if you only want to print. Code:
+// Java
+public interface Printer {
+    void print();
+}
+
+public interface Scanner {
+    void scan();
+}
+
+5. Dependency Inversion Principle (DIP) Analogy: A remote control works with any TV brand, not just one specific brand. Code:
+/ Java
+public interface TV {
+    void turnOn();
+}
+
+public class SamsungTV implements TV {
+    public void turnOn() { /* Samsung TV on */ }
+}
+
+public class RemoteControl {
+    private TV tv;
+    public RemoteControl(TV tv) { this.tv = tv; }
+    public void pressPower() { tv.turnOn(); }
+}
+
+
+Imagine a Restaurant:  
+
+Single Responsibility Principle (SRP): one method one class 
+The chef only cooks, the waiter only serves food, and the cashier only handles payments. Each has one job.  
+
+// SRP: Each class does only one job.
+class Chef {
+    public void cookDish(String dish) {
+        System.out.println("Cooking: " + dish);
+    }
+}
+
+class Waiter {
+    public void serveOrder(String table, String dish) {
+        System.out.println("Serving " + dish + " to table " + table);
+    }
+}
+
+
+Open/Closed Principle (OCP):  interface  --
+
+ The menu can have new dishes added without changing the existing recipes. You extend, not modify.  
+ 
+
+// OCP: New menu items can be added by creating new classes, not modifying existing ones.
+interface MenuItem {
+    String name();
+    double price();
+    void prepare(); // how to prepare the dish
+}
+
+class Pasta implements MenuItem {
+    public String name() { return "Pasta"; }
+    public double price() { return 12.0; }
+    public void prepare() { System.out.println("Boil pasta, add sauce."); }
+}
+
+class Burger implements MenuItem {
+    public String name() { return "Burger"; }
+    public double price() { return 10.0; }
+    public void prepare() { System.out.println("Grill patty, assemble burger."); }
+}
+
+// Adding a new dish doesn't change existing classes:
+class Sushi implements MenuItem {
+    public String name() { return "Sushi"; }
+    public double price() { return 15.0; }
+    public void prepare() { System.out.println("Roll rice and fish."); }
+}
+
+class Kitchen {
+    public void prepareMenuItem(MenuItem item) {
+        item.prepare();
+        System.out.println("Prepared: " + item.name() + " ($" + item.price() + ")");
+    }
+}
+
+
+
+
+
+Liskov Substitution Principle (LSP):extends  Any new chef (like a pastry chef) can step in and cook without disrupting the kitchen. Substitutes work just like the original.  
+
+/ LSP: Any Chef subtype should work in place of Chef without surprises.
+interface Chef {
+    void cook(String dish);
+}
+
+class GeneralChef implements Chef {
+    public void cook(String dish) {
+        System.out.println("GeneralChef cooks: " + dish);
+    }
+}
+
+class PastryChef implements Chef {
+    public void cook(String dish) {
+        System.out.println("PastryChef bakes: " + dish);
+    }
+
+
+// Kitchen can use any Chef implementation
+class KitchenLSP {
+    private final Chef chef;
+
+    public KitchenLSP(Chef chef) {
+        this.chef = chef;
+    }
+
+    public void orderDish(String dish) {
+        // Works the same for GeneralChef or PastryChef
+        chef.cook(dish);
+    }
+}
+
+
+Interface Segregation Principle (ISP): The waiter doesn’t need to know how to cook or handle payments—just serve food. Each role only knows what it needs. the
+
+// ISP: Separate interfaces so classes only implement what they need.
+interface CookService {
+    void cook(String dish);
+}
+
+interface ServeService {
+    void serve(String table, String dish);
+}
+
+interface PaymentService {
+    void charge(String table, double amount);
+}
+
+// Concrete classes only implement what they actually need.
+class ChefISP implements CookService {
+    public void cook(String dish) { System.out.println("Cooking: " + dish); }
+}
+
+class WaiterISP implements ServeService {
+    public void serve(String table, String dish) {
+        System.out.println("Serving " + dish + " to table " + table);
+    }
+}
+
+class CashierISP implements PaymentService {
+    public void charge(String table, double amount) {
+        System.out.println("Charging $" + amount + " to table " + table);
+    }
+}
+
+  
+Dependency Inversion Principle (DIP): The restaurant owner can hire any chef, waiter, or cashier, not tied to a specific person. They depend on the role, not the individual. 
+
+// DIP: Depend on abstractions, not concrete implementations.
+interface IChef {
+    void cook(String dish);
+}
+
+interface IWaiter {
+    void serve(String table, String dish);
+}
+
+interface ICashier {
+    void charge(String table, double amount);
+}
+
+class ProfessionalChef implements IChef {
+    public void cook(String dish) { System.out.println("ProfessionalChef cooks: " + dish); }
+}
+
+class FriendlyWaiter implements IWaiter {
+    public void serve(String table, String dish) { System.out.println("FriendlyWaiter serves: " + dish + " to " + table); }
+}
+
+class EfficientCashier implements ICashier {
+    public void charge(String table, double amount) { System.out.println("EfficientCashier charges $" + amount + " for " + table); }
+}
+
+// High-level Restaurant depends on interfaces
+class Restaurant {
+    private final IChef chef;
+    private final IWaiter waiter;
+    private final ICashier cashier;
+
+    public Restaurant(IChef chef, IWaiter waiter, ICashier cashier) {
+        this.chef = chef;
+        this.waiter = waiter;
+        this.cashier = cashier;
+    }
+
+    public void fulfillOrder(String table, String dish, double price) {
+        chef.cook(dish);
+        waiter.serve(table, dish);
+        cashier.charge(table, price);
+    }
+}
+
+// Composition root or DI container would wire these up:
+class App {
+    public static void main(String[] args) {
+        IChef chef = new ProfessionalChef();
+        IWaiter waiter = new FriendlyWaiter();
+        ICashier cashier = new EfficientCashier();
+
+        Restaurant restaurant = new Restaurant(chef, waiter, cashier);
+        restaurant.fulfillOrder("Table-7", "Pasta", 12.0);
+    }
+}
+
+1. Normal Flow (No Threads)
+Downloads happen one after another (sequentially).
+Disadvantage: Slow, as each download waits for the previous one to finish.
+2. Using Threads
+Start a new thread for each download.
+Advantage: Downloads happen in parallel, so total time is less.
+Disadvantage: You must manage threads yourself (start, stop, handle errors).
+3. Using Executor
+Submit download tasks to an executor (thread pool).
+Advantage: Executor manages threads for you, reuses threads, easier to handle many tasks.
+Disadvantage: Handling results or chaining tasks is manual.
+4. Using CompletableFuture
+Start downloads asynchronously, handle results or chain actions easily.
+Advantage: Simple to run tasks, combine results, handle errors, and chain actions.
+mport java.util.concurrent.*;
+
+public class CompletableFutureExample {
+    public static void main(String[] args) {
+        CompletableFuture<Void> download1 = CompletableFuture.runAsync(() -> downloadFile("file1"));
+        CompletableFuture<Void> download2 = CompletableFuture.runAsync(() -> downloadFile("file2"));
+        CompletableFuture<Void> download3 = CompletableFuture.runAsync(() -> downloadFile("file3"));
+
+        CompletableFuture<Void> all = CompletableFuture.allOf(download1, download2, download3);
+        all.thenRun(() -> System.out.println("All downloads complete!"));
+        all.join();
+    }
+
+    static void downloadFile(String fileName) {
+        System.out.println("Downloading " + fileName + " in " + Thread.currentThread().getName());
+        // Simulate download
+        try { Thread.sleep(1000); } catch (InterruptedException e) {}
+    }
+}
+
+runAsync and supplyAsync are both methods in CompletableFuture for starting asynchronous tasks, but:  
+runAsync(Runnable) runs a task that does not return a result (CompletableFuture<Void>).
+supplyAsync(Supplier<T>) runs a task that returns a result (CompletableFuture<T>).
+
+
+Method Category
+Example Method
+Use Case
+Creating
+runAsync, supplyAsync
+Start async tasks
+Processing Results
+thenApply, thenAccept
+Transform or use results
+Combining
+thenCombine, thenCompose
+Combine or chain tasks
+Multiple Tasks
+allOf, anyOf
+Wait for all/any tasks
+Exception Handling
+exceptionally, handle
+Handle errors or provide fallback
+Async Variants
+thenApplyAsync
+Run next step on another thread
+
+
+ExecutorService executor = Executors.newFixedThreadPool(2);
+CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+    // task code
+}, executor);
+
+// ... after tasks are done
+executor.shutdown();
+
+
+
+---
+
+**1. What is the root interface of Java Collections Framework?**  
+`Collection` is the root interface for most collection classes (except maps).
+
+---
+
+**2. What is the difference between `HashMap` and `Hashtable`?**  
+- `HashMap` is not synchronized (not thread-safe), allows one null key and multiple null values.  
+- `Hashtable` is synchronized (thread-safe), does not allow any null key or value.
+
+---
+
+**3. When would you use a `HashMap`?**  
+When you need fast key-value lookups and thread safety is not a concern.
+
+```java
+Map<String, Integer> map = new HashMap<>();
+map.put("A", 1);
+map.put("B", 2);
+```
+
+---
+
+**4. When would you use a `Hashtable`?**  
+When you need thread-safe key-value storage (legacy code; prefer `ConcurrentHashMap` in new code).
+
+```java
+Map<String, Integer> table = new Hashtable<>();
+table.put("A", 1);
+table.put("B", 2);
+```
+
+---
+
+**5. What is a `List` in Java?**  
+An ordered collection that allows duplicate elements.
+
+---
+
+**6. What is the difference between `List` and `ArrayList`?**  
+- `List` is an interface; `ArrayList` is a resizable array implementation of `List`.
+
+---
+
+**7. How do you create and use an `ArrayList`?**  
+```java
+List<String> list = new ArrayList<>();
+list.add("A");
+list.add("B");
+System.out.println(list.get(0)); // Output: A
+```
+
+---
+
+**8. How do you remove duplicates from an `ArrayList`?**  
+Use a `Set` or Java Streams:
+
+```java
+List<String> list = Arrays.asList("A", "B", "A");
+List<String> unique = new ArrayList<>(new HashSet<>(list));
+```
+
+---
+
+**9. How do you iterate over a `HashMap`?**  
+```java
+for (Map.Entry<String, Integer> entry : map.entrySet()) {
+    System.out.println(entry.getKey() + ": " + entry.getValue());
+}
+```
+
+---
+
+**10.How do you sort an `ArrayList`?**  
+```java
+List<Integer> numbers = Arrays.asList(3, 1, 2);
+Collections.sort(numbers); // [1, 2, 3]
+```
+Here are 100 real-time Java 8 interview questions covering features, APIs, and practical scenarios:
+
+1. What are the main features introduced in Java 8?
+2. What is a lambda expression? Give an example.
+3. What is a functional interface?
+4. Name some built-in functional interfaces in Java 8.
+5. How do you define your own functional interface?
+6. What is the @FunctionalInterface annotation?
+7. What is the Stream API? Why is it useful?
+8. How do you create a stream from a collection?
+9. What is the difference between intermediate and terminal operations in streams?
+10. What does the filter() method do in streams?
+11. How do you use map() in streams?
+12. What is the difference between map() and flatMap()?
+13. How do you collect stream results into a list?
+14. What is the purpose of the forEach() method in streams?
+15. How do you count elements in a stream?
+16. How do you find the maximum or minimum element in a stream?
+17. What is Optional? Why is it used?
+18. How do you create an Optional object?
+19. How do you check if an Optional contains a value?
+20. How do you provide a default value for an empty Optional?
+21. What is the purpose of the ifPresent() method in Optional?
+22. How do you filter an Optional value?
+23. What is the difference between orElse() and orElseGet()?
+24. What is the new Date and Time API in Java 8?
+25. What is LocalDate? How do you use it?
+26. What is LocalTime? How do you use it?
+27. What is LocalDateTime? How do you use it?
+28. How do you format dates in Java 8?
+29. How do you parse a date string in Java 8?
+30. What is the Period class used for?
+31. What is the Duration class used for?
+32. How do you add or subtract days from a LocalDate?
+33. What is the difference between Instant and LocalDateTime?
+34. What is a default method in an interface?
+35. How do you declare a static method in an interface?
+36. Can you override default methods in implementing classes?
+37. What happens if two interfaces have the same default method?
+38. What is the purpose of the Predicate interface?
+39. How do you use the Function interface?
+40. What is the Consumer interface used for?
+41. What is the Supplier interface used for?
+42. How do you chain functional interfaces?
+43. What is method reference? Give an example.
+44. What is a constructor reference?
+45. How do you sort a list using lambda expressions?
+46. How do you remove elements from a collection using removeIf()?
+47. How do you use streams to group data?
+48. What is Collectors.groupingBy()?
+49. How do you partition data using streams?
+50. What is the difference between findFirst() and findAny()?
+51. How do you parallelize stream operations?
+52. What is the difference between sequential and parallel streams?
+53. What are the risks of using parallel streams?
+54. How do you use reduce() in streams?
+55. How do you sum values in a stream?
+56. How do you convert a stream to an array?
+57. How do you limit the number of elements in a stream?
+58. How do you skip elements in a stream?
+59. How do you remove duplicates from a stream?
+60. How do you sort a stream?
+61. How do you use peek() in streams?
+62. What is the purpose of the distinct() method in streams?
+63. How do you handle checked exceptions in lambda expressions?
+64. How do you use BiFunction and BiPredicate?
+65. What is the difference between mapToInt(), mapToDouble(), and mapToLong()?
+66. How do you use IntStream, DoubleStream, and LongStream?
+67. How do you generate an infinite stream?
+68. How do you use Stream.iterate() and Stream.generate()?
+69. How do you use Optional with streams?
+70. How do you use flatMap() to flatten nested collections?
+71. How do you use Collectors.joining()?
+72. How do you use Collectors.toMap()?
+73. How do you merge two streams?
+74. How do you use Stream.concat()?
+75. How do you use Comparator.comparing() with streams?
+76. How do you use the anyMatch(), allMatch(), and noneMatch() methods?
+77. How do you use the summary statistics methods in streams?
+78. How do you use the takeWhile() and dropWhile() methods?
+79. How do you use the Optional.orElseThrow() method?
+80. How do you use the Optional.map() and flatMap() methods?
+81. How do you use the Stream.of() method?
+82. How do you use the Arrays.stream() method?
+83. How do you use the Files.lines() method to read files as streams?
+84. How do you use the Stream.builder() method?
+85. How do you use the Stream.empty() method?
+86. How do you use the StreamSupport class?
+87. How do you use the Spliterator interface?
+88. How do you use the BaseStream interface?
+89. How do you use the UnaryOperator interface?
+90. How do you use the BinaryOperator interface?
+91. How do you use the Optional.ifPresentOrElse() method?
+92. How do you use the Optional.stream() method?
+93. How do you use the Stream.collect() method with custom collectors?
+94. How do you use the Stream.toList() method?
+95. How do you use the Stream.dropWhile() and takeWhile() methods?
+96. How do you use the Stream.findFirst() and findAny() methods?
+97. How do you use the Stream.reduce() method for concatenation?
+98. How do you use the Stream.sorted() method with custom comparators?
+99. How do you use the Stream.peek() method for debugging?
+100. How do you use the Stream.close() method?
+
+These questions cover practical, conceptual, and API-based scenarios for Java 8 interviews.
+can i get answers for this
+
+Certainly! Here are concise explanations for each question:
+
+1. **Main features introduced in Java 8:**
+   - Lambda expressions
+   - Functional interfaces
+   - Stream API
+   - Default and static methods in interfaces
+   - java.time (new Date/Time API)
+   - Optional class
+   - Method references
+   - CompletableFuture and enhancements to concurrency
+
+2. **Lambda expression:**  
+   A lambda expression is a concise way to represent an anonymous function (a function without a name) that can be passed as an argument.
+   ```java
+   (int x, int y) -> x + y
+   ```
+
+3. **Functional interface:**  
+   An interface with exactly one abstract method, intended to be implemented by a lambda expression or method reference.
+
+4. **Built-in functional interfaces in Java 8:**
+   - `Predicate<T>`
+   - `Function<T, R>`
+   - `Consumer<T>`
+   - `Supplier<T>`
+   - `UnaryOperator<T>`
+   - `BinaryOperator<T>`
+
+5. **Define your own functional interface:**
+   ```java
+   @FunctionalInterface
+   interface MyFunction {
+       void execute();
+   }
+   ```
+
+6. **@FunctionalInterface annotation:**  
+   It marks an interface as a functional interface and causes a compile-time error if the interface does not satisfy the requirements.
+
+7. **Stream API:**  
+   Provides a way to process sequences of elements (like collections) in a functional style. Useful for filtering, mapping, and reducing data with concise code.
+
+8. **Create a stream from a collection:**
+   ```java
+   List<String> list = Arrays.asList("a", "b", "c");
+   Stream<String> stream = list.stream();
+   ```
+
+9. **Intermediate vs Terminal operations:**  
+   - Intermediate: Return a new stream (e.g., `filter`, `map`), can be chained, do not trigger processing.
+   - Terminal: Produce a result or side-effect (e.g., `collect`, `forEach`), trigger processing of the stream.
+
+10. **filter() method:**  
+    Returns a stream with elements that match a given predicate.
+    ```java
+    list.stream().filter(s -> s.startsWith("a"))
+    ```
+
+11. **Using map() in streams:**  
+    Transforms each element using a function.
+    ```java
+    list.stream().map(String::toUpperCase)
+    ```
+
+12. **map() vs flatMap():**  
+    - `map()`: Transforms each element; result is a stream of streams if mapping to collections.
+    - `flatMap()`: Flattens the result; combines all nested streams into a single stream.
+
+13. **Collect stream results into a list:**
+    ```java
+    List<String> result = list.stream().collect(Collectors.toList());
+    ```
+
+14. **Purpose of forEach() in streams:**  
+    Performs an action for each element in the stream, usually for side-effects like printing.
+    ```java
+    list.stream().forEach(System.out::println);
+    ```
+	***************
+	
+	SELECT MAX(salary) FROM Employee WHERE salary NOT IN (SELECT MAX(salary) FROM Employee);
+	
+	2. Spring IoC and Dependency Injection (DI):  
+IoC (Inversion of Control): The control of object creation and wiring is transferred from the application code to the Spring container.
+Dependency Injection: Spring injects dependencies (objects) into your classes, typically via constructor, setter, or field injection.
+Example:
+@Service
+public class OrderService {
+    private final PaymentService paymentService;
+    @Autowired
+    public OrderService(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+	
+	
+	
+}
+Constructor Injection
+When to use:
+
+Mandatory dependencies: If a bean cannot function without certain dependencies, inject them via the constructor.
+Immutability: Constructor injection makes the bean immutable after creation.
+Better for testing: Easier to create objects with required dependencies in unit tests.
+Recommended for most cases: Spring team generally prefers constructor injection for required dependencies.
+
+
+@Component
+public class RestaurantService {
+    private final Chef chef;
+    private final Waiter waiter;
+
+    @Autowired
+    public RestaurantService(Chef chef, Waiter waiter) {
+        this.chef = chef;
+        this.waiter = waiter;
+    }
+}
+
+When to use:
+
+Optional dependencies: If a dependency is not always required, use setter injection.
+Mutable configuration: When you need to change dependencies after bean creation (e.g., dynamic configuration).
+Legacy code or frameworks: Sometimes needed for backward compatibility.
+<hr></hr> 17. DB Optimization Techniques:  
+Indexing: Speeds up data retrieval.
+Query Optimization: Use EXPLAIN, avoid SELECT *, use proper WHERE clauses.
+Normalization: Reduces redundancy.
+Partitioning: Splits large tables for performance.
+Caching: Store frequent queries in memory.
+Connection Pooling: Reuse DB connections.
+Denormalization: For read-heavy workloads, sometimes combine tables.
+<hr></hr> 18. XML Parsers: DOM vs SAX: 
+ 
+DOM: Loads entire XML into memory as a tree. Allows random access and modification. Good for small/medium XML, but memory-intensive.
+
+SAX: Reads XML sequentially, triggers events (startElement, endElement). Cannot modify or randomly access. Fast and low memory, good for large XML files.
+Optional<Integer> secondMax = employees.stream()
+    .map(Employee::getSalary)
+    .distinct()
+    .sorted(Comparator.reverseOrder())
+    .skip(1)
+    .findFirst()
+
+
+<hr></hr> 23. AWS Services Use Cases:  
+S3: Store files, backups, static website hosting.
+SNS: Send notifications (email, SMS, push) to multiple subscribers.
+SQS: Decouple microservices with message queues.
+EventBridge: Event-driven architectures, integrating AWS and SaaS apps.
+Kinesis: Real-time data streaming (logs, analytics).
+ALB: Distribute HTTP(S) traffic to microservices.
+
+OAuth2/JWT: Use spring-boot-starter-oauth2-resource-server for JWT validation. --how to implement Ouath2/Jw2 
+
+Lambda: Event-driven, short tasks, image processing, scheduled jobs, serverless APIs.
+
+SNS: Notify users of order status, send alerts.
+SQS: Queue orders for processing, decouple order placement from processing.
+
+
+Dependency Injection: Spring injects dependencies (objects) into your classes, typically via constructor, setter, or field injection. when to use in more detail 	
+
+// 1. Print all employee names
+// 2. Count employees in HR department
+// 3. Find the highest salary
+ employee.stream.maxByDoouble(:getSalaray).max()
+// 4. List employees older than 30
+// 5. Get average salary of Product Development
+// 6. List unique departments
+// 7. Find youngest employee
+// 8. List employees joined after 2015
+// 9. Group employees by gender
+// 10. Get total salary expense
+// 11. List all employee IDs
+// 12. Check if any employee earns more than 35000
+// 13. Check if all employees are older than 20
+// 14. Find first employee in Sales And Marketing
+// 15. Sort employees by salary descending
+// 16. Get names of employees in a Set
+// 17. Partition employees by gender
+// 18. Find employee with second highest salary
+// 19. List employees whose name starts with 'A'
+// 20. Find sum of salaries for employees joined in 2015
+// 21. List employees in Infrastructure department
+// 22. Find employee with minimum salary
+// 23. List employees sorted by age
+// 24. Get all employee names as a comma-separated string
+// 25. Find employees with salary between 20000 and 30000
+// 26. Get list of employee ages
+// 27. Find employees with even IDs
+// 28. List employees whose name contains 'n'
+// 29. Count employees per department
+// 30. Find max salary per department
+// 31. List employees joined before 2013
+// 32. Find average age of employees
+// 33. List employees with names in uppercase
+// 34. Find employees with salary less than 15000
+// 35. Get department names as a List
+// 36. Find employees whose name ends with 'a'
+// 37. List employees sorted by year of joining
+// 38. Find employees with odd ages
+// 39. Get all employee objects as a Set
+// 40. Find employees with salary above average
+// 41. List employees with name length > 10
+// 42. Find employees in Account And Finance
+// 43. Get all unique ages
+// 44. Find employees with salary divisible by 1000
+// 45. List employees whose name contains 'i'
+// 46. Find employees joined in or after 2016
+// 47. Get sum of all employee ages
+// 48. List employees with salary as integer value
+// 49. Find employees with name having more than 2 words
+// 50. List employees whose name is palindrome (ignoring case and spaces)
+
+1. Singleton Pattern
+
+Purpose: Ensures only one instance of a class exists and provides a global access point.
+Use Case: Configuration managers, logging systems.
+
+2. Factory Pattern
+
+Purpose: Creates objects without exposing the creation logic to the client.
+Use Case: When you need flexibility in object creation (e.g., database connectors).
+
+3. Observer Pattern
+
+Purpose: Allows one object (subject) to notify multiple observers about state changes.
+Use Case: Event-driven systems, notification services.
+
+
+4. Proxy Pattern
+
+Purpose: Provides a surrogate or placeholder for another object to control access.
+Use Case: Caching, lazy loading, access control.
+
+
+5. Adapter Pattern
+
+Purpose: Converts the interface of a class into another interface clients expect.
+Use Case: Integrating legacy systems with new APIs.
+
+
+6. Decorator Pattern
+
+Purpose: Adds behavior to objects dynamically without altering their structure.
+Use Case: Adding features like logging or authentication to services.
+
+
+7. MVC (Model-View-Controller)
+
+Purpose: Separates application logic into three components: Model, View, Controller.
+Use Case: Web applications and UI frameworks.
+
+
+8. CQRS (Command Query Responsibility Segregation)
+
+Purpose: Separates read and write operations for better scalability.
+Use Case: High-performance systems with heavy read/write loads.
+
+
+9. Event Sourcing
+
+Purpose: Stores state changes as a sequence of events instead of current state.
+Use Case: Audit trails, financial systems.
+
+
+10. Microservices Pattern
+
+Purpose: Breaks a system into small, independent services communicating via APIs.
+Use Case: Large-scale applications needing modularity and scalability.
+
+
+3. Are you more of a backend or a frontend developer? Where do you feel more strongly about?
+4. Did you work with Springboot and rest endpoints?
+5. What are Rest vs SOAP main differences? When to use which one?
+6. Why is REST called stateless? Can you elaborate on it?
+7. Describe MVC pattern in detail?
+8. do u know about any other design patterns, get few examples and be ready to explain them
+9. What is singleton, where do we use them, and how do you declare and access singleton classes?
+10. Have you worked with collections and what is the difference between Hashset and hashmap?
+11. How does the Hashset maintain its uniqueness? 
+12. Describe Spring IOC and Dependency injection?
+13 What is the spring actuator used for?
+14. What is the difference between Arraylist and vector?
+15. Do you know java oops concepts, try to explain them.
+16. Database SQL Joins, and differences between left outer and full outer join
+17. What are the different optimization techniques used to improve the DB performance?
+18. Have you worked with XML parsers, DOM, SAX, what are they and which one is faster?
+19. How to find the second max salary of the employee
+Answer ( Select Max(salary) from Employee where Salary NOT IN (SELECT MAX(SALARY) FROM EMPLOYEE);
+20. Where is the difference between error and exception? How can you create a new custom exception class?
+21. difference between throws, and throw?
+22. What is the difference between final, finally, and finalize ?
+23. What AWS service are you familiar with? try to read about S3, SNS, SQS, EventBridge, Kenissis, application load balancers ...etc  
+24. How do you deploy your application in the cloud? try to know about CICD, cloudformation templates, ECS/Fargate.
+25. What is thread safe? How can you make a class or a method thread safe?
+26 How do you secure rest endpoints (answer : using Oauth etc).
+27. How do you test your rest endpoints (answer : writing JUnits and using Postman).
+28. What are all the different annotations you use in Springboot? Try to name a few
+29. What kind of monitoring tools do you use? during production support? what steps will you take to identify the issue. (Answer : Splunk, cloudwatch logs)
+30. What kind of Agile do you follow? talk about different agile ceremonies?
+31. How do you make an application highly available and fault tolerant? (Answer: Deploy the application behind the load balancers, use auto scaling, use distributed architecture , use Backup and recovery or replication, use failure detection tools by setting alarms?
+ 
+1. What are checked and unchecked exception, explain the difference and give few examples.
+2. What is immutable means, why is string immutable in Java.Explain
+3. Describe main steps to build a web application using front-end and springboot.
+4. How to secure an API. know what is PUT, GET, PATCH, POST and DELETE.
+5. Rest vs SOAP difference
+6. How to design a class structure to find area of a shape. Circle, rectangle, triangle and rectangle.
+7. When to use a IS A vs HAS A relationship
+8. What are SOLID Design principles. be ready to answer each of the in detail.
+9. Authentication vs Authorization,  Ping, JWT token.
+10. When to use EC2 vs Lambda.
+11. How to use Streams in Java, what is predicate and other operations.
+12. How to secure S3 object
+13. SNS vs SQS, How to debug for a lost message
+14. What is functional programming,  OOPS Concepts
+15. How to find a 2nd highest salary of an employee, write a query.
+16. what is Crosssite scripting,  SQL injection,
+17. Multi threading race condition, how to avoid it.
+ 
+. How can you use Amazon S3 in a Java application?
+2. How do you connect a Java application to an Amazon RDS database?
+3. What is the use of the AWS SDK for Java? How do you use it?
+4. How can you upload and download files to/from S3 using Java?
+5. How do you implement secure credentials handling for AWS in a Java application?
+6. What is IAM and how do you use roles and policies in a Java AWS environment?
+7. How can you invoke a Lambda function from a Java application?
+8. How do you use Amazon DynamoDB with Java?
+9. Explain how to use Amazon SNS or SQS in a Java-based microservice.
+10. How do you deploy a Spring Boot Java application to AWS Elastic Beanstalk?
+11. What are the advantages of using AWS Lambda with Java for backend services?
+12. How do you monitor and log your Java application in AWS (e.g., CloudWatch integration)?
+13. What are some best practices when using EC2 instances for running Java apps?
+14. Explain how you’d configure CI/CD for a Java app using AWS CodePipeline and CodeBuild.
+15. How can you make a Java web app serverless using AWS services (API Gateway, Lambda, S3)? 1. Tell me about  yourself and also can you talk about your latest project and tech stack in detail.
+2. Why are you looking for a change of job? visa status?
+3. Are you more of a backend or a frontend developer? Where do you feel more strongly about?
+4. Did you work with Springboot and rest endpoints?
+5. What are Rest vs SOAP main differences? When to use which one?
+6. Why is REST called stateless? Can you elaborate on it?
+7. Describe MVC pattern in detail?
+8. do u know about any other design patterns, get few examples and be ready to explain them
+9. What is singleton, where do we use them, and how do you declare and access singleton classes?
+10. Have you worked with collections and what is the difference between Hashset and hashmap?
+11. How does the Hashset maintain its uniqueness? 
+12. Describe Spring IOC and Dependency injection?
+13 What is the spring actuator used for?
+14. What is the difference between Arraylist and vector?
+15. Do you know java oops concepts, try to explain them.
+16. Database SQL Joins, and differences between left outer and full outer join
+17. What are the different optimization techniques used to improve the DB performance?
+18. Have you worked with XML parsers, DOM, SAX, what are they and which one is faster?
+19. How to find the second max salary of the employee
+Answer ( Select Max(salary) from Employee where Salary NOT IN (SELECT MAX(SALARY) FROM EMPLOYEE);
+20. Where is the difference between error and exception? How can you create a new custom exception class?
+21. difference between throws, and throw?
+22. What is the difference between final, finally, and finalize ?
+23. What AWS service are you familiar with? try to read about S3, SNS, SQS, EventBridge, Kenissis, application load balancers ...etc  
+24. How do you deploy your application in the cloud? try to know about CICD, cloudformation templates, ECS/Fargate.
+25. What is thread safe? How can you make a class or a method thread safe?
+26 How do you secure rest endpoints (answer : using Oauth etc).
+27. How do you test your rest endpoints (answer : writing JUnits and using Postman).
+28. What are all the different annotations you use in Springboot? Try to name a few
+29. What kind of monitoring tools do you use? during production support? what steps will you take to identify the issue. (Answer : Splunk, cloudwatch logs)
+30. What kind of Agile do you follow? talk about different agile ceremonies?
+31. How do you make an application highly available and fault tolerant? (Answer: Deploy the application behind the load balancers, use auto scaling, use distributed architecture , use Backup and recovery or replication, use failure detection tools by setting alarms?
+ 
+1. What are checked and unchecked exception, explain the difference and give few examples.
+2. What is immutable means, why is string immutable in Java.Explain
+3. Describe main steps to build a web application using front-end and springboot.
+4. How to secure an API. know what is PUT, GET, PATCH, POST and DELETE.
+5. Rest vs SOAP difference
+6. How to design a class structure to find area of a shape. Circle, rectangle, triangle and rectangle.
+7. When to use a IS A vs HAS A relationship
+8. What are SOLID Design principles. be ready to answer each of the in detail.
+9. Authentication vs Authorization,  Ping, JWT token.
+10. When to use EC2 vs Lambda.
+11. How to use Streams in Java, what is predicate and other operations.
+12. How to secure S3 object
+13. SNS vs SQS, How to debug for a lost message
+14. What is functional programming,  OOPS Concepts
+15. How to find a 2nd highest salary of an employee, write a query.
+16. what is Crosssite scripting,  SQL injection,
+17. Multi threading race condition, how to avoid it.
+ 
+. How can you use Amazon S3 in a Java application?
+2. How do you connect a Java application to an Amazon RDS database?
+3. What is the use of the AWS SDK for Java? How do you use it?
+4. How can you upload and download files to/from S3 using Java?
+5. How do you implement secure credentials handling for AWS in a Java application?
+6. What is IAM and how do you use roles and policies in a Java AWS environment?
+7. How can you invoke a Lambda function from a Java application?
+8. How do you use Amazon DynamoDB with Java?
+9. Explain how to use Amazon SNS or SQS in a Java-based microservice.
+10. How do you deploy a Spring Boot Java application to AWS Elastic Beanstalk?
+11. What are the advantages of using AWS Lambda with Java for backend services?
+12. How do you monitor and log your Java application in AWS (e.g., CloudWatch integration)?
+13. What are some best practices when using EC2 instances for running Java apps?
+14. Explain how you’d configure CI/CD for a Java app using AWS CodePipeline and CodeBuild.
+15. How can you make a Java web app serverless using AWS services (API Gateway, Lambda, S3)?

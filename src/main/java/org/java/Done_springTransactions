@@ -1,0 +1,25 @@
+
+Transaction Types	Main	Subclass	Result
+REQUIRED-Use of existing transaction from the main class, if it is subclass only it participates new transaction 
+SUPPORTS	No Transaction 	SUPPORTS	Subclass will not execute any transaction even though we have supports transaction
+	Required	Supports	Existing transaction is used 
+	No Transaction 	NOT_SUPPORTED	The subclass will not execute any transaction 
+
+	Required	Not supported	Main class executes transaction and end transaction coming to subclass 
+NOT_SUPPORTED	REQUIRES_NEW	REQUIRES_NEW	Main class creates new transaction and suspends existing transaction ,,sub class creates a new transaction 
+REQUIRES_NEW	No Transaction 	Never	Sub class it will not creates any transaction 
+NEVER	Required 	Never 	We get an exception it will not allow to use an existing transaction from the main class 
+MANDATORY		Mandatory 	Main class transaction required ,if not it will throw an exception .
+			
+			
+
+
+
+Propagation	Behavior
+REQUIRED	Always executes in a transaction. If there is an existing transaction, it uses it. If none exists, then only a new one is created.
+SUPPORTS	It may or may not run in a transaction. If the current transaction exists, then it is supported. If none exists, then it gets executed without a transaction.
+NOT_SUPPORTED	Always executes without a transaction. If there is an existing transaction, it gets suspended.
+REQUIRES_NEW	Always executes in a new transaction. If there is an existing transaction, it gets suspended.
+NEVER	Always executes without any transaction. It throws an exception if there is an existing transaction
+MANDATORY	Always executes in a transaction. If there is an existing transaction, it is used. If there is no existing transaction, it will throw an exception.
+

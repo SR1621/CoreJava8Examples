@@ -1,0 +1,18 @@
+kubectl run nginx --image=nginx
+kubectl get pods
+
+ kubectl describe pod newpods-<id> and look under the containers section
+
+ kubectl describe pod newpods-9nfsv
+
+kubectl get pods -o wide
+kubectl describe pod webapp
+
+kubectl delete webapp
+
+kubectl run redis --image=redis123 --dry-run=client -o yaml > redis-definition.yaml
+
+
+kubectl create -f redis-definition.yaml 
+
+kubectl edit pod redis

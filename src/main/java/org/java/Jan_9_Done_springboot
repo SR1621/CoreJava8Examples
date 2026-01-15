@@ -1,0 +1,3112 @@
+Sprint boot over spring frame work 
+1)Depdency reolution
+2)Avoid additional configuration  for ex data source or any other classes 
+3)Need sepearte server to deploy 
+4)if you use parent version  it will atuomatically download all other files 
+
+modules configured 
+Sprign boot starter Web
+Spring boot starte data JOA 
+AOP 
+Webservices
+Security 
+Apackae Kafka message Channel  
+Spring cloud (service discovery ,configuration managment ,load managment)
+thymeleaf --static webpages 
+
+how will your run spring boot applicaiton 
+What
+@SpringbootApplicaiton 
+if you want to run using teminal we can use mvn spring-boot:run 
+
+to extract jar file 
+jar xf filename.jar 
+
+@springBootApplciaiton will combinations for 4 compoents 
+
+@enableAutoCogniruation various componets which is scanned in pom.xml file for ex :Web/Jpa 
+@ComponetScan--it scanBasePackages 
+@Configuration ---it allows to register extra bean for example SwaggerConfig and 
+@import ({SecuritConfig.class,SwaggerConfig.class})
+
+what is Auto congiguraiton 
+applicaiton.properties 
+debug-true
+
+We added spring web 
+postive mathces will do autocongiruation 
+negative mathes will not congifure automatiocallu ,we need to do manually 
+@ConditionaOnClass(ObjectMapperc.lass)
+
+Datasource congiruation is  available in negative matches 
+if we want to check postive and negative mathhes we need to check the spring-boot-autoconfigutre jar file 
+spring.autocongigure.exclude[fully packaged class]
+
+How spring boot run () method works internally 
+Create Applicaiton context 
+Reigster bean into context 
+Kicked up embedded tomcat container to run your jar/war 
+
+Command line runner in spring boot 
+it will load the applicaiton loading start method 
+//DB Connection 
+pouplate some data to the db 
+pre processing logic you want to perform 
+
+part1 end 
+
+
+**********************************
+Part 2 Start
+Sterotype annotations 
+@component --parent component 
+@service inherted from the service component 
+@controller 
+@restcontrollet is inherted from the controller and controller inherted from component
+@repository 
+
+If you want to to comsume external resource we are going to use component 
+Mapper class we can use the component 
+
+We can create the bean using sterotype and or we can create the @configuration using @bean 
+********************
+
+What is depdency injection 
+Field level DI
+@Autowired 
+prive orderreposiitory respositry;
+Setter /injection 
+Constructor Injection 
+Consturctor injection is used for mandatory dependency injection (immutable in nature -it won't change when we create an object)
+Setter injection is used for optional bean we can go for setter injection (it's mutable in nature)
+Immutable in nature 
+Setter injection can create the circulate depdency but not in contstruct injection 
+we can use @LAzy method 
+
+@Post construct can be used to connect the database or connect kafka server 
+
+Run -1
+Post Construct-2
+Runline commander-3
+
+************
+to get the value from Propetires file two ways 
+using @Value and Environment variable 
+@value("${discount.offer.price}")
+private int discoutPrice
+@Autowired
+private Environment Environment
+sout(environment.getProperty("Discount.offer.price"));
+yaml and properties file 
+Syntax and strucutrre
+Hierarch 
+List & Arrays
+Complex Data Types
+Readabilty
+PropertySourceLoader class file which loads 
+YamlProperySourceLoader and PropertiesPropertySourceLoader .java 
+spring.config.import=file:/Users/javatechie/Desktop/test.properties 
+If we want to load the properties file as a java object we need to define CongiuraitonPropeties file 
+@ConfiguraitonProperties(prefix="spring.datasource")
+@Data
+@AllargsConstructor
+@Component
+
+public class DataSourceConfig{
+priage String username;
+prvate String password;
+}
+
+
+ 
+Part 2 end 
+*******************
+Part3 Start
+
+Depdency  Ambiguity  ?
+@Quailifer ("need to mention the implementation class")is been used by type --taken from spring library 
+or 
+@Resource(name="need to mention the implementation class") is been used by name /taken from java library 
+
+@Primary
+Purpose: Marks a bean as the default choice when multiple beans of the same type are available for autowiring
+@Bean
+@Primary
+public DataSource primaryDataSource() {
+    return new DataSource(/* config */);
+}
+
+@Qualifier
+Purpose: Explicitly specify which bean to inject when there are multiple beans of the same type.
+Usage: You annotate beans with @Qualifier("name"), and also annotate injection points with @Qualifier("name") to specify exactly which bean to inject.
+
+What is the bean scope 
+Singleton
+Prototype
+Webscoket
+below are applicable only for Web-Based Applciation 
+request
+session 
+Appication
+prototype creates a new bean instance every time it's requested (non-web or per-injection).
+request creates a new bean instance per HTTP request (web-specific).
+
+*************
+server.session.cookie.max-age=1
+server.session.timeout=1
+once we invoke only  the request it will invoked the same request until session is time out 
+***************
+The applicaiton scope is used in web-based spring boot application to create a single instance of the bean for the entire web applicaiton context.
+websocket--it creats a websocket session 
+*****************
+how do you define custome bean scope 
+No 
+***********************
+When to choose single ton and prototype 
+
+Singeton Scope 
+1)Database Configruation if we want to use databse connection pol or cache mechanism  which can share entire applciation 
+2)Service Layer --if it's stateless we can share accross accross the applcaiton 
+3)Applicaiton Configuration --u have bean throught out the applicaiton we can use properties file 
+*****************
+Proto type scope 
+1)User Sessions 
+2)Thread Safety ---different intiation 
+3)Heavy Initialization --resource allocation we can use prototype Scope 
+
+ 
+BeanPostProcessor interface in spring 
+Propery Injection 
+Aspect Oriented Programming 
+Custom initalization logic 
+Proxy Creation 
+Monitoring and Logging 
+
+ 
+Part3 end 
+**********************
+Part4 Start
+
+Rest HTTP Methods 
+POST-create
+GET--Retrive
+PUT-Update
+Patch-Partial update
+Delete-Remove
+
+@RequestParam(value="productType",required=false,defaultValue="Electronics" string prodcutType 
+@PathVariable String productType) if it's mandatory we need to pathVariable,  we get an error as 404 and option we can use RequestParam variable 
+RestContollor respony body is not required and it's part of restcontroller 
+where as controller excepts ModelView page and @ResponseBody page 
+we can use hello.html method
+
+*************
+Deserailze a JSON Request Payload into an object 
+@RequestBody Book book
+@putMapping is idemponent 
+@PostMapping is not Idempotent 
+Idempotent: Multiple identical requests have the same effect as one.GET, PUT, DELETE (with proper implementation)Safe read/update/delete operations
+Non-idempotent: Multiple identical requests change state further each time.//POST, some PATCH requests Create, append, increment, or process data.
+
+Content Negotaiton (XML/JSON in rest endpoint 
+Jackson -datafroma-xml in pom.xml
+@GetMapping( Produces={"application/json","applicaiton/xml"})
+
+public List<Product> products(@RequetParam(value="productType",required=true,String productType)
+return productType!=null?service.getProductByType(productType)
+                         :service.getProcuts();
+
+in properties file enable service.mmv.cotnectNegotation.favor-path-extensions=true
+service.mmv.cotnectNegotation.favor-parameter=true
+service.mmv.cotnectNegotation.defaultContentType=application/xml 
+
+status code observed in your applicaiton 
+400 --bad request
+404 --url not found 
+401--authenticaiton error
+403-Authenticaion sucess/autoorize error entilement error 
+405--method not allowed error post /get 
+415- on Support medita type client needs json and ur sending xml 
+500 --server is down prevented by fulfilling the request
+502--offstream --due to health when you
+200-success --the content in the response contains request payload
+201--the reques is been created and fullfilled the request 
+204 --The HTTP 204 status code, known as “No Content,” means that the server successfully processed the client's request but does not need to return any content. it is used for Update Statement
+
+To enable spring boot application from Angular we can sue @CrossOrgins (orgins="http://localhost:4000") need to enable 
+
+Write configuration clas 
+Class A implements WebMvcConfigurer {
+@Overid
+addCorsMappings(CorsRegistry registry)
+registry.addMapping("/api/**)
+.allowedOrgins("http://localhost:8080/AngularApp")
+.alloweHeaders("orgin",cotnent-Type",Accept","Autorization")
+.allowCredentials(true)
+.maxAge(3600)
+
+RequestParam int version number 
+@RequestHeader(name="api-version" version in the request 
+
+how will document Rest API 
+Swagger /OPEN API AI --rest end point 
+added in open api in pom.xml file 
+
+swagger-ui/index.html --open ai
+localhost:8181/v3/api-docs
+
+api-docs.yaml file 
+
+@Hidden if you add on method we can hide the method which can be exposed to external workd 
+@Operation (description="It insers the prodcut record")
+
+how you will consumr restapi 
+RestTempate
+Feignclient
+Webclint
+Advance  Rest Client 
+
+jsonplaceholder.tyicode.com/users  
+
+RestTemplate to invoke REST API ,need to define response object and we need to invoke using method getObject by passing url and response class name
+restTemplate.getForObject(
+        URI_CUSTOMER, Customer[].class);
+		  Customer createdCustomer = restTemplate.postForObject(
+        URI_CUSTOMER, newCustomer, Customer.class);
+Feign client  --just add the anotation and passing the url and response object ,it's simple and easy to use it is flexible at runtime and it invokes at discovery registry and eureka server and load balancer 
+WebClient -it is used when we are using reactive programming for asynchros client 
+Advance rest client -
+
+When to Prefer Feign
+Microservice ecosystem using Spring Cloud
+You need service discovery and client-side load balancing.
+You want centralized retries, circuit breakers, fallbacks using Resilience4j.
+Developer productivity & readability
+Interface-first contract; fewer lines of code.
+Easy to unit test by mocking the interface.
+Consistent cross-cutting concerns
+Global headers, auth, logging via Feign interceptors.
+Clear separation between API contract and business logic.
+Versioned external APIs
+
+Multiple Feign clients per version keep interfaces clean.
+Custom HTTP behavior
+Precise control over timeouts, connection pooling, redirects, error decoding, and retries not governed by Spring Cloud.
+Custom MessageConverters, headers, cookies, or streaming download.
+No Spring Cloud
+Monoliths or simple apps where service discovery & load balancing aren’t needed.
+Performance/Streaming/Reactive needs → Use WebClient
+Non-blocking IO, backpressure, high concurrency.
+Server push or SSE, streaming large payloads.
+Part4 end 
+******************
+Part 5 Start
+Aspect orient 
+@RestControllerAdvise 
+@ExceptionHandler(ProduttNotFoundExceptoon.class)
+no need to define custom error class
+
+ProblemDetails we can use in spring 3.0 
+
+
+when you want to handle multiple exceptions ,we need to create custom exception in the main 
+in the try method we can define business service exception method "
+service we can define try and catch (Exception e)
+throw new Custom Exception (ex.getMessage())
+
+
+@RequestBody @Valid Product 
+jakarta.validont.constaint
+
+define valdition in pom.xml file 
+
+@nulnull
+@notempty 
+@notblank ==null+empty 
+@Minimul@Max 
+
+@Patten(
+@Email 
+@Future
+@Past`
+Date birthDate
+ 
+Map<String,String>
+ex.getBindingResult.getFieldErrors()
+.forEach(error->{
+errorMap.put(error.getField(),error.getDefaultMessage());
+});
+return errorMap;
+
+define the custom valdiation 
+impleents ConstraintValdiator<ValidateProdctype ,String>
+
+if you want to use different environments 
+@profile("Dev") 
+
+spring.profile.active=prod
+
+
+app.active.env=dev 
+we need to use @ConditionaOnProperty (prefix="app.active",name="env",havingValue="dev")
+
+
+Aspect orienteed program it is used secondary logic  
+
+Aspect 
+Transaticon 
+logging 
+Valdiation 
+Auditin 
+notification 
+we can use aspect as a secondary logic 
+cross cutting concerns .
+transaciton  Aspect
+LogingAspect
+valdiationAspect
+audtingAspect
+notifcaitonAspect 
+
+what is pointcut and join points in AOP 
+
+jointpoint --is where we want to implement  method in aspect is called jointpoint
+
+pointCut --the expresission who is your join point to implement 
+pointCut(com.javaPackage.service.saveProduct.*())
+
+BeforeAdvise--before the method execute we can use beforeadvice
+AFterAdvie--post proessing logic  we can use afterAdvice ,it does not care the exception 
+Afterreuturing advice -- if it is exception we should not implemnt will not excecute --no exception 
+After Throwing advice --if any exception occurs we are going to get if any exception occurs 
+Around Advice ==Before+After 
+
+@proceedingJoingpoing we need to use as parameter in method for Around advise 
+ 
+define the @Aspect in the class
+public closss LoggingAdvice
+@Pointcut("execution("com.javatechie.service.ProductService.*(...))")
+
+private void logPointcut()
+{
+}
+@Before("logPointCut()")
+ProceedingJointCut
+
+
+********************* 
+Part 5 end 
+*************************
+Part 6 start
+
+Spring data frame work usign Spring  JPA 
+@Entity 
+we are defining POJO 
+@Table (name ="empokee") optionai 
+@id
+@GenreatebValue(Stragegy=GenerationType.Identity)
+@Column(name="EMPID") 
+
+@InterfaceRepositiry extennds JpaRepositry<Employee,Data Type of primary Key) 
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibreante.dialect //to fine tune the query .
+
+spring.jpa.hibernate.naming.physcial-strategy=//it will define the same as JPA Respository field names 
+custom method 
+List<Employee> findByDeptName(String dept)
+findBySalaryAndAge ///custom method there is no write any query 
+\
+Hiberanat e-- JPA --Spring data JPA 
+JPA --ORM Tool 
+JPA is specificaton whch contaita api and method 
+Hibernate is implt of JPA 
+
+Abstraction layeer of JPA Specificaition 
+
+Datasoruce multipel data source 
+ 
+
+Entiry ->Repository->Database (Oracle)-->Entity manager -- >Transaction manager 
+
+Entiry ->Repository->Database (SQL)-->Entity manager -- >Transaction manager 
+
+spring.datasour.emoloyee.driver-classname
+
+JPQL from employee e where e.salary>1 nativeQuery=true)
+
+findBySalaryGreaterThan(salary)
+findByAgeBetwen(int min,int max)
+findBySalaryAvg
+select AVG(e.salary) from employee;
+
+slect c.name,count(o) from customer c join c.orders o,group by c.id)
+
+Pagination 
+sort by field 
+Sort.by(Sort.Direction.ASC,field));
+
+int offset,pageSize 
+finalAll(PageRequest.of(pageNumber,pageSize).withSort(Sort.by(field)))
+we can use paggination and sorting alorgithm 
+
+Pagable pagable=PageRequest.of(offset,pagesize)
+ @RequestParam(defaultValue = "id,asc") String[] sort) {
+Sort.Direction direction=Sort.direction.fromString(sortDirection)
+ Sort sortObj = Sort.by(direction, sortField);
+
+ 
+Part 6 end
+****************************************************************************************************
+Part 7 Start
+****************
+Auditing 
+@EntityListeners(AuditingEntityListener.class) we can enable at class level 
+who was created 
+@EnableJpaAuditing for mongo audtiong 
+@EnableMongoAdutiing 
+AuditorAwareImpl will identify who is the last user
+
+If we are using DATAJPA Transaction i more important if JDBC we need to handle transaction manually 
+
+different isolation and propogation 
+isolation --
+when you are booking betwen 2 threads 
+@Transaction(Isolation.Default) 1 thread will inform to other thread.
+Propogatin 
+m1() is called m2 
+if m2 fails how you are going to handle the transaciton 
+@Transaction (Isolation ,progoation)
+
+
+*************** 
+part 7 end 
+Spring vs spring boot --2.1.3  
+1)Depedency resolution 
+2)Minimal configuraiton 
+3)Embeded tomcat server for testing 
+4)Bean auto scan 
+5)Health Metrics 
+@Spring bootapplication ==@Configuration + @EnableAutoconfiguation + @ComponentScan
+Create a applicaiton contenxt 
+check applicaiton type  --servlet and reactive 
+Register the annotate class beans with tthe context class (like AnnotationConfigeApplicationContext) 
+create an instance of tomcateEmebeddedServletContainer adds the contexta 
+===
+@SpringBootApplication--main class 
+@RunWith(SpringRunner.class)
+@SpringBootTest
+
+@RestController
+@GetMapping(path = "/hello-world")
+@GetMapping(path = "/hello-world/path-variable/{name}")
+	public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
+		return new HelloWorldBean(String.format("Hello World, %s", name)); ---%s replaces name
+	}
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class UserNotFoundException extends RuntimeException {
+@Component
+************
+ResponseEntityExceptionHandler ----need to write exception handler 
+@ControllerAdvice
+
+ResponseEntity 
+
+
+	@Size(min=2, message="Name should have atleast 2 characters")
+	private String name;
+
+	@Past
+	private Date birthDate;
+	
+Valdaiton for parameters 	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed",
+				ex.getBindingResult().toString());
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+
+@Bean
+	public LocaleResolver localeResolver() {
+		AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+		localeResolver.setDefaultLocale(Locale.US);
+		return localeResolver;
+	}
+	
+	Controllerr 
+		@GetMapping(path = "/hello-world-internationalized")
+	public String helloWorldInternationalized() {
+		return messageSource.getMessage("good.morning.message", null, 
+									LocaleContextHolder.getLocale());
+	}
+
+	
+	convert from json to xml 
+	
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
+
+http://localhost:8080/swagger-ui.html
+
+http://localhost:8080/v2/api-docs
+
+Acutator 
+Latest 
+
+
+@Entity is a JPA annotation to make this object ready for storage in a JPA-based data store.
+There are multiple repository implementations besides JPA. You can use Spring Data MongoDB, Spring Data GemFire, Spring Data Cassandra, etc. For this tutorial, we’ll stick with JPA.
+
+@SpringBootApplication is a meta-annotation that pulls in component scanning, autoconfiguration, and property support.
+@RestController indicates that the data returned by each method will be written straight into the response body instead of rendering a template.
+@ControllerAdvice
+class EmployeeNotFoundAdvice {
+
+  @ResponseBody
+  @ExceptionHandler(EmployeeNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  String employeeNotFoundHandler(EmployeeNotFoundException ex) {
+    return ex.getMessage();
+  }
+
+@ExceptionHandler configures the advice to only respond if an EmployeeNotFoundException is thrown.
+
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-hateoas</artifactId>
+</dependency>
+
+it generates the link in response 
+{
+    "id": 1,
+    "name": "LRK",
+    "role": "burglar",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/employees/1"
+        },
+        "employees": {
+            "href": "http://localhost:8080/employees"
+        }
+    }
+}
+
+The return type of the method has changed from Employee to EntityModel<Employee>. EntityModel<T> is a generic container from Spring HATEOAS that includes not only the data but a collection of links.
+
+load test is nothing but total time execution for all request 
+Request per second is through put -the number request handed per second 
+time per request is latency ,how much time it took to complete the request
+
+
+Graph QL
+proto type we can add plugin in intellji proto
+
+datatype 
+sytax="proto3"
+import "google/protobuf/timestamp.proto" 
+pacakge "Com.javatechie"
+message Empploye {
+int32 id=1;
+string name=2;
+double salary=3;
+repeated department deparment;4;
+map<string.string> addressmap=5;
+bool isActve=6;
+byte profilePicutre=7;
+google.protobug.timesamp joindate=8;
+
+
+message  department {
+int32 id=1;
+string name=2;
+}
+
+
+CollectionModel<> is another Spring HATEOAS container aimed at encapsulating collections. It, too, also lets you include links. Don’t let that first statement slip by. What does "encapsulating collections" mean? Collections of employees?
+
+
+This simple interface has one method: toModel(). It is based on converting a non-model object (Employee) into a model-based object (EntityModel<Employee>).
+
+All the code you saw earlier in the controller can be moved into this class. And by applying Spring Framework’s @Component, this component will be automatically created when the app starts.
+
+
+************************
+spring container 
+Microservices
+small autonomous applicatin which can be deployoed independently  
+it's light weight mechanism
+which exposed by rest 
+small well chosen deployable units 
+cloud enabled
+
+set of smaller microservices 
+
+Micorservices--A1,A2
+micrservices--ba1234
+microservices-c1
+
+Challanges 
+Bounder Context ---
+4 or 5 microservices 
+deciding  the boundaries
+**********
+Configuration Management 
+multiple instance 
+***********
+Dynamic configruation managment system 
+*************
+visibility
+********
+Pack of CARDs
+*********
+
+Sping cloud 
+Netflix (Eurekat,Hystrix,zuual)
+Spring cloud config 
+
+*************
+
+SpnfingCloudonfguuration --microserices 
+
+********
+Dynamic scal up and scale down 
+
+Naming sever 
+*************
+Eureka 
+Ribbon Cient Side Load Balancing 
+Feign 
+
+
+
+Scope of the bean 
+singleton for each applicaiton 
+
+@Component
+@Scope("Prottype") --for each request ne bean is created 
+
+Request 
+Session 
+Global Session 
+Applicaiton Scope 
+ 
+ @RestControllver vs controller 
+ In rest contlooer we have response body automatically ,if controller  we need to mention explictily 
+ 
+ @PathVariable
+ @GetMapping("/foo/{id}") 
+ public string getFoodById(@PathVariable String id )
+ 
+ @RequestParam 
+ 
+ after question parameter 
+ /foo?12
+ public string getFoodById(@RequestParam String id )
+ 
+ Design patterns 
+ Service Discovery Pattern  (Ribbon Load balancer )
+ 
+ Saga Desing pattern 
+ 1) Chorecgraphy (Event based)
+ 2) Orchestration (Command Based)ESB
+ 
+ 
+ Anonations 
+
+@Springbootapplicaiton 
+@enableAutoconfiguration --pom.xml --h2 database it automatcialy configures bean 
+@ComponetScan --- scan our bean 
+@AutoConfigruation--java based configuration --IOC can load the classes 
+
+SteroType annotation 
+@Component ---  just a main class 
+@Service --derived from the componet
+@RestController/@Controller --derived from the component
+@Repository  --dervied from the componet
+
+
+Spring core related annotation 
+
+@Confgiruation  --When we want to use java based configuration 
+@Bean  --creating manually the bean 
+@Autowired --need to create the object of the class 
+@Qualfiier --need to inform which bean need to load it using the interface: @Qualifier("beanName")
+@Primary  --need to mention the implmantation class as a priority ,so that the implenation class will be loaded@Primary
+@Lazy --- need to define at calss ,the object is create dwhen we call the mehod 
+@Value ---- @value({"mail.from"} private String from; 
+@PropertySource ("classpath:custom.properties")--it define the propertie file name ile 
+@ConfiguraitonProperties---need to bind to the class DTO Object we can use my mentioning key and from we can acces the mail.name,mail.portno,mail.from
+@ConfigurtationProperties(prefix ="mail")
+@data
+@Component---sterotype 
+class Name 
+@Profile ---defined the properties file by passsing stage,prod
+@Scope --define the bean object creation for ex :singleton,prototype,request,sesssion 
+
+@RestController
+@RequestMapping --is old method where we define method="post" ,produces and consumes as application/type as "josn",is replicable of get/post and put/delete
+@GetMapping 
+@PostMapping
+@PutMapping
+@DeleteMapping
+@RequestBody 
+@PathVariable 
+@RequestParam
+@ControllerAvice
+@ExceptionHandler 
+
+
+
+
+two database need to connect 
+@EnableJPARepostories(entityManagerFactoryRef=
+"entityManagerFactory" ,basePaclages={ "com.javatechie.mutlple.db.api.user.repository"}}
+
+
+@Springbootapplciatoon 
+@ComponeScan 
+@Confiugratin ---bean can load the class 
+@EnableAutoCongiruation //based in pomxml file 
+
+SteroType Aoontation 
+@Compoinet
+@Service --dervied from compoeint class
+@RestControlle/@Contorlle--dervied from compoeint class
+@Repostitry --dervied from compoeint class
+
+Class
+
+
+@Configuration 
+
+@Bean 
+TestBean testbean() 
+return new TestBean ()
+
+@Autowired 
+it going to create an object 
+
+
+@Qualifier("Providethebeanname") 
+@primary --just it takes the main cosnider and as priority and it defined as above class name
+
+@Lazy --if you define @Bean it create object 
+@Lazy if you use it calls when it invokes the method 
+
+@Component
+@Lazy 
+at class 
+
+@Value("${mail.host"} )
+privat String host
+
+@PropertySource(classpath:custom.properties)
+on top of the class 
+
+@ConfigurationProperties(prefix="mail"}
+@Data
+@Compoinent 
+sout(main.port)
+
+****
+
+@profile("stg") it will load the based on the environment 
+sprign.profile.active=stg
+
+@Scope("singleton")
+Singleton 
+prototype
+request 
+
+
+****************
+Rest API Controoler 
+@RestController
+@RequestMappting --old method 
+@PostMapping inhered from RequestMapping 
+@GetMapping
+@PostMapping
+@PutMapping --update
+@DeleteMapping --delete
+@RequestBody --Student Student 
+@PathVariable --if you pass as varaible 
+@RequestPAram -we need to add the variable in @GetMapping("/idReq"})
+
+@Path varaible is mandaotry  ,need to pass the variable as mandatory ,if not we are going through exception 
+@RequestParam is optional 
+@RestControlldr Advise 
+@ExceptionHandler is the mehtod we need to define at the method level 
+
+*******************
+@Enity 
+@Table(name="Stident-tbl"
+@ID
+@Column(name="STudent_ID")
+priave int id 
+
+@Transactional 
+
+@OneToOne
+@OneToMany 
+@ManytoOne
+@ManyToMany 
+
+
+Hibenate 
+ORM --JAVA 
+Table MApping 
+Cachhing//tansactins 
+
+JPA is specfication 
+Srring DATA JPA  is abstraction of JPA Specficnation 
+
+How can connection mutltiple datasoruce 
+
+Query(JPQL)
+SQL 
+Select * from employee where salary =? 
+ select e from employee e where e.salary= {?}
+
+offset,pagesize
+we can use sorting and pageination 
+
+
+2.7 
+WebSecuriytCofngurationAdapter 
+
+configure(AutehcnticalManagerBuidler auth(
+auth.inmemoryAuthenctiain
+
+enabel security 
+Spring 3.0 
+
+UserDetailsService 
+user.wtihUSerEnable
+
+return new InMemoryuerDeatailsManager.admin,user)
+public  SecurityFitlerChaoting (HttpSecurity http)
+http.csrf.disable()
+.authorizeHttpRequest().
+.requestMatchers("prodcut/welcome"_
+
+password
+
+JWT Token 
+Header -GS256 
+Payload --sub name and iat 
+VerifySignature (base64 URL Encoder Algorithm )
+
+
+Microservice advantage
+Scalbility 
+Independt deployment
+Fault isolation 
+Technology flexible 
+Disadvantage
+Nanaging
+Network latench
+Testing effort
+************
+RESt API 
+platofrm independt over http 
+statless
+easy of integeration 
+cache support
+flexible dataplatofm 
+disadvantages
+Lack Standarization 
+No in build security -it shoould depend on external security
+limited flexibilty with complex transactions 
+Versioning challenges 
+
+Pricipales  and desing pattern 
+Aggregator 
+The Aggregator Pattern involves creating a component or service (the Aggregator) that collects data or responses from multiple sources or services, combines or transforms them into a unified structure, and then returns the aggregated result to clients or downstream services.
+API GATEWAY
+Load Balancer 
+Chain responisbility 
+The Chain of Responsibility pattern is a behavioral design pattern that promotes decoupling of sender and receiver by allowing multiple objects to handle a request dynamically. It’s commonly used for processing sequences of handlers, where each handler has an opportunity to process the request or pass it along.
+Asycnchrous messaging 
+Database per SErvice 
+Event Sourcing 
+CQRS --command query Responsibility Segreagror
+Circuuti breaker 
+Decomposition 
+
+Transactionc can't be handle at private method 
+
+SAGA Desing pattern 
+2 Phase commit --we need to write the operaion performing and rollback and transcational commit 
+outbox pattern --we need to write the database insertion  operaton in one database other event or messaging queue will try to poll the database and insert into other messaging queue .
+Database per service pattern 
+choregorahy and orchestration 
+
+Choerography where we publish the message and consumer receive the message 
+
+CQRS --Command and Query Responsibilty Segerataion 
+Query REad /Operations 
+Command --Write Operations 
+
+Transactioanl outbox pattern
+1) when we are using two database 
+one is for write database and other is when we are using kafka 
+when we use the transaction it may not able to roll back when it fails 
+so if we use two database one is for saving and other is outbox
+we can use order poller for outbox database and store in the kafaka service. 
+ 
+funtion it always return value but you cant keep as void and it is usually for compute or calucation purpose 
+
+@NamedStoredPrpcedureQuery(
+name="updateStockProcedure",
+procedureName ="update_stock",
+parameters= {
+@StoredProcdeureParameter(mode=ParameterMode.IN,name="productID",
+type=Integer.class),
+
+@StoredProcdeureParameter(mode=ParameterMode.IN,name="quantiy",
+type=Integer.class),
+
+}
+
+if we have multipel procedure queires
+@NamedStoredPrpcedureQueies 
+
+in interface repository 
+
+@Procedure(name="updateStockProcedure")
+void updateStock(Integer productId,Integer quantiy);	
+
+
+when we are calling fucntion we can use 
+ @Query(value="Select get_total_price:productID",nativeQuery=true)
+Doube getTotalPrice(int productID)
+when we are calling fucntion there is no need to mention in the repository class 
+
+
+Voice recoginization need to convert different language 
+health care and Diagonis 
+Secuirty and fraud detection 
+
+Apring AI integeration with LLM Modules 
+Open AI 
+Azure AI
+
+
+
+Retrieval Argumented Generation(RAG) it generates in future response 
+
+AI Powered Applicaiton
+we can convert different modules based on the approach 
+Data Processing 
+
+Different API Models used based on the API 
+
+Lamma model 
+
+RAG Implementation 
+
+AI Vector databases 
+
+RAG Vector databases 
+ 
+Vector Dtabase implemnation 
+Declartive AI 
+Chat client 
+Audio client 
+
+Deployment ready applicaiton 
+
+
+What is LLM Model 
+is 
+LArge Language Model 
+LLM-->Friend-->1000 Bools 
+               |
+               |
+           NN(Neural Networks )  Brain
+
+Reading date and feed 
+Rembembering pattern 
+
+Guessing the next data
+Adjusting the data 	
+
+OPEN API --secrekt key 
+Service account 
+
+
+project ID under Project --Generatl Settings 
+ORganiziton id in generatl we get the id 
+ChatClient 
+chatResult
+chatRespoonse()
+getOutput()
+getContent()
+PromptTempalate
+Promot.create --ke y and value 
+
+Write the promots in the template and use the Resourc interface 
+UserMessage userMessage=new UserMEssage(String .format(message,name)
+
+LIST 
+MAP
+Bean
+
+BeanOutPutConverter 
+
+
+F8 is the step over we can use debug when we use break point 
+if we use f7 we can debug the code even though if we are not using break point
+drop frame it goes to main class 
+to drop the changes build -recompile the class
+jumping the break point it is f9 when we u move from one class oth ther class 
+ 
+
+Eureta Netflix server 
+which registerers others services 
+1) Netflix Ribbon  --LB 
+2) Eurekat Server --serice discover /registry 
+3) Eurkeaa discoverr client 
+
+Erureka server 
+server.port=8761
+sapring-applicaton.name=Eureka-server 
+
+@EnableEureaServer 
+
+Eurekat server --zoo kepper 
+
+FinClient --interface 
+
+AWS---Relation Database System
+
+RDS --DNS system name which will take primary and secondary data base 
+
+Performance 
+
+Userms 
+---
+Read to prmaryd tabase 
+
+read database to other database  --asyncrhosue databse to other database replica
+
+
+Interprocess communication 
+
+
+ActiveMQ/RabbitMQ (Broker) 
+Kafka (own broker )
+reply-to-headere :quename
+Akka (Actor based) 
+Lagon (akka based ) 
+Spring-even -sourcing --
+
+Transaction --Saga Pattern and distribtued pattern 
+
+ZUUL 
+Api gaeway 
+logging 
+validation 
+security 
+proxy url hiding 
+throttle 
+ratelimit 
+
+Rate Limiting
+
+Definition: Restricts the number of requests a client can make to an API within a fixed time window (e.g., 100 requests per minute).
+Goal: Prevent abuse and ensure fair usage across clients.
+Behavior: Once the limit is reached, further requests are blocked (usually return HTTP 429 Too Many Requests).
+Example:
+
+Policy: 100 requests per minute per API key.
+If a client sends 101 requests in 60 seconds → last request is rejected.
+
+
+***********
+Throttling
+
+Definition: Controls the rate of processing requests (how fast requests are served), often by queuing or delaying excess requests.
+Goal: Protect backend systems from being overwhelmed by sudden spikes.
+Behavior: Requests are not necessarily blocked; they may be slowed down or queued.
+Example:
+
+Policy: 10 requests per second.
+If a client sends 50 requests instantly → API Gateway processes them at 10/sec, others wait.
+
+sleuthh --distrubuted tracking logs with spring cloud sleuth
+***************
+
+
+
+********************
+
+orderms and userms 
+spring.applicaiton.name=orderms 
+#eurkea configration 
+eureka.client.serviceurl.defaultZone=http://locahost:8761/eureka
+
+@EnableEurekaclient
+ 
+
+@SpringBootApplication--main class 
+@RunWith(SpringRunner.class)
+@SpringBootTest
+
+@RestController
+@GetMapping(path = "/hello-world")
+@GetMapping(path = "/hello-world/path-variable/{name}")
+	public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
+		return new HelloWorldBean(String.format("Hello World, %s", name)); ---%s replaces name
+	}
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class UserNotFoundException extends RuntimeException {
+@Component
+************
+ResponseEntityExceptionHandler ----need to write exception handler 
+@ControllerAdvice
+
+ResponseEntity 
+
+
+	@Size(min=2, message="Name should have atleast 2 characters")
+	private String name;
+
+	@Past
+	private Date birthDate;
+	
+Valdaiton for parameters 	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed",
+				ex.getBindingResult().toString());
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+
+@Bean
+	public LocaleResolver localeResolver() {
+		AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+		localeResolver.setDefaultLocale(Locale.US);
+		return localeResolver;
+	}
+	
+	Controllerr 
+		@GetMapping(path = "/hello-world-internationalized")
+	public String helloWorldInternationalized() {
+		return messageSource.getMessage("good.morning.message", null, 
+									LocaleContextHolder.getLocale());
+	}
+
+	
+	convert from json to xml 
+	
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
+
+http://localhost:8080/swagger-ui.html
+
+http://localhost:8080/v2/api-docs
+
+
+Acutator 
+
+
+Latest 
+
+@Entity is a JPA annotation to make this object ready for storage in a JPA-based data store.
+There are multiple repository implementations besides JPA. You can use Spring Data MongoDB, Spring Data GemFire, Spring Data Cassandra, etc. For this tutorial, we’ll stick with JPA.
+
+@SpringBootApplication is a meta-annotation that pulls in component scanning, autoconfiguration, and property support.
+@RestController indicates that the data returned by each method will be written straight into the response body instead of rendering a template.
+@ControllerAdvice
+class EmployeeNotFoundAdvice {
+
+  @ResponseBody
+  @ExceptionHandler(EmployeeNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  String employeeNotFoundHandler(EmployeeNotFoundException ex) {
+    return ex.getMessage();
+  }
+
+@ExceptionHandler configures the advice to only respond if an EmployeeNotFoundException is thrown.
+
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-hateoas</artifactId>
+</dependency>
+
+it generates the link in response 
+{
+    "id": 1,
+    "name": "LRK",
+    "role": "burglar",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/employees/1"
+        },
+        "employees": {
+            "href": "http://localhost:8080/employees"
+        }
+    }
+}
+
+The return type of the method has changed from Employee to EntityModel<Employee>. EntityModel<T> is a generic container from Spring HATEOAS that includes not only the data but a collection of links.
+
+
+CollectionModel<> is another Spring HATEOAS container aimed at encapsulating collections. It, too, also lets you include links. Don’t let that first statement slip by. What does "encapsulating collections" mean? Collections of employees?
+
+
+This simple interface has one method: toModel(). It is based on converting a non-model object (Employee) into a model-based object (EntityModel<Employee>).
+
+All the code you saw earlier in the controller can be moved into this class. And by applying Spring Framework’s @Component, this component will be automatically created when the app starts.
+
+
+************************
+spring container 
+Microservices
+small autonomous applicatin which can be deployoed indepedntly 
+it's light weight mechanism
+which exposed by rest 
+small well chosen deployable units 
+cloud enabled
+
+set of smaller microservices 
+
+Micorserices1--A1,A2
+micrservices--ba1234
+microservices-c1
+
+Challanges 
+Bounder Context ---
+4 or 5 microservices 
+deciding  the boundaries
+**********
+Configuration Management 
+multiple instance 
+***********
+Dynamic configruation managment system 
+*************
+visibility
+********
+Pack of CARDs
+*********
+
+Sping cloud 
+Netflix (Eurekat,Hystrix,zuual)
+Spring cloud config 
+
+*************
+
+SpnfingCloudonfguuration --microserices 
+
+********
+Dynamic scal up and scale down 
+
+Naming sever 
+*************
+Eureka 
+Ribbon Cient Side Load Balancing 
+Feign 
+
+************
+Important topics 
+Using -Dspring.profiles.active=prod in VM Arguments
+Ctrl 1 
+Save format code changes 
+
+Objects 
+@PostMapping("/surveys/{surveyID}/questions")
+public ResponseEntity<void> addQuestionToSurvery(@PathVariable String surveyId,@RequestBody Question Question)
+
+URI Location=ServicletUriComponentBuilder.fromCurrentRequest().path("/{id}).buildAndExpand(question.getId)).tiUri();  
+
+return ResponseEntity.created(location).build();
+
+Required classes 
+Features 
+Exception handlig 
+Configuration prooperties 
+Dynamic properrties 
+Sprign boot acutator 
+HAL Browser 
+Profile 
+
+Jacksond -datafromt-xml 
+point tomcat  server to other server 
+SPIRNG JPA
+exclusinng tomcat 
+
+CRUD Repository 
+UserCommandLinErunnuer 
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.data.jpa.repositories.bootstrap-mode=default
+
+h2-console 
+
+Spring Rest 
+pagingAndSortringRepository 
+@RepostioryRestResource(path="users" ,collectionResourceRel="users")
+MainClass  extends PagingAndSortingRepository
+
+Automation testing springs 
+
+spring boot startest test 
+TestRestTemplate 
+
+
+Features 
+Exception handlig 
+Configuration prooperties 
+Dynamic properrties 
+Sprign boot acutator 
+HAL Browser 
+Profile 
+
+Jacksond -datafromt-xml 
+point tomcat  server to other server 
+SPIRNG JPA
+exclusinng tomcat 
+
+CRUD Repository 
+UserCommandLinErunnuer 
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.data.jpa.repositories.bootstrap-mode=default
+
+h2-console 
+
+Spring Rest 
+pagingAndSortringRepository 
+@RepostioryRestResource(path="users" ,collectionResourceRel="users")
+MainClass  extends PagingAndSortingRepository
+
+Automation testing springs 
+
+spring boot startest test 
+TestRestTemplate 
+
+Udemy  course 
+https://github.com/in28minutes/spring-boot-master-class/tree/master/02.Spring-Boot-Web-Application
+
+https://github.com/in28minutes/spring-boot-master-class
+
+
+@SpringbootControlorer 
+@Controller 
+@Requestmapping 
+@RequestBody
+
+@Component is a generic stereotype for any Spring-managed component or bean.
+@Repository is a stereotype for the persistence layer.
+@Service is a stereotype for the service layer.
+
+@Form Bean Packing which we pass parameter as bean in contorllerr 
+
+@ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+        logger.error("Request: " + req.getRequestURL() + " raised " + ex);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", ex);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("error");
+        return mav;
+    }
+
+
+Spring boot paretns provides lot of plugins 
+1.4.0 
+
+
+spring boot web serivces lot of dependinces 
+sprign bood srarter test 
+
+jdbc 
+security 
+data jpa 
+rest services 
+
+Spring is depedncy inject 
+autowiring 
+inversion of control 
+
+2005 
+ejb jdbc code 
+unit testing is very difficutl to control 
+
+Testing will be easy usign spring boots 
+
+lot of xml configuraton is defined in xml file 
+
+session factory 
+spring mvc 
+
+monlothi applicaiton to micro services 
+framework 
+deployment --configurability 
+logging transaftion managemnet 
+monitoring 
+webserver configuration 
+
+spring boot makes it easy to create stand-alone,production-grade spring based applicatiosn that you can "just run"
+
+
+it proceds emebedd server 
+security 
+metrics 
+health checks 
+************
+MessageConverted from list to json object 
+
+Jackson Databinding converts from list to Json 
+***************
+***@GetMapping 
+   @PathVariable string survieid 
+   @PathVariable String questionId
+{
+return s
+} 
+
+
+@GetMappings 
+
+*******
+These will not trigger restart - /META-INF/maven, /META-INF/resources ,/resources ,/static ,/public or /templates *****
+Folders can be configured : spring.devtools.restart.exclude=static/**,public/** 
+
+
+
+mocktio Exam test 
+
+ Which scope is this ModelMap object in? is it in request scope?
+No, Modelmap object will be used internally by spring handler methods to add the user defined objects (to be presented in UI) into the http response.
+
+webjars used for java script and css 
+
+
+
+step 12 completed 
+https://github.com/in28minutes/spring-boot-master-class/blob/master/02.Spring-Boot-Web-Application/Step12.md
+
+Questions  ?
+<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+
+Username: betha.rajaramesh@globallogic.com
+Password: All15well(*
+
+
+
+netflix Zuul)
+Sleuth
+ 
+ istio servesh mesh 
+
+
+web --database/API 
+
+endpoint
+timeout
+retries
+encryption 
+
+pilot ,gallery,mixed ,Cital 
+
+pilit annd gallery (config management) 
+
+Gallery ---certiicats ,
+Citadel is a 
+
+
+
+
+8328162427
+
+
+
+
+
+session1
+
+sticky sessions
+database 
+new nodes horizontal scaling 
+auto scaling 
+SOA
+MS 
+cohesion 
+Choesion is a measure of the strength of the dependencies within a component
+
+Coupling is a measure of the strenth of the dependiceices betwen compoents 
+
+A good design shoulld be higly cohesive 
+Isolation 
+
+deployed jar files independtelty 
+SOA (ESB) 
+SOA ESB  is Bottel neck Single point fo failure 
+
+@coponeent scan
+
+@service  it crates the instance of the class 
+ 
+@springbootconfiguratin is a component which we can put all classes 
+@enableautoconfiguration it adds all hbase and webcomponent classes 
+
+
+Model is a bean  class where we have getters and setters and it will be created as a table name using entity and table 
+
+Repository is a interface which extends JpaRespository (which consistits all data persistance related information ) 
+
+Service is a class which consists of DAO methods where we create varible of repository and invoke all datbase methods like find all findby id 
+
+@Service 
+Service IMPL Class   creat Repository variable and implement all methods 
+@Repostiory ---Repostiory class 
+Main Class
+@RestController
+
+
+
+Monolith Model
+deploy in single war file 
+
+
+44
+
+Microservces divide applicaiton into small models mini nature applications 
+
+
+orderms ,inventoryms 
+userms ,shipmentms 
+  
+code Repo 
+
+userms--dev-test-build--release
+orderms--dev-test-build--release
+inverotryms--dev-test-build--release
+shipments --dev-test-build--release
+
+microservce is more agile
+
+in monolith application if any module goes down then total application will be down 
+
+in ms each module will have seperate database 
+Resilency--
+in among 4 moudles(userms,inverntoryms,orderms,shipmentms),if shipmentms fails from userms service send request to shipmentms for multiple times and using retry 3 tmes pers sec and all others modules will consume all CPU +memory + io resources and it will delay the all other resources to aviod this resources consumption we have concept called Resillency   if any modules fails 
+----------
+circuit breaker ----------pattern-->Netflix Hystrix  is implemented in micro services 
+******************
+small autnomous team 
+*************
+team 1 --3to 5 ms 
+team2 --3to 5 
+team3 --t to 5 
+
+Heterogenity ot technolgy
+****** 
+we can use multiple database for diffrent modules 
+ 
+pricipales of mciroserves 
+*********
+Cutlrue of a)automation 
+b)Hide implentatin deetails 
+c)deccentrals all the things 
+4)deploy idenepently 
+5)consumer first 
+6)isolate failure 
+7)Highly observable 
+8)modelled around business domain 
+**************
+SOAVSMicorservices 
+SOA is a like an orchetra where each artist is pefrorming with h his/her instrucment while the music director guies them all 
+
+With microservies each is indedeppndent and know what they to do.
+If they miss some steps they know how to get back on the sequence 
+
+************
+spring data rest be used without creating any controllers 
+
+**********
+loadbalancer
+
+serviceregistry/Discovery 
+
+add source and destination system ip address in registry 
+
+the load balacer will be configrued in source projet like userms
+************
+spring-Cloud-discovery registry 
+
+Eureka server 
+
+***********
+1)netflix Ribbon:Load balancer 
+Client side LB 
+
+2)netflix Eureka Service Discover Registry 
+Seperate MS 
+
+*********
+Fen client is same as RestControl
+restcontrol is part of netflex eureka server 
+
+***************
+netflix-AMI
+Wha is AMI?
+ 
+
+uaerResource-->userService>>UserRepository>>userdb(Embeded Database)
+
+netstat -ano | findstr :80 //find process id in windows 
+taskkill /PID 4 /F
+
+
+Logging Api Gateway
+***********
+Logging 
+validation security 
+proxy URL hiding 
+Throttle rate limit 
+(netflix Zuul)
+Sleuth
+
+@EnableSwagger
+Integration with spring and Swagger 
+
+put will update only required fields and other fields will send as null and 0 
+
+patch will update with new values and it will not update old values.
+
+AWS-- Relational Database service 
+to write we need to use primary database 
+and for reading we need to use secondary database.
+ 
+Messaging 
+Point to point 
+Publlish subscriber 
+
+JMS 
+****
+AMQP (Advance Message Queue Protocol) 
+
+ActiveMQ(comuunication betwen microse services )/RabbitMQ(config server -
+
+Kafka:Own protocol 
+Message Protocol --messagign solution 
+**********
+Advance Topics 
+Event Sourcing 
+CQRS 
+
+mvn spring-boot:run
+Request -->
+API Gateway
+--Order service and Payment Service 
+
+OrderService MS 
+-------------
+Create Entity bean object 
+Package --servie,controller,entity,repository
+
+EntityClass 
+Order 
+@Entity
+@Table (name="order_db")
+@Data
+@AllArgsContstrucor 
+@NoArgsConsturutt
+
+****************
+OrderRepostiory Extends JPARepository(OrderEntity,Integer)
+**************
+@Service
+OrderService
+@Autowired
+Private OrderRepository repository
+
+public Order saveOrder(Orderr order) 
+{
+return repository.save(order)
+}
+
+*************
+RestController
+@RestController 
+@RequestMapping("/orders)
+public class OrderController{
+@Autowired 
+private OrderService service;
+@PostMapping("/bookorder)
+public Order bookOrder(@RequestBody Order order) 
+{
+return service.saveOrder(order)
+}
+} 
+***********
+PaymentServiceMS
+Enitty,service,repositry,controller create package 
+
+Create Entity Class 
+@Enitity
+@Table(name="entity_tb")
+@Data
+@AllArgsConstructor
+@NoArgsConstrucotr
+@Id
+@GeneratedValue 
+private int paymentId
+private string paymentStatus
+private string paymentTransactioId
+***********
+PaymentRepositry extends JPARepostiry(EntityId,Integer)
+************
+@Service 
+PaymentService class
+{
+Create Repositryvariable of Payment
+
+@Autowired 
+private PaymentRepository repository 
+
+public Payment doPayment(Payment payment) {
+payment.setTransactionId(Uuid.randomUID.toString);
+return repositry.save(payment)
+}
+ 
+
+}
+
+*********
+@RestController 
+@RequestMapping("/payment")
+PaymentController {
+
+private PaymentSerivce service;
+public Payment @PostMapping("/doPayment")
+doPayment(@RequestBody Payment payment)
+service.doPayment(payment)
+}
+
+************
+Part2
+Eureka server 
+and micro services 
+Eureka server is the load balancer url between two microservices 
+need to look once again 
+************
+
+Part3
+***************
+gateway
+Spring Cloud routing 
+Alternate Dependcies 
+Zuul ---api gateway 
+zuul is disadvantage  supports for non blocking api it buid  on servlet 2.5 
+
+
+Module4 
+*****************************
+Domain Driven Design : 
+Domain is the heart 
+Business experts 
+
+Online Retail Domain=Retail
+************
+
+Domain 
+Context
+Bound Context 
+Ubiquitous languague 
+
+Custoemr class 
+--custid,custname,pno,address,email
+
+Customer-Application 
+
+Inventory & Order Application :
+Customer Class :
+**********
+Inventory & Order Application 
+customerId,orderHistory,OpenOrders,scheduledeOrders
+*****************
+Billing & Finance application 
+CustomerClass:
+-customerId,creditCardNumber,billingAddress,billingHistory,schedueedPayment
+******************
+OLTP(online transaction processing)
+OLAP: Online analytics processing-->Big data 
+
+
+1)Intgeration Patternn 
+a)Api gateway 
+bggregatry 
+Proxy 
+c)Chained 
+Bracch 
+d)Client-side UI 
+Composition 
+
+Database 
+a)database per service 
+b)shared
+c)saga
+
+cross cuttng concen patters 
+a)service discovery 
+b)circuuti breakr 
+c)external confiuration 
+
+Decompostion patters
+a)strangler viene 
+
+Observaibility paterns 
+a)loggin pattern 
+b)distributed tracining 
+c)health check 
+performance metrics 
+
+
+Aggregator pattern 
+Ex :Report service 
+calling multiple patterns 
+a single web page invokes multiple microservices 
+
+************
+proxy patern 
+***********
+Zuull 
+
+Chainged pattern 
+
+Orderms--Inventory>Payment-->shipment
+
+*********
+Branch  pattern is aggregator and chained patten
+***************
+shared data pattern 
+*************
+external configuration 
+******************
+
+Git repository<-- Config server 
+get notificatio from git repository 
+
+Congigserver-->update the configuration 
+Spring-cloud-us 
+RabbitMQ(Broker)
+
+webhooks inform to git repository to send notifciation 
+
+**********
+Congif server notification 
+eureka discovery client 
+config servever
+spring boot acutator 
+https://www.udemy.com/course/spring-boot-tutorial-for-beginners/
+
+
+ 
+12C factor 
+Coding --we need to maintain the single code base for all environmetns 
+Depdency --we need to add all depedncies by using maven or graddle all librariies ,instead of manual libarries adding 
+Config --need to maitain prooper config files for each enviroment based on DEV,Staging,Production.
+Backend Services --Need to create rest api or webservice api 
+Build,Release,Run--Need to buil,release and run for deployment 
+Process --need to maintain persistent database for storing the data 
+Port Binding --we need to maintain proper port bindings in 
+Concurrency --we need to maintain proper cluster environment for deployment purpose 
+Dispoability --we should able to undeploy the application with out effectign other application 
+Dev/Prod --we should maintaing the environment consitent for all version and environmetns
+Logs--Need to have centralized log to view and debug the code 
+Adming process --we should maintaing some process for ex :we need to run sql script then deploy the application.
+
+************
+Spring boot Best Practises for developers 
+*****************************************
+1)Proper Package strucute ,we may provide proper component scan if we are not maintaing proper structure 
+2) Use spring boot starters 
+3)Use Proper depdencies of the versions 
+4)Use Lambok
+5)Use controllser for logic 
+6)Use Service for business logic 
+7)Use constructor ingejection using Lambok 
+8)Use SLFG logging 
+9)Use Meaningfull words for classes,methods and variables 
+10)Bean Validaton 
+11) Custome exception Hanlding 
+12)Use Custom Response Object 
+13)Use  Design Patterns (Single ton desting,Builder ,DTO ,Hystrix,Resilce4j,SAGA (Orchestration and chroegrapy),CQRS )
+14) Use YML instead of properties 
+15)Encrpty the senstive infomration in properties file store in vault,secret manager 
+16)Write E2E test code coverage test cases 
+17)Avoid NPE using Optional 
+18)Use Best Practises for collection frame work 
+19)Use Caching 
+20) Use Pagination 
+21)Remove uncessary codes function,methods and variables 
+22)Using comments 
+23) Use a common code formatting style 
+24)Use a Sonar Lint 
+
+
+
+***********************************
+Important topics 
+Using -Dspring.profiles.active=prod in VM Arguments
+Ctrl 1 
+Save format code changes 
+
+Objects 
+@PostMapping("/surveys/{surveyID}/questions")
+public ResponseEntity<void> addQuestionToSurvery(@PathVariable String surveyId,@RequestBody Question Question)
+
+URI Location=ServicletUriComponentBuilder.fromCurrentRequest().path("/{id}).buildAndExpand(question.getId)).tiUri();  
+
+return ResponseEntity.created(location).build();
+
+Required classes 
+Features 
+Exception handlig 
+Configuration prooperties 
+Dynamic properrties 
+Sprign boot acutator 
+HAL Browser 
+Profile 
+
+Jackson -datafromt-xml 
+point tomcat  server to other server 
+SPIRNG JPA
+exclusinng tomcat 
+
+CRUD Repository 
+UserCommandLinErunnuer 
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.data.jpa.repositories.bootstrap-mode=default
+
+h2-console 
+
+Spring Rest 
+pagingAndSortringRepository 
+@RepostioryRestResource(path="users" ,collectionResourceRel="users")
+MainClass  extends PagingAndSortingRepository
+
+Automation testing springs 
+
+spring boot startest test 
+TestRestTemplate 
+
+
+Features 
+Exception handlig 
+Configuration prooperties 
+Dynamic properrties 
+Sprign boot acutator 
+HAL Browser 
+Profile 
+
+Jacksond -datafromt-xml 
+point tomcat  server to other server 
+SPIRNG JPA
+exclusinng tomcat 
+
+CRUD Repository 
+UserCommandLinErunnuer 
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.data.jpa.repositories.bootstrap-mode=default
+
+h2-console 
+
+Spring Rest 
+pagingAndSortringRepository 
+@RepostioryRestResource(path="users" ,collectionResourceRel="users")
+MainClass  extends PagingAndSortingRepository
+
+Automation testing springs 
+
+spring boot startest test 
+TestRestTemplate 
+
+Udemy  course 
+https://github.com/in28minutes/spring-boot-master-class/tree/master/02.Spring-Boot-Web-Application
+
+https://github.com/in28minutes/spring-boot-master-class
+
+
+@SpringbootControlorer 
+@Controller 
+@Requestmapping 
+@RequestBody
+
+@Component is a generic stereotype for any Spring-managed component or bean.
+@Repository is a stereotype for the persistence layer.
+@Service is a stereotype for the service layer.
+
+@Form Bean Packing which we pass parameter as bean in contorllerr 
+
+@ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+        logger.error("Request: " + req.getRequestURL() + " raised " + ex);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", ex);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("error");
+        return mav;
+    }
+
+
+Spring boot paretns provides lot of plugins 
+1.4.0 
+
+
+spring boot web serivces lot of dependinces 
+sprign bood srarter test 
+
+jdbc 
+security 
+data jpa 
+rest services 
+
+Spring is depedncy inject 
+autowiring 
+inversion of control 
+
+2005 
+ejb jdbc code 
+unit testing is very difficutl to control 
+
+Testing will be easy usign spring boots 
+
+lot of xml configuraton is defined in xml file 
+
+session factory 
+spring mvc 
+
+monlothi applicaiton to micro services 
+framework 
+deployment --configurability 
+logging transaftion managemnet 
+monitoring 
+webserver configuration 
+
+spring boot makes it easy to create stand-alone,production-grade spring based applicatiosn that you can "just run"
+
+
+it proceds emebedd server 
+security 
+metrics 
+health checks 
+************
+MessageConverted from list to json object 
+
+Jackson Databind converts from list to Json 
+***************
+***@GetMapping 
+   @PathVariable string survieid 
+   @PathVariable String questionId
+{
+return s
+} 
+
+
+@GetMappings 
+
+*******
+These will not trigger restart - /META-INF/maven, /META-INF/resources ,/resources ,/static ,/public or /templates *****
+Folders can be configured : spring.devtools.restart.exclude=static/**,public/** 
+mocktio Exam test 
+
+Which scope is this ModelMap object in? is it in request scope?
+No, Modelmap object will be used internally by spring handler methods to add the user defined objects (to be presented in UI) into the http response.
+
+webjars used for java script and css 
+
+step 12 completed 
+https://github.com/in28minutes/spring-boot-master-class/blob/master/02.Spring-Boot-Web-Application/Step12.md
+
+Questions  ?
+<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+
+netflix Zuul)
+Sleuth
+  istio servesh mesh 
+web --database/API 
+endpoint
+timeout
+retries
+encryption 
+session1
+sticky sessions
+database 
+new nodes horizontal scaling 
+auto scaling 
+SOA
+MS 
+cohesion 
+Choesion is a measure of the strength of the dependencies within a component
+
+Coupling is a measure of the strenth of the dependiceices betwen compoents 
+
+A good design shoulld be higly cohesive 
+Isolation 
+
+deployed jar files independtelty 
+SOA (ESB) 
+SOA ESB  is Bottel neck Single point fo failure 
+
+@coponeent scan
+
+@service  it crates the instance of the class 
+ 
+@springbootconfiguratin is a component which we can put all classes 
+@enableautoconfiguration it adds all hbase and webcomponent classes 
+
+
+Model is a bean  class where we have getters and setters and it will be created as a table name using entity and table 
+
+Repository is a interface which extends JpaRespository (which consistits all data persistance related information ) 
+
+Service is a class which consists of DAO methods where we create varible of repository and invoke all datbase methods like find all findby id 
+
+@Service 
+Service IMPL Class   creat Repository variable and implement all methods 
+@Repostiory ---Repostiory class 
+Main Class
+@RestController
+Monolith Model
+deploy in single war file 
+
+Microservces divide applicaiton into small models mini nature applications 
+
+
+orderms ,inventoryms 
+userms ,shipmentms 
+  
+code Repo 
+
+userms--dev-test-build--release
+orderms--dev-test-build--release
+inverotryms--dev-test-build--release
+shipments --dev-test-build--release
+
+microservce is more agile
+
+in monolith application if any module goes down then total application will be down 
+in ms each module will have seperate database 
+Microservice Centralzie logging
+
+ELK --ELASTIC 
+Logstash
+Kiabana '
+
+Elasticsearch is a NoSQL Database that is based on the Lucene Search engine which helps us to store inputs/logs 
+
+Logstach is a log pipleline tool that accepts inputs/logs for various sources and exports the data to various targets 
+
+Kiaba is vaisualization UI Layer ,which will helps developer to monitor applciation logs 
+Logstach (Data Processing ) -->Elastisearch(Storage) --Kibaba (Visuablize)
+
+print request and response 
+
+new ObjectMapper().writeValueAsString(paymentResponse)
+
+*************
+
+defalut of elastic search is 9200 is default port 
+
+Spring cloud Sleuth and zipkin 
+
+Service Name -->Trace ID -->Span id -->Export Flash
+
+Traceid is unique for all end to end flow 
+
+span id is unique for each micro service 
+
+Servie name is microservice name 
+
+zipkin server 
+localhost:9411 
+add sleuth and zeplin  depdencies in pom xml file
+add in properties file 
+zipkin
+base-url:http://localhost:9411 
+
+
+
+
+KSQL Engine 
+KSQL REST 
+
+KSQL Server Cluster 
+*****************
+
+Complex data types 
+
+Use a schema definaiton languagate
+Auto generate java Class defination 
+JSON schema to Pojo 
+Avro Scehma to Pojo 
+
+need to add avro plugin in Intelliji 
+
+kafka offser earliest 
+
+consumer.subscribe
+Consumer.poll method will get the set of invocies 
+
+current offset position 
+commited offset position 
+
+auto-offset-reset=earliest or latest
+
+TestA
+TestB
+TestC
+TestD
+
+@Order(1)
+@Test
+void TestD
+
+@AssetnotNull
+Assertions.assertThrow(IllegualARgumentExcetion.
+
+@BeforeEacth
+init()
+{
+}
+
+@Extenend(Mocktito.class)
+
+@Mokc
+UserRepository userRepository 
+
+@InjectMocks
+UserServiceImpl userService
+
+Mockit.when(usersRepository.save(Mockito.any(User.class)).thenReturn(false)
+
+Mockity.verify(userRepostiory,Mickit.times(1)).save(Mockit.any(User.class));
+Maven surfire report plugin which gnerates report 
+
+when(repository(mockitbean).findAll.thenReutrn(Stream.of(
+new User()).collet(Collectors.toList())
+assertEquals(2,service.getUSers.size())
+
+for deelter 
+we need to use verify(te
+
+Powemock api is used for static and final method 
+@Runswith(PowerMockRunner.class)
+
+@Test
+void integerationDivision()
+{
+Calculator cals=new Calculator()
+int result=cal.
+assertEquals(expected:2 ,result)
+assersEquals(exceptioed,2 reult,message:"4/2 is not crrect message"
+
+@DisplayName("test Math operation in calculator test") 
+Arrange --given 
+Act  --when
+Assert --then
+
+@BeforeAll --1 
+setup
+
+@AfterAll -4 
+Clean up 
+
+@BeforeEach -2  
+@AfterEach   --3 
+
+@Disabled to disable annotation 
+
+act &Assert
+assertThrows(ArthimetiatEetptopn.class,90 ->
+
+@ParamatereisTest
+@MethodSournce("integereSubtractionInputParamaters")
+
+integereSubtractionInputParamaters () --need to create method 
+
+@CsvSource({
+parameters vlaues 
+})
+
+@RepeatedTest(3) 
+
+@TestMethodIrder(MethodORder.Random.class) 
+
+TestMEthodORder(MEthodORderer.MEthodName.class) 
+
+
+@Runwith(Powermockrunner.class)
+@PreoareforTest(fullyQualfiedNames="com.javatechie.pma.pi.*")
+
+@Inject Mocks
+
+private OrderService serice
+
+@PowerMockito.mockstatic(Notifcaiton.class)
+
+when(NotificaionUtil.sendEmail( 
+
+
+filename:Demo.java org:Java-Techie-jt
+
+Java-Techie-jt
+
+Demo 
+
+org:Java-Techie-jt 
+
+
+spring batch 
+@Bean
+public ItemReader<Customer> reader() { ... }
+@Bean
+public ItemProcessor<Customer, Customer> processor() { ... }
+@Bean
+public ItemWriter<Customer> writer() { ... 
+
+The ItemReader fetches raw data.
+The ItemProcessor applies business logic or transformations.
+The ItemWriter persists or outputs the final data.
+
+
+
+
+1. API Gateway Pattern
+Purpose: Single entry point to route requests to appropriate microservices.
+1. API Gateway Pattern
+Purpose:
+Provides a single entry point for all clients to access multiple microservices. It handles requests by routing them to the appropriate service, aggregating responses, and managing cross-cutting concerns like authentication, logging, and rate limiting.
+
+Benefit:
+Simplifies client interactions, improves security, and centralizes common functionalities, making overall system management easier
+
+Example: Using Spring Cloud Gateway.
+// Maven dependencies
+// Add to your pom.xml
+/*
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+*/
+
+@SpringBootApplication
+public class ApiGatewayApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ApiGatewayApplication.class, args);
+    }
+}
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: customer_service
+          uri: lb://CUSTOMER-SERVICE
+          predicates:
+            - Path=/customers/**
+
+        - id: order_service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/orders/**
+			
+			Note: lb:// indicates load-balanced services registered with Discovery (see next pattern).
+			
+			
+			2. Service Discovery Pattern
+Purpose:
+Enables microservices to register themselves dynamically with a central registry (like Eureka) and discover other services at runtime. This is essential in environments where services scale up/down or change location.
+
+Benefit:
+Eliminates hard-coded service locations, supports dynamic scaling, and improves fault tolerance and flexibility.
+
+// Eureka Server Application
+@SpringBootApplication
+@EnableEurekaServer
+public class EurekaServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(EurekaServerApplication.class, args);
+    }
+}
+
+Benefit:
+Decouples services, improves scalability, and enables reliable, message-driven workflows. Useful for integrating disparate systems and ensuring eventual consistency.
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+  server: # Only for Eureka server
+    enableSelfPreservation: false
+
+server:
+  port: 8081
+
+spring:
+  application:
+    name: CUSTOMER-SERVICE
+
+
+3. Database per Service Pattern
+Purpose:
+Each microservice manages its own database schema, ensuring data autonomy. Services do not share databases, avoiding tight coupling.
+
+Benefit:
+Increases system resilience, allows fine-tuned data management, and enables independent deployment and evolution of services without affecting others.
+// Customer Service with in-memory H2 database example
+
+@SpringBootApplication
+@EnableJpaRepositories
+@EntityScan
+public class CustomerServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(CustomerServiceApplication.class, args);
+    }
+}
+
+@Entity
+public class Customer {
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+
+    // constructors, getters, setters
+}
+
+@Repository
+public interface CustomerRepository extends JpaRepository<Customer, Long> {}
+
+@RestController
+public class CustomerController {
+
+    @Autowired
+    private CustomerRepository repository;
+
+    @PostMapping("/customers")
+    public Customer createCustomer(@RequestBody Customer customer) {
+        return repository.save(customer);
+    }
+
+    @GetMapping("/customers")
+    public List<Customer> getCustomers() {
+        return repository.findAll();
+    }
+}
+
+4. Circuit Breaker Pattern
+Purpose:
+Prevents failure cascades when a dependent service fails by "opening" the circuit after failures are detected. This stops further calls temporarily, allowing the failing service to recover before retrying.
+
+
+Benefit:
+Enhances system stability, reduces downtime, and prevents resource exhaustion under failure conditions.
+
+How Resilience4j Works (High-Level)
+Configuration: You define policies such as how many failures trigger an open circuit, how long the circuit remains open, retries count, timeout durations, etc.
+Monitoring: It tracks metrics like failures, success rates, and request times.
+State Management: For circuit breakers, it manages states: Closed, Open, and Half-Open to determine whether operations can proceed.
+Interception: When wrapping a function call, Resilience4j intercepts it, applies the configured policies, and handles failures gracefully.
+
+
+// Add dependency
+/*
+<dependency>
+    <groupId>io.github.resilience4j</groupId>
+    <artifactId>resilience4j-spring-boot2</artifactId>
+</dependency>
+*/
+
+@RestController
+public class OrderController {
+
+    @Autowired
+    private OrderService orderService;
+
+    @GetMapping("/orders/{id}")
+    public ResponseEntity<String> getOrder(@PathVariable Long id) {
+        return orderService.getOrder(id);
+    }
+}
+
+@Service
+public class OrderService {
+
+    @CircuitBreaker(name = "orderService", fallbackMethod = "fallbackOrder")
+    public ResponseEntity<String> getOrder(Long id) {
+        // Simulate an external call that might fail
+        if (Math.random() > 0.7) {
+            throw new RuntimeException("Service failure");
+        }
+        return ResponseEntity.ok("Order details for " + id);
+    }
+
+    public ResponseEntity<String> fallbackOrder(Long id, Throwable t) {
+        return ResponseEntity.ok("Order Service is temporarily unavailable. Please try later.");
+    }
+}
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      myCircuitBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 20
+        failureRateThreshold: 50
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 5
+		
+		Detailed Explanation of Key Resilience4j Components
+Circuit Breaker
+States:
+Closed: Calls pass through normally; failures are monitored.
+Open: Calls are blocked immediately; fallback logic is invoked.
+Half-Open: Limited number of calls are allowed to test if the downstream service has recovered.
+Usage: Prevent overwhelming a failing service, providing it time to recover.
+Retry
+Automatically retries failed operations according to a policy.
+Useful for transient failures like network glitches.
+Rate Limiter
+Limits how many calls can be made in a specified period.
+Protects downstream systems from overload.
+Bulkhead
+Isolates failures by restricting concurrent executions (similar to a semaphore).
+Ensures that a failure in one component doesn’t cascade to others.
+Time Limiter
+Sets a maximum execution time for an operation.
+If exceeded, it aborts the call and usually triggers fallback.
+
+The Saga Pattern is essential for maintaining data consistency in distributed microservices. Its implementation can be either choreography (event-based) or orchestration (centralized), depending on system requirements and complexity.
+
+Use ECS/EKS for deploying containers.
+Use API Gateway + ALB for traffic management.
+AWS Components for Service Discovery
+AWS Cloud Map
+Purpose: Provides service discovery for microservices by registering service names and their endpoints (IP addresses, DNS names).
+Supports both DNS-based and API-based discovery.
+Ideal for dynamic environments where services scale up/down.
+Use RDS/Aurora or DynamoDB for data storage.
+Use SQS/SNS for messaging.
+Use Secrets Manager / Parameter Store for secrets/configuration.
+Use CloudWatch / X-Ray for monitoring and tracing.
+Optional: Use ECR to store Docker images.
+
+Amazon Simple Queue Service
+A Producer service sends messages to an SQS queue.
+A Consumer service listens to that queue and processes messages.
+Message Retention
+Up to 14 days, configurable
+
+Amazon SNS (Simple Notification Service):
+Messages pushed to subscribers (email, SMS, Lambda, HTTP endpoints)
+Multiple subscribers (email, SMS, Lambda, HTTP, SQS)
+
+When a new order is placed (via Spring Boot API), the system:
+Sends an event to SNS to notify administrators.
+Queues order details in SQS for async processing (e.g., inventory update).
+A Lambda function listens to SQS messages to process the order asynchronously and send further notifications.
+[Customer API (Spring Boot)] --(Create Order)--> [SNS Topic] (notify admins)
+                                      \
+                                       --> [SQS Queue] (order processing)
+                                              \
+                                               -> [Lambda Function] (order fulfillment)
+											  
+											  
+// Dependencies: Spring Cloud AWS Messaging
+
+@RestController
+public class OrderController {
+
+    @Autowired
+    private AmazonSNSAsync snsClient;
+
+    @Autowired
+    private AmazonSQS sqsClient;
+
+    @Value("${aws.sqs.queue.url}")
+    private String queueUrl;
+
+    @PostMapping("/createOrder")
+    public String createOrder(@RequestBody Order order) {
+        // Publish notification to SNS (to admins)
+        String message = "New Order Placed: Order ID - " + order.getOrderId();
+        PublishRequest publishRequest = new PublishRequest("arn:aws:sns:region:account-id:OrderNotifications", message);
+        snsClient.publish(publishRequest);
+
+        // Send order details to SQS for processing
+        String orderJson = new ObjectMapper().writeValueAsString(order);
+        sqsClient.sendMessage(new SendMessageRequest().withQueueUrl(queueUrl).withMessageBody(orderJson));
+
+        return "Order Placed Successfully!";
+    }
+}		
+
+
+Store your secrets in AWS Secrets Manager
+Store a secret with key-value pairs:
+username: myDbUser
+password: mySecurePassword
+engine: mysql
+host: mydbhost
+port: 3306
+dbname: mydatabase			
+
+
+						  
+
+
+5. Event-Driven Communication Pattern
+Purpose:
+Instead of synchronous calls, microservices communicate asynchronously via messaging systems like Kafka or RabbitMQ. Services publish events, and interested services subscribe to these events.
+
+Benefit:
+Decouples services, improves scalability, and enables reliable, message-driven workflows. Useful for integrating disparate systems and ensuring eventual consistency.
+
+Uses of Common Spring Boot Annotations
+
+1. @SpringBootApplication
+Use: Marks the main class of a Spring Boot application. It triggers auto-configuration, component scanning, and enables Spring Boot features automatically.
+
+Purpose: Simplifies bootstrapping by consolidating multiple configurations into one annotation.
+
+2. @Component
+Use: Marks a class as a Spring-managed component.
+Purpose: Indicates that Spring should detect, instantiate, and inject this class where needed, supporting dependency injection and IoC.
+
+3. @Service
+Use: Used to define service layer classes that contain business logic.
+Purpose: Distinguishes business services from other components, making code more readable and maintaining clear layers.
+
+4. @Repository
+Use: Marks data access objects (DAOs) or repositories.
+Purpose: Provides exception translation (e.g., converts database exceptions to Spring DataAccessException), and indicates a class that interacts with the database.
+
+5. @Controller
+Use: Handles web requests and returns view names (like JSP, Thymeleaf templates).
+Purpose: Manages web UI layer, routes requests to appropriate view/template.
+
+6. @RestController
+Use: Combines @Controller and @ResponseBody, suitable for REST API endpoints.
+Purpose: Simplifies creation of RESTful services by returning data directly (usually JSON/XML).
+
+7. @RequestMapping
+Use: Maps web requests to specific handler methods or classes.
+Purpose: Provides flexible mapping rules for URL patterns and HTTP methods.
+
+8. @GetMapping / @PostMapping / @PutMapping / @DeleteMapping / @PatchMapping
+Use: Shorthand annotations for HTTP GET, POST, PUT, DELETE, PATCH requests.
+Purpose: Improves code readability when mapping specific HTTP methods to handler methods.
+
+9. @PathVariable
+Use: Binds dynamic values from URI path segments to method parameters.
+Purpose: Enables RESTful URL design, e.g., /users/{id} to fetch a specific user.
+
+10. @RequestParam
+Use: Extracts query parameters from URL (e.g., ?name=John).
+Purpose: Facilitates filtering, pagination, or passing optional parameters to controller methods.
+
+11. @RequestBody
+Use: Binds the HTTP request payload to an object (usually JSON or XML).
+Purpose: Accepts complex data objects sent by clients in the request body, e.g., form submissions, JSON data.
+
+12. @ResponseBody
+Use: Indicates a method's return value should be serialized and sent directly as HTTP response body.
+Purpose: Supports REST responses; automatically converts objects to JSON/XML.
+(Note: Implicitly included with @RestController.)
+
+13. @Configuration
+Use: Marks a class as a source of bean definitions.
+Purpose: Used to define custom configuration beans programmatically.
+
+14. @Bean
+Use: Declares individual beans within a @Configuration class.
+Purpose: Manual registration of beans, especially for third-party libraries or complex setup.
+
+15. @Autowired
+Use: Injects dependencies automatically by type.
+Purpose: Supports Dependency Injection, reducing boilerplate and managing object lifecycle.
+
+16. @Qualifier
+Use: Disambiguates beans when multiple candidates exist for autowiring.
+Purpose: Ensures the correct bean is injected, especially when multiple implementations of an interface exist.
+
+17. @Profile
+Use: Conditional registration of beans based on environment profiles (like dev, prod).
+Purpose: Allows different configurations for different deployment environments.
+
+18. @PropertySource
+Use: Loads external properties files into Spring environment.
+Purpose: Facilitates configuration management outside code, e.g., for different environments.
+
+19. @Value
+Use: Injects individual property values into fields.
+Purpose: Reads configuration values from properties files or environment variables.
+
+20. @Scheduled
+Use: Schedules execution of methods at fixed intervals or cron expressions.
+Purpose: Automates periodic tasks like cleanup, notifications, data refresh, etc.
+Note: Requires @EnableScheduling.
+
+21. @EnableAutoConfiguration
+Use: Activates Spring Boot auto-configuration (included in @SpringBootApplication).
+Purpose: Automatically configures Spring application based on classpath, beans, properties.
+
+22. @EnableJpaRepositories
+Use: Activates JPA repository support.
+Purpose: Enables Spring Data to scan for and instantiate JPA repositories.
+
+23. @EnableCaching
+Use: Turns on Spring’s annotation-driven cache management.
+Purpose: Cache expensive method calls transparently, improves performance.
+
+24. @Cacheable / @CachePut / @CacheEvict
+Use:
+@Cacheable: Caches method results.
+@CachePut: Updates cache with latest result.
+@CacheEvict: Removes cache entries.
+Purpose: Fine control over caching strategies for performance optimization.
+Summary
+Each annotation helps manage different parts of a Spring Boot application:
+
+Component scanning and bean management
+Web handling (controllers, REST)
+Data interaction and repositories
+Configuration management
+Scheduling and caching
+Conditional and environment-specific behavior
+
+@RequestParam optional  /users?name=John&age=30
+@PathVariable it's mandatory /users/123
+
+What is @RestControllerAdvice?
+It is a shortcut annotation that combines @ControllerAdvice and @ResponseBody.
+Ensures that responses from exception handler methods are automatically serialized (like JSON) instead of rendering a view.
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+// Custom Exception
+class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+
+// Global Exception Handler for REST APIs
+@RestControllerAdvice
+public class GlobalRestExceptionHandler {
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse("NOT_FOUND", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleAll(Exception ex) {
+        ErrorResponse error = new ErrorResponse("INTERNAL_ERROR", ex.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+
+// Error response model
+class ErrorResponse {
+    private String errorCode;
+    private String message;
+
+    public ErrorResponse(String errorCode, String message) {
+        this.errorCode = errorCode;
+        this.message = message;
+    }
+    // getters
+    public String getErrorCode() { return errorCode; }
+    public String getMessage() { return message; }
+}
+
+
+
+
+
+
+1. What is Docker? How is it different from a Virtual Machine?
+Answer:
+Docker is an open-source platform for building, running, and managing lightweight, portable containers. Unlike VMs, Docker containers share the host OS kernel and isolate applications at the process level, making them more lightweight and faster to start.
+
+2. What are Docker images and Docker containers?
+Answer:
+
+Image: A lightweight, immutable snapshot containing everything needed to run an application (code, runtime, dependencies). Think of it as a class or blueprint.
+Container: A runtime instance of an image. Containers are created from images and are the actual running environments.
+
+3. Explain Dockerfile and its components.
+Answer:
+A Dockerfile is a script containing instructions to build a Docker image. Key components:
+
+FROM: Base image.
+RUN: Execute commands during image build.
+COPY / ADD: Transfer files into the image.
+CMD / ENTRYPOINT: Default commands when container starts.
+EXPOSE: Specify ports.
+ENV: Set environment variables.
+
+Kubernetes Interview Questions & Answers
+
+magine a Big Restaurant Kitchen
+
+Master Node = Head Chef
+
+The head chef doesn’t cook every dish but manages the kitchen.
+They decide what dishes need to be prepared, who will cook them, and when.
+They keep the recipe book (etcd) safe, which has all the instructions and current orders.
+They also have assistants:
+
+API Server = The waiter who takes orders from customers and passes them to the chef.
+Scheduler = Decides which cook will prepare which dish.
+Controller Manager = Ensures everything is running smoothly (e.g., if a cook leaves, assigns another).
+How It Works Together
+
+A customer (user) places an order (deploys an app).
+The waiter (API Server) tells the head chef (Master Node).
+The head chef checks the recipe book (etcd) and assigns tasks to cooks (Worker Nodes).
+The cooks prepare the dishes (run containers) and serve them to the right tables (users).
+
+Think of Worker Nodes as Kitchen Stations
+Imagine a big restaurant kitchen:
+
+Each Worker Node is like a cooking station where actual dishes (your applications) are prepared.
+The containers are the individual dishes being cooked.
+The kubelet is like the station manager who makes sure the cook follows the recipe and reports back to the head chef (Master Node).
+The kube-proxy is like the delivery helper who ensures the dish reaches the correct table (handles networking so apps can talk to each other).
+
+1. What is Kubernetes?
+Answer:
+Kubernetes is a container orchestration platform used for automating deployment, scaling, and managing containerized applications across clusters of hosts.
+
+2. Explain the Kubernetes architecture and its components.
+Answer:
+
+Master Node: Manages the cluster (API Server, Controller Manager, Scheduler, etcd).
+Worker Nodes: Run containerized applications via kubelet, kube-proxy.
+Pod: The smallest deployable unit in Kubernetes (one or more containers).
+Service: Abstracts a set of pods and provides load balancing.
+Deployment: Defines how to deploy and update Pods.
+3. What is a Pod?
+Answer:
+A Pod is the basic unit of deployment in Kubernetes, consisting of one or more containers sharing network, storage, and specifications.
+
+4. Explain the difference between Deployment, StatefulSet, and DaemonSet.
+Answer:
+
+Deployment: Manages stateless applications, supports rolling updates.
+StatefulSet: Manages stateful applications requiring persistent identity and storage (like databases).
+DaemonSet: Runs a copy of a pod on all or certain nodes (e.g., log collectors).
+5. What is a Service in Kubernetes?
+Answer:
+A Kubernetes Service creates a stable network endpoint to access grouped Pods, enabling load balancing and discovery.
+
+6. How does Kubernetes handle scaling?
+Answer:
+Using kubectl scale command or auto-scaling features like Horizontal Pod Autoscaler (HPA), which adjusts the number of Pods based on CPU or custom metrics.
+
+7. What are ConfigMaps and Secrets?
+Answer:
+
+ConfigMaps: Store configuration data (non-sensitive).
+Secrets: Store sensitive data like passwords and API keys securely.
+8. Explain persistent storage in Kubernetes.
+Answer:
+Using Persistent Volumes (PV) and Persistent Volume Claims (PVC), Kubernetes provides decoupled storage that survives Pod restarts.
+
+9. What is Helm?
+Answer:
+Helm is Kubernetes’ package manager, simplifying deployment of complex applications with pre-configured charts.
+
+10. How do you update a running application in Kubernetes?
+Answer:
+By updating the Deployment (e.g., changing the image version) and performing a rolling update, which gradually replaces Pods without downtime.
+
+kubectl version
+kubectl cluster-info
+
+Kubernetes Architecture Overview
+Kubernetes follows a master-worker (or client-server) architecture and is designed for scalable, fault-tolerant container orchestration.
+
+1. Master Node (Control Plane)
+The control plane manages the Kubernetes cluster. It makes global decisions about the cluster (like scheduling), detects and responds to cluster events, and maintains desired state.
+
+Core Components:
+API Server (kube-apiserver)
+The front-end of the control plane, exposing the Kubernetes API. All commands, internal and external, go through it.
+etcd
+A distributed key-value store that holds all cluster data and state. Acts as the source of truth.
+Controller Manager (kube-controller-manager)
+Runs controllers to regulate the cluster state (e.g., node controller, replication controller).
+Scheduler (kube-scheduler)
+Assigns unscheduled pods to nodes based on resource availability and policies.
+Cloud Controller Manager (optional)
+Integrates with cloud provider APIs to manage cloud-specific resources (like load balancers).
+2. Worker Nodes (Minions)
+These nodes run your containerized applications. Each node hosts the worker components.
+
+Core Components:
+kubelet
+An agent that communicates with the control plane and ensures containers are running in pods on its node.
+Container Runtime
+Software responsible for running the containers (e.g., Docker, containerd, CRI-O).
+kube-proxy
+Maintains network rules on each node that enable network communication to Pods and Services (load balancing, service discovery).
+Pods
+The smallest deployable unit in Kubernetes, representing one or more containers sharing network/IP and storage.
+3. Additional Resources
+Namespaces: Logical partitions within the cluster for multi-tenancy.
+Deployments/ReplicaSets: Controllers that manage pod lifecycle, scaling, and updates.
+Services: Abstractions for accessing Pods (load balancing, service discovery).
+ConfigMaps & Secrets: Store configuration data and sensitive information.
+Persistent Volumes & Claims: Manage storage outside the container lifecycle.
++--------------------------------------------------------------+
+|                            Control Plane                     |
+| +----------------+   +-------+   +--------------+             |
+| | API Server     |<->| etcd  |<->| Controller   |             |
+| +----------------+   +-------+   | Manager      |             |
+|                                +--------------+             |
+|                                 |                           |
+|                                Scheduler                     |
++--------------------------------------------------------------+
+                   |                           |
+                   |                           |
+          +----------------------------+     +------------------------------+
+          | Worker Node 1              |     | Worker Node 2                |
+          | +------------------+       |     | +------------------+       |
+          | | kubelet          |       |     | | kubelet          |       |
+          | | Container Runtime|       |     | | Container Runtime|      |
+          | | kube-proxy       |       |     | | kube-proxy       |       |
+          | +------------------+       |     | +------------------+       |
+          +----------------------------+     +------------------------------+
+		  
+		  kubectl logs <pod-name>
+		  kubectl logs -f <pod-name>
+		  kubectl logs <pod-name> -c <container-name>
+		  kubectl logs <pod-name> -c <container-name> | grep "<search-string>"
+		  
+                        +---------------------------+
+                        |       Control Plane       |
+                        |                           |
+                        |   +-------------------+   |
+                        |   | kube-apiserver    |   |
+                        |   +-------------------+   |
+                        |   | kube-controller   |   |
+                        |   | manager           |   |
+                        |   +-------------------+   |
+                        |   | kube-scheduler    |   |
+                        |   +-------------------+   |
+                        |   | etcd (storage)    |   |
+                        +---------------------------+
+                                   /|\
+                                    |
+        +--------------------------------------------------+
+        |                                                  |
++--------------+                                   +--------------+
+| Worker Node  |                                   | Worker Node  |
+| (Node 1)     |                                   | (Node 2)     |
+|              |                                   |              |
+| +----------+ |                                   | +----------+ |
+| | kubelet  | |                                   | | kubelet  | |
+| +----------+ |                                   | +----------+ |
+| | Pod 1    | |                                   | | Pod 3    | |
+| | (Containers) |                                | | (Containers) |
+| +----------+ |                                   | +----------+ |
+| +----------+ |                                   | +----------+ |
+| | Pod 2    | |                                   | | Pod 4    | |
+| | (Containers) |                                | | (Containers) |
+| +----------+ |                                   | +----------+ |
+| +----------+ |                                   | +----------+ |
+| | kube-proxy | |                                | | kube-proxy | |
+| +----------+ |                                   | +----------+ |
++--------------+                                   +--------------+
+
+		  
+GRPC 
+		
+REST 
+High network latency  Http/1.1 
+data processing overhead
+Request-Response Model (No Live Streaming )
+
+GRPC  
+High network latency  Http/ 2 
+data processing overhead ---protoBuf and serialze and deserialize which is used transferring data 
+Request-Response Model (No Live Streaming ) --Unary and Server Streaming 
+Client streaming  --Bidirecction streaming --real time chat application 
+
+Unar Streaming 
+Request --Response 
+
+Serever Streaing --One Request and server will keep on sending response (Courier or deilvery app ) 
+
+Client streaming 
+multipe request and single response 
+Uploading photo1 ,multippl photo 2 
+
+2 way streaming 
+BiDirectioal Streaming 
+
+data will be binary format reable by machine 
+
+Live streamign can be acchived in rest by using Reactive Programming (Webflux) and Socket 
+
+sytax ="proto3";
+
+import "google/protobuf/timestamp.proto"
+package com.javatechie;
+messagge Employee {
+int32 id=1;
+string name=2;
+double salary=3;
+repeated Department departments=4;
+map<string,string> adddressMap=5;
+bool isActive=6;
+bytes profilePicuture=7;
+google.protobuf.Timestmp joinDate=8;
+
+
+}
+message Department 
+{
+int32 id=1;
+stringn name=2;
+}
+
+
+}

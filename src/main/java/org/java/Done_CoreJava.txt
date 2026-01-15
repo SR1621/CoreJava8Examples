@@ -1,0 +1,2623 @@
+import java.util.Scanner;
+
+public class MyClass {
+    
+    public static void method1(int value)
+    {
+        int n1=0,n2=1;
+        for(int i=0;i<=value;i++)
+        {
+            System.out.println(n1+"");
+            int n3=n1+n2;
+            n1=n2;
+            n2=n3;
+        }
+    }
+    
+    public static void method2(String str)
+    {
+        StringBuilder sb=new StringBuilder();
+        sb.append(str);
+        System.out.println(sb);
+        sb.reverse();
+        if(str.toString().equals(sb.toString()))
+        {
+            System.out.println("True");
+        } else {System.out.println("False");}
+    }
+    
+    public static void method3(int n)
+    {
+          System.out.println("test"+n);
+        for(int i=n;i>=0;i--){
+        for(int j=1;j<=i;j++) {
+            System.out.print(j);
+        }
+        System.out.println();
+        
+        }
+    }
+    
+    public static void method4(int n){
+        for(int i=1; i<=n;i++)
+        {
+            for(int j=1; j<=i ;j++)
+            {
+                System.out.print(j);
+            }
+            System.out.println();
+        }
+    }
+  public static void main(String args[]) {
+    int x=10;
+    int y=25;
+    int z=x+y;
+     //method1(10);
+     //method2("level1");
+     
+    System.out.println("Sum of x+y = " + z);
+    Scanner s =new Scanner(System.in);
+    System.out.println("Enter text");
+    String str=s.nextLine();
+    //Integer i=Integer.valueOf(str);
+    //System.out.println("Values"+i);
+    char charArray[]=str.toCharArray();
+    int i=0 ,j=charArray.length-1;
+    boolean condition1=false;
+    while(i<j)
+    { 
+     
+        if(charArray[i]!=charArray[j]){
+      //  return true ;
+      
+        i++;
+        j--;
+        condition1=false;
+        break;
+        
+            
+        } else {
+            condition1=true;
+            break;
+            
+        }
+    
+    }
+        System.out.println("TEST"+condition1);
+    
+  }
+}
+
+classloader will load the load the class 
+Heap --class all default class load in heap from jre library 
+Method area  it defines the static and variable 
+stack --local method calls and local vairables
+execution engine --byte cde and read the 
+JNI --java native interface --which is library 
+
+OOPS --
+Aggreation --each object is has own life cyclce 
+
+Creational Design Patterns
+
+Singleton — Ensures a class has only one instance and provides a global access point to it.
+Factory Method — Defines an interface for creating objects but lets subclasses decide which class to instantiate.
+Abstract Factory — Provides an interface for creating families of related or dependent objects without specifying their concrete classes.
+Builder — Separates the construction of a complex object from its representation so the same process can create different representations.
+Prototype — Creates new objects by copying an existing object rather than creating a new instance from scratch.
+
+Structural Design Patterns
+
+Adapter — Converts the interface of a class into another interface that clients expect.
+Bridge — Decouples an abstraction from its implementation so the two can vary independently.
+Composite — Composes objects into tree structures to represent part-whole hierarchies and lets clients treat individual objects and compositions uniformly.
+Decorator — Adds additional behavior or responsibilities to an object dynamically without modifying its structure.
+Facade — Provides a simplified interface to a complex subsystem.
+Flyweight — Reduces memory usage by sharing common parts of object state among multiple objects.
+Proxy — Provides a surrogate or placeholder to control access to another object.
+
+Behavioral Design Patterns
+
+Chain of Responsibility — Passes a request along a chain of handlers until one of them handles it.
+Command — Encapsulates a request as an object, allowing parameterization and support for undoable operations.
+Interpreter — Defines a grammar and interprets sentences in a language.
+Iterator — Provides a way to access elements of a collection sequentially without exposing its underlying representation.
+Mediator — Defines an object that encapsulates how a set of objects interact, promoting loose coupling.
+Memento — Captures and restores an object’s internal state without violating encapsulation.
+Observer — Defines a one-to-many dependency so that when one object changes state, all its dependents are notified.
+State — Allows an object to alter its behavior when its internal state changes.
+Strategy — Defines a family of algorithms, encapsulates each one, and makes them interchangeable.
+Template Method — Defines the skeleton of an algorithm, letting subclasses redefine certain steps.
+Visitor — Separates algorithms from the objects on which they operate.
+
+HAS -A 
+
+superclass --java.langObject
+eaquas ,hascode and toString 
+
+volatile  variable in java ensures that its value is always read from the main memory not from a thread cache 
+OOPS Concept 
+encasulation   --need to create private and setters and getters
+*******
+inhertance --
+***********
+Polymorhphism --overloading and overriding 
+method overloading --having the same method and signature and argurmetns are different 
+**********
+Abstraction --hiding the impmetmation details 
+
+Encasulation 
+inhertance 
+ploymorphism --overloading and overriding 
+abstraction--hiding the implemnation details 
+****************
+having same method and agrument  is different 
+in interface if the reutrn type is Parent object and in implemnation part we can give the return type as B object
+run time polymorphissm is where can inject the interface by using the annotaiton called 
+@Autowired 
+
+Polymorphism at runtime: The actual method called depends on the object’s runtime type, not the reference type Animal.
+Animal myAnimal; //
+  myAnimal = new Dog(); // Runtime type is Dog
+
+In onverriding if parent throws the exception for child is optional to throw exception 
+if you declare the child as exceptoon it is mandatory to throw to parent exception 
+
+we can't override static and private methods 
+
+default void addCoupn ()
+static void addCoupn ()
+
+in java 1.8 before ,we need to implement  mehtods in implemation part 
+final is keyword
+finally block 
+finalzie :method --is called when we set an object as null and when we invoke system .gc is called  finalize method is not called  and Finalize  is available in object class 
+demo =null
+system.gc 
+when we made object is null called method finalzie 
+ is
+
+hascode used to generate the unique or reference number of an object through which we can easily identify uniquness of an object
+
+we need to implement hashcode when we implement set object 
+
+equals :use dto compare object based on its content 
+
+Object 
+Throwable 
+Error(Out of memory error and stack overflow) and exception-->(runtime (Null Pointer Exceptoom and illegalArgumentExcpetion and ArthimeticException and IndexOutofBoundsException)and  and checked exception(ClassnotoundException,IOException,FileNotFoundException,SQLException,NoSucehMethodException )
+
+Checked Exception
+Definition: Exceptions that are checked at compile time.
+Characteristics:
+The compiler enforces handling of these exceptions.
+You must either catch them with a try-catch block or declare them using the throws keyword in the method signature.
+Unchecked Exception
+Definition: Exceptions that are checked at runtime.
+Characteristics:
+Do not require explicit handling in code.
+Usually indicate programming errors or bugs.
+They are subclasses of RuntimeException.
+
+Class orderbfoundException extends Exception 
+
+throw new OrderNotFoundException ("Message not found")
+throws which declared who ever is called they neeed to handle the exception  for example if we use throes m1() throws ORderNotfoundexcetion at main method need to handle the exception 
+
+when we want to exit from finally we can use system.exit()
+
+String s1=new STring ("Java techie") 
+String s2="Java techie " //it will not creat an object in SCP because the value alreay created 
+//1 object --> new --Heap
+//2 Object-> literal -> SCP String constant pool area )
+s1.intern() --intern get the value from SCP  the hascode of SCP pool 
+s1.intern().hashCode==s2.hascode()  iit returns as true because the value is going to compare from s1.hascode to s2.hashcode the hashcode values are same as compared to both s1 and s2 
+s3="Java techie" //already create a string object in SCP so it will not create a new object 
+
+why string is immutabale 
+we can't modify the value 
+
+sring pool is mutable 
+
+string it is safe for muliithreading d
+it
+string 
+
+************String buffer and strig buider is mutable 
+
+String is inmutable not thread safe and very high  --if two threads are consuming it may get the results vary .
+Stringbuffer is mutable/thread safe /moderate in perfroamcne  
+Stringbuilder is mutable ,not thread safe and very high performance 
+
+To create Immudable class 
+
+make your class as final and to make imutable  class 
+declare all instance varaible with private  and final 
+say no to setter methods 
+intalize all vairable in costructor  
+you can intialize variable in constructor 
+
+character is best password to
+
+clone can be used for immudable and if we have the list of objects we can use Collectors.unmodfiable(reference variable)
+
+which doesnt have method is called  called as marker  interface 
+List
+Arraylist
+linkedlist
+copyonwriteArrayList
+
+************
+Set 
+hasset
+linkedhastset
+treeset
+copyOnWriteArraySet
+***************
+MAP
+haspmap
+linakedhashmap
+treemap
+ConcurrentHashMap 
+
+*************
+list allow duplicate list
+list work on index basis
+set work on hashbasis 
+set is used to different objects 
+
+
+Arraylsit and linked list 
+
+2 implemrnation of List 
+
+1)ArrayList internally uses a dynamic  array to store the elements 
+a)Linked list internally uses double linked list to store the elemets 
+2)Manipulation with Arraylist  is slow because it internally uses an array .
+b)Manipulation with linkedlist is faster than arraylist because it uses double  linked  list ,so
+so no bit shfiting is required in memory
+If any element is removed  from the array ,all the bids are shifted in memory
+3)Arraylist is better for sorting and accessing data 
+c)LinkedList is better for manipulating data 
+
+when we declare final variabe can we add in arraylist or not 
+list.add("a")
+list.add("b")
+we can't reassing  the new class 
+we can modify the list objecg when we declare as final 
+
+extens ArrayList we will override method
+
+public boolean add(Object 0 )
+{
+if this.contains(o)) {
+return true
+else return super.add(o)
+
+List list=new ArrayList();
+
+Set allow doest not allow duplicate value
+Set<String> set=new HashSet<>();
+set.add("abc")
+//in has set add(E e) --set internally implements add object 
+return map.put(e,Present)==null
+
+if we use set for custom obect we need to override the hashclass and equels method 
+
+
+Comparable --single sorting 
+comarator --multiple sorting 
+comarable --affects the orginal class 
+comarator --doesnt affect the orginal class 
+comparable is --java.lang
+comparot is java.util 
+
+*************************
+we can sort the list elements of comparable type by Collections.sort(list) method 
+
+idwe want to sort with id and name 
+o1.getID == o2.getID
+return o1.getSTudentname.compare(o2.getStudentname())
+
+
+fail fast and fail safer iterator  
+a iterator  which will fail fast when we do any modification while iterating  a collection is a called fail fast iterator  
+
+it checks the except the modecount and if the value is changed and it throws the error
+
+iterate list object 
+List.add("ONE") ;
+List.add("T`NE") ;
+List.add("ThreeNE") ;
+
+Iterator it=list.itterator();
+while(it.Hasnext())
+{sout(it.next())
+list.add("four");
+}
+we are going to add exeption 
+fail safe iterator --copyOnWriteArrayList 
+Iterator it=list.itterator();
+while(it.Hasnext())
+{sout(it.next())
+list.add("four");
+} //no exception 
+copyOnWriteArraySet,ConcurrentHashMap 
+
+
+Hashmap --not unsynchronized  and not thread safe 
+ConcurrentHashmap --Synechronized
+
+Hasmap --Non thread safe
+ConcurrentHashmap --thread safe
+
+Hasmap --fail fast 
+ConcurrentHashmap --fail safe
+
+
+Hasmap --storing null keys and values 
+ConcurrentHashmap --it does not allow to store nulll key/values 
+
+
+Hasmap --Faster
+ConcurrentHashmap --Slower than Hashmap 
+
+Hashtable is  synchroized but it is locking for entire table 
+but when it comes the conscurrenthashmap it is applicable for segment level locking 
+where as hashmap and hastable it blocks the complete bucket 
+
+********
+if we use hashmap as synechronze 
+locking mechanism is different 
+Collection.synchronizedMap(map)
+linkedList containts key,value,hash,next
+
+Hashcollaision it will stores the value called as collaison
+What is a Hash Collision?
+Imagine you have two different keys, but when you run them through the hash function, they produce the same hash code.
+This means both keys want to go into the same bucket.
+That situation is called a hash collision.
+
+Hashmap uses the LinkedList Node key and value 
+when use the use hashmap it uses linkedList node value 16 bucket contiants linked list  
+it contains the bucket 0 
+to 15 
+when we use the put value it check the hashkey and place in the specific bucket and if the values are same then it compares  the object vlaues and it stores the values as 
+Key,Values,Hash,Next 
+e1,dev,1011,null
+    e3,ui,7976,null values 
+
+Hashmap contains the null as key and null as value it stores the zero index value  
+
+In java 1.8 it hashmap used as balance tree mechansism is used
+in java8 hashmap is implemented balance tree  is used for sorting if it is postive it will print left side and if its negative i will print right side 
+
+String inout="ilovejavai"
+
+String split=input.split("");
+Arays.toString(slit) //get the count 
+Map<String,Long>=Array.streams(input.split(""))
+     .collect(Collectors.grouingBy(Function.identity(),Collectors.counting()))
+
+Remove duplicae elements 
+
+  List<String> collect1 = Arrays.stream(split)
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+        .entrySet().
+        stream().filter(stringLongEntry -> stringLongEntry.getValue() > 1)
+        .map(mapEntry -> mapEntry.getKey())
+        .collect(Collectors.toList());
+
+Hashmap -we can preserve the insertion order where as linkedhasmap we can preserve the insertion order 
+
+Repeated values 
+
+  List<String> collect1 = Arrays.stream(split)
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+        .entrySet().
+        stream().
+filter(stringLongEntry -> stringLongEntry.getValue()== 1)
+        .findFirst().get.getKey();
+        .collect(Collectors.toList());
+
+
+The reduce() method allows you to combine elements of a stream into a single result. The method is associative, meaning the order in which operations are performed does not change the result. This makes it suitable for parallel processing
+
+intermediate 
+
+Stream s1=stream.of(1,2,3,4,5)
+A1 a1=new A1()
+a1.add("10)
+Stream s2=a1.stream
+
+Intermediate 
+Filter is used to filer the data 
+Map is used to transform the data 
+FlatMao
+Skip
+Limit
+distinct
+
+some operation and return new stream 
+
+Termial  will return result 
+count 
+collect
+
+ //highest salary
+
+    Optional<EmployeeReal> collectMasSalary = employeeListVar.stream().
+        collect(
+            Collectors.
+                maxBy(
+                    Comparator.comparingDouble(
+                        employeeMax -> employeeMax.getSalary()
+                    )
+                )
+        );
+
+peek() A method is an intermediate operation that allows you to perform a specified action on each element of the stream as it is consumed. This method is particularly useful for debugging or performing side effects within the stream pipeline.
+
+**************
+    long totalCount=employeeListVar.stream().count();
+    System.out.println("Total list count: "+totalCount);
+    long male = employeeListVar.stream()
+        .filter(employeeS -> employeeS.getGender().equalsIgnoreCase("male")).count();
+    long female = employeeListVar.stream()
+        .filter(employeeS -> employeeS.getGender().equalsIgnoreCase("female")).count();
+    System.out.println("male count "+female);
+
+    //get all the departments using filter and collect in java 8
+
+   employeeListVar.stream().filter(employeeReal -> employeeReal.getDepartment().equalsIgnoreCase("HR") ).collect(
+       Collectors.toList()).
+       forEach(employeeReal ->
+           System.out.println("Department name  "+employeeReal.getDepartment()
+               +" Name of an employee"+employeeReal.getName()));
+
+   employeeListVar.stream().
+       map(employeeReamMap -> employeeReamMap.getDepartment())
+       .distinct()
+       .collect(Collectors.toList())
+       .forEach(f-> System.out.println("Department name"+f));
+     /// average age of maile and female employees
+    double averageAgeOfMaleEmployees = employeeListVar.stream()
+       .filter(employeeReal -> employeeReal.getGender().equalsIgnoreCase("Male"))
+       .mapToInt(employeeReal -> employeeReal.getAge())
+       .average()
+       .orElse(0);
+    double male1 = employeeListVar.stream()
+        .filter(emplloyeeMale -> emplloyeeMale.getGender().equalsIgnoreCase("Male"))
+        .mapToInt(employeeMale -> employeeMale.getAge())
+        .average()
+        .orElse(0);
+     System.out.println("Average "+male1);
+
+    Map<String, Double> collectAverageAge = employeeListVar.stream().collect(
+        Collectors.groupingBy(EmployeeAgeAverage -> EmployeeAgeAverage.getGender(),
+            Collectors.averagingDouble(EmployeeReal::getAge)));
+    System.out.println("average age of male ane female employees " + collectAverageAge);
+
+    //highest salary
+
+    Optional<EmployeeReal> collectMasSalary = employeeListVar.stream().
+        collect(
+            Collectors.
+                maxBy(
+                    Comparator.comparingDouble(
+                        employeeMax -> employeeMax.getSalary()
+                    )
+                )
+        );
+    System.out.println("Max Salary"+collectMasSalary.get());
+
+
+Functioal interface
+Lamda Expression
+Stream 
+CompleteableFuture
+JavaDateTimeAPI 
+
+**************
+A function 1 abstract method is called function interace
+Runnable 
+Callable
+Comparator
+
+default method can we have use in function interface
+static method can we use in 
+There is no force to overwright defualt and static method 
+
+Funciton(apply) --input and output and apply is the method
+Predicate(test)-- it evaluate 
+Consumer(accept) --input and no outout
+Supplier(get) --only output
+
+--appry one is input and other is output
+
+Suup
+
+Lamda expresion is a fucntionaly interface which proces clear and conceipse way to represent method of fucntion using an expression 
+
+Lamda expression is a function interface which can be used in simple way 
+->
+forEach is the Consumer method which accepts the value 
+filter is the method which accepts the predicate value 
+Map takes the input as and return the value as output  function 
+for sream.map(input--GetDeperatment).collect(Collector.toList())
+Common Methods Using Supplier
+
+Stream.generate(Supplier<T>)
+Optional.orElseGet(Supplier<T>)
+Collections / Factory-style APIs
+CompletableFuture.supplyAsync(Supplier<T>)
+
+*********
+filter
+foreach
+sorted
+map
+flatmap
+reduce
+GrouingBy
+Count
+Collect
+
+it notifies main thread about its progress ,completion or failure 
+
+Thread
+Main thread 
+Manager Thread managment 
+Resource Management
+Scalbility 
+Thread reuse  
+Error handling
+
+**********
+Executor ,Executor Service,ScheduledExecutionService 
+execute(Runnable)
+Fire‑and‑forget.
+Returns nothing (void).
+Exceptions are thrown on the worker thread and handled by the thread’s UncaughtExceptionHandler (or can terminate the thread).
+Use when you don’t need a result and don’t plan to track completion.
+submit(...)
+Returns a Future (even for Runnable), which lets you check completion, cancel, and get exceptions/results.
+Exceptions are captured and rethrown as ExecutionException when you call future.get().
+Use when you need a result or want to handle errors programmatically.
+ExecutorService
+execute
+Shudown() //it will not wait for all threadd to complete 
+awaitermination() //it will wait for all theads to complete it 
+submit(new Runnable) no return type
+submit(new Callable) it returns the object
+invokeAny  it is used for callable--it invokes only 1 thread
+ invokeAll it onvoles multipethread
+
+Future is the class where it check the thread is exccuted or not and get the result 
+it notfies main thread about its progress ,completion or failure 
+
+
+CompletableFuture 
+
+***********
+
+**********
+SOLID Principal 
+
+Single  Responsible   principal 
+every java class must peform a single functionaliy
+we can segerate all specific service in a single class 
+
+Open -closed principal  (Extends )
+should be open for extension and not for modififcation 
+if method already added in service class and if you have the plan to add new method which is used for specifc project just extends the class and implmenth method 
+for example sendOTP and getTransaction --need to add in NotficaitonService and can implement in mobile gmail or whatup implemantaiton class 
+
+Liskov Substitution Principle 
+Derived base calss should be suitable for there base class
+we need to create methods in the interface based on the  requirment,so that we can implment based on it 
+
+A is class subtype of class b ,then we should be able to replace B with A 
+
+Interface Segeration Princpale 
+we can seggerate the methods based on the reuqirment ,we can use what ever the information and not overwrite all methods 
+Depdency  Inversion princpale we need to loose coupled between shifting objects 
+JAVA 17 
+Java string 8 
+Switch statment java 17 
+jdk only integerrs in java 7 
+java 8 --u can pass as string  or enum 
+Gauarda Pattern and null case --in java 17 we can use object and custom objecct 
+****************
+
+Lamda expresison syntax () -> {
+}
+--anonmonmyouse function which doenst not have any name and method is called anonymous function.
+anonymous function example 
+lamda expression can be applied functioan interface 
+The lamda expression is been called for functiona interface 
+
+it can contain only abstract method  it is called functioan interace  and it can have multiple default and static methods is called functional interface 
+Runnable -run 
+callable call 
+comparable -compareTo 
+cpmarator -compare
+We can write lamda expression only functiona itnerface 
+@FunciionInterface
+void m1() 
+defaul void m2() 
+() -> { } Syntax method
+****************************
+Consumer ---we don't want to return any thing 
+void accept(T) 
+andThen
+***************
+Preicate 
+Condition statment we can use preidcate 
+boolean Test(T t)
+
+************************* 
+Supplierl interface 
+T get();
+no input and except as return type 
+*********************
+function 
+*****************
+apply() //which it takes as input parameter and return as output parameter  
+
+****************************************************************************
+A Stream API is used to process collection of objects
+A Steam is a sequence of objects that supports various methods which can be pipelined to produce the desired result 
+A Steam is not a data structure insted it takes input from the collection,Arays or I/O channels.
+Steams don't change the orginal data strucute ,they only provide the result as per the pipelined methods 
+*************
+We can achieve fucntion programing 
+code reduce 
+Bulk operation 
+
+****************
+Filter for conditon  if and else 
+For each for iteration 
+**************
+
+map() and flatMap()  widely used in Java streams 
+these method are intermediat method and return stream as part of output 
+map() method used for transformation 
+flatMap used for transformation and flattering
+flatMap() -- > Map + Flattering 
+******************
+Map() takes stream T as input and reutrn Stream as output 
+One to one mapping 
+
+flatMap() --takes stream as steam as input and returns as stream as output 
+One to Many mapping 
+Stream.of("A","B)
+
+a,b
+flatmap contains stream of sream and provides single output 
+
+************************
+Optional 
+static method are available 
+for ex :empty 
+of
+ofNullable
+static mehthods
+filter
+flatMap
+map
+get
+ifPresent
+isPresent
+orelse
+orelseGet
+orElseThrow
+
+Interface can contain asbstrac methods
+void draw();
+default void area() 
+{
+}
+static methods() 
+}
+default method can be overwriden but static methods can't override in the implemenation classes
+
+******************************
+Map and Reduce 
+Map---Transferring data
+Reduce --to aggregating data 
+
+reduce(T Identiy ,BinaryOperator<T> accumlator)
+
+accumlator is where we are calculating the function 
+
+collection 
+**********
+List 
+******
+ArrayList 
+ListLikedList 
+
+*********set 
+hasset 
+LinkedHashSet
+TreeSet
+**************
+Map 
+HashTable
+
+
+List will allow the duplciate vlaues and set doesn't all duplicate values
+List work on index base and set on Hash Code 
+ArrayList is backed by an Array while HashSet is backed by an HashMap
+
+ArrayList and LinkedList 
+
+ArrayList internally uses a dynamic array to store the elemetns  --LinkedList uses a doubly linked list to store the elemetns 
+
+Manipulation the allarylist is slow  --manipulation with linkedlist is faster 
+
+ArrayList is better for sorting and accesing 
+
+ArrayList arrayList=new ArrayLust<string>();
+List<String> list=mew ArrayList<>(); 
+
+
+CustArrayList extendds ArrayList 
+bolean add (Object 0 )
+{
+if(this.contaions o)
+return true 
+}else return super.add(o)
+
+
+if we are implemention custoobject for set we need to hashcode and equals method 
+if not it allows duplication value but not in the primitie types 
+*********************
+comparable and comparator 
+*********************
+
+comprable --single sorint and comparator --multiple 
+
+compareTo() and compare() 
+java.lang and java.util package 
+
+Hashtable locks whole table ,but when it comes concurrenthashmap it locks only specific field 
+
+CompletebleFeature before 
+It cannot be manually completed
+Multiple futrue cannot be chained together
+We can not combile multiple future together
+np proper excepton handling mechanism 
+
+ExectureSErvice.submit(callbacl
+ExectureSErvice.execuive(Runable)
+we can;t shutdown thread in future 
+we can't response of 1 thread to 1 thread 
+we can't combile multiple response all thread execcution 
+we can't handle excepting properly 
+***********************
+if there is no return type 
+CompletebleFeature.runAsync(Runnable)
+if there is return type we should 
+use 
+CompletableFeature.supplyAsync(Supplier)
+
+then.apply(Functon
+thenAccept(Consumer(
+thenRun(Runnable)
+
+**********
+combine depdent future 
+get employee object and get raitings s 
+CompletableFeature.supplyAsynch( () {
+}
+
+get rating object and get raitings s 
+CompletableFeature.supplyAsynch( () {
+}
+
+Completablfeature cf=new Compeltab;eFeature
+thenCompoose () 
+
+//combine independent  future 
+//1 group employe and counts 
+ComplettableFutur.suuply Async()--??
+"return //fectch details 
+.combineFeature is the feature we can add multiple methods 
+///multiple indeepndent featue more than 1 
+allof(n task )--to finish all cals and combine
+anyOF() /any one task can complete 
+
+******************
+Mockito testing framework 
+
+@SpringbootEst 
+class 
+USerService serrvice
+USerReporistry repositury 
+
+publi void getISerTest()
+when(repository.findAll().thenReturn(stream.of(new user(""""""),new user(""")).collection(Collectio.toList());
+assertEquals(2,service.getUSers.size()));
+deltee 
+verify
+
+Bootstrap class loader picks the files from java_home/jre/LIB
+Extension class loader java_home/jre/lib/ext
+system applciation class load
+
+yum install java-1.80.-opejdk
+alternative --config java 
+wget url s3 bucker 
+
+
+flatMap is used for if you have 1 to n mappiing for example 
+Order - Paymetns id ,paymentname 
+
+//Sorted 
+
+Start 
+intermediate operations  --filter ,map,flatmap,disticnt,sorted,peek,limit,skip
+Terminal operations 
+foreach,collect,reduce,allmatch,anymatch,noematch,findfirst,findAny,max,min,toArray
+collection 
+joining,grouingBy,partitionaBy ,coutning,summariingint,avaerageint,mapping,teeing,tomap
+
+the peek method in java stream is primalry used for ddebugging purpose ,it allows you perform an intermeidate operation on each elment 
+of the steam without modifying the stream itself 
+
+
+reduce --
+if want to peform reduction of the elements of a steam combining them ntointa single result 
+
+summarizingInt method give the min,max,count,average,sum  is the 
+
+filter is added before collecing into map 
+fitlering is add at the time of collecting and added in collect method at the time of processing
+
+toMap methid in java streams convert the elments of a stream into a map ,using a key and a valeue mapping finctin 
+
+collect(Collectors.toMap(Function.identiy(),String::length))
+
+collect(Collectors.toMap(Orver:getid,Order::getTotalAount));
+
+
+
+
+Java 17 features 
+**************
+
+java 17 
+Sealed class 
+if you give who can implement the class we can give there names 
+sealed class Order permits paytm,amazon 
+Switch statment 
+primite types 
+enums 
+strings 
+
+select salary from emplpyee order salary desc 0,1 --it prints highest salary 
+
+10,
+20,
+30,
+40,
+59
+
+third higest 
+select salary from emplpyee order salary desc 2,1 --it prints highest salary 
+index is best to fiter the data int the table 
+
+String is immutable 
+sringuffer is mutable and synchrozation 
+stringbuild is not not synchrozation 
+final is keywork 
+finally is finally execution of the code 
+Finalzie is to clear up the resource before garbase collector 
+
+P1 obj=new P1() //it will shore in heap
+stack is used by only  1 thread 
+
+Arraylis is not syncrhosxed but vector is synchroied 
+
+Arraylis is fast as compared to vector 
+it increase the array size by 50% Vector define the incremetn size 
+Array list use the iterator for traversing an array list 
+***********
+Hasmpa is not synschronzed where hashtable is syncronized 
+Hashmap allows only null key and multiple null values 
+hashtable doesn't allow any null key or value 
+hashmap is fast as compared to hashtable 
+
+equals and == Operator 
+equals need to compare the values  and == is for numbers 
+
+Lamda expresison syntax () -> {
+}
+
+Abstract vs interfaces 
+*******************
+Run time polymorshim -when we over  ride from the main class is called run time polymorphism 
+we can create  a abstract class and abstrac method and it can be overwridden in main class 
+we can create an interface and method and this can be implemeted from sub class and need to run by sub class method 
+Abastract class will create an object but not interface
+abstract class are faster not from interfaces 
+*******************
+overloaded method is compile time and override is runtime 
+overload example 
+int add(int a,int b)
+double add(double a,double b)
+we can't override static or private method in a class
+static method of parent class will hiding in sub class -hiding concept  
+multiple inheartance is not supported in java 
+Cohesion is used to create a seperate class for each interface and can be invoked by different method 
+encapsulation is hiding the implemnetation details 
+
+set doesn;t allow dupllcaiton 
+list allows duplication 
+list add the specififc position or delete 
+Queue order of processing 
+map having key and vlaue 
+
+
+
+anonymous function example 
+lamda expression can be applied functioan interface 
+
+it can contain only abstract method 
+it is called functioan interace 
+Runnable -run 
+callable call 
+comparable -compareTo 
+cpmarator -compare
+@FunciionInterface
+void m1() 
+defaul void m2() 
+() -> { } Syntax method
+****************************
+Consumer ---we don't want to return any thing 
+void accept(T) 
+andThen
+***************
+Preicate 
+Condition statment we can use preidcate 
+boolean Test(T t)
+
+************************* 
+Supplierl interface 
+T get();
+no input and except as return type 
+*********************
+function 
+*****************
+apply() //which it takes as input parameter and return as output parameter  
+
+****************************************************************************
+A Stream API is used to process collection of objects
+A Steam is a sequence of objects that supports various methods which can be pipelined to produce the desired result 
+A Steam is not a data structure insted it takes input from the collection,Arays or I/O channels.
+Steams don't change the orginal data strucute ,they only provide the result as per the pipelined methods 
+*************
+We can achieve fucntion programing 
+code reduce 
+Bulk operation 
+
+****************
+Filter for conditon  if and else 
+For each for iteration 
+**************
+
+map() and flatMap()  widely used in Java streams 
+these method are intermediat method and return stream as part of output 
+map() method used for transformation 
+flatMap used for transformation and flattering
+flatMap() -- > Map + Flattering 
+
+******************
+Map() takes stream T as input and reutrn Stream as output 
+One to one mapping 
+
+flatMap() --takes stream as steam as input and returns as stream as output 
+One to Many mapping 
+Stream.of("A","B)
+
+a,b
+flatmap contains stream of sream and provides single output 
+
+************************
+Optional 
+static method are available 
+for ex :empty 
+of
+ofNullable
+static mehthods
+filter
+flatMap
+map
+get
+ifPresent
+isPresent
+orelse
+orelseGet
+orElseThrow
+
+String str="Test Value"
+Optional<String> optional2 = Optional.ofNullable(str);
+
+Interface can contain asbstrac methods
+void draw();
+default void area() 
+{
+}
+static methods() 
+}
+default method can be overwriden but static methods can't override in the implemenation classes
+
+******************************
+Map and Reduce 
+Map---Transferring data
+Reduce --to aggregating data 
+
+reduce(T Identiy ,BinaryOperator<T> accumlator)
+
+accumlator is where we are calculating the function 
+
+collection 
+**********
+List 
+******
+ArrayList 
+ListLikedList 
+
+*********set 
+hasset 
+LinkedHashSet
+TreeSet
+**************
+Map 
+HashTable
+
+
+List will allow the duplciate vlaues and set doesn't all duplicate values
+List work on index base and set on Hash Code 
+ArrayList is backed by an Array while HashSet is backed by an HashMap
+
+ArrayList and LinkedList 
+
+ArrayList internally uses a dynamic array to store the elemetns  --LinkedList uses a doubly linked list to store the elemetns 
+
+Manipulation the allarylist is slow  --manipulation with linkedlist is faster 
+
+ArrayList is better for sorting and accesing 
+
+ArrayList arrayList=new ArrayLust<string>();
+List<String> list=mew ArrayList<>(); 
+
+
+CustArrayList extendds ArrayList 
+bolean add (Object 0 )
+{
+if(this.contaions o)
+return true 
+}else return super.add(o)
+
+
+if we are implemention custoobject for set we need to hashcode and equals method 
+if not it allows duplication value but not in the primitie types 
+*********************
+comparable and comparator 
+*********************
+
+comprable --single sorint and comparator --multiple 
+
+compareTo() and compare() 
+java.lang and java.util package 
+
+functioan interace --1 absteact method n defalt and static interface
+
+runnable 
+callable 
+comparator interface (compare and equals and equal inhered from Object method 
+can we extend fucntiaom itneface from another fucntiaol interface 
+it will not allow 2 abstract methods from main interface 
+
+ 
+Functional --
+R as apply( t)
+
+
+consumer --accept(t )
+
+suplier t get ()
+
+Predicate test 
+
+
+
+Lamda Expresion bascially express instaance of fucntional interface  
+Strem 
+Hashtable locks whole table ,but when it comes concurrenthashmap it locks only specific field 
+
+    public static List<Customer> getAll() {
+        return Stream.of(
+                new Customer(101, "john", "john@gmail.com", Arrays.asList("397937955", "21654725")),
+                new Customer(102, "smith", "smith@gmail.com", Arrays.asList("89563865", "2487238947")),
+                new Customer(103, "peter", "peter@gmail.com", Arrays.asList("38946328654", "3286487236")),
+                new Customer(104, "kely", "kely@gmail.com", Arrays.asList("389246829364", "948609467"))
+        ).collect(Collectors.toList());
+    }
+
+ List<String> emails = customers.stream()
+                .map(customer -> customer.getEmail())
+                .collect(Collectors.toList());
+        System.out.println(emails);
+
+Exa :Flat Map
+     List<String> phones = customers.stream()
+                .flatMap(customer -> customer.getPhoneNumbers().stream())
+                .collect(Collectors.toList());
+        System.out.println(phones);
+		
+		
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FlattenExample {
+    public static void main(String[] args) {
+        // Create a List of int[] using Arrays.asList
+        List<int[]> pairs = Arrays.asList(
+            new int[]{3, 4},
+            new int[]{3, 4},
+            new int[]{3, 4},
+            new int[]{3, 4},
+            new int[]{3, 4},
+            new int[]{3, 4},
+            new int[]{3, 4}
+        );
+
+        // Flatten to List<Integer> using flatMap + Arrays.stream + boxed()
+        List<Integer> flattened = pairs.stream()
+                .flatMap(arr -> Arrays.stream(arr).boxed())
+                .collect(Collectors.toList());
+
+        System.out.println(flattened); // [3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4, 3, 4]
+    }
+}
+
+		
+****************
+reduce  --aggreagading data 
+    Integer maxvalue = numbers.stream().reduce(0, (a, b) -> a > b ? a : b);
+        System.out.println(maxvalue);
+		
+		  double sumSalary = EmployeeDatabase.getEmployees().stream()
+                .filter(employee -> employee.getGrade().equalsIgnoreCase("A"))
+                .map(employee -> employee.getSalary())
+                .mapToDouble(i -> i)
+                .sum();
+
+
+
+
+ Java 17 
+ indent --moving the space of a string 
+ transform --new string builder 
+ SWITCH Expression 
+ text 
+ instanceOf
+ Records
+ Sealed Classes
+ 
+ 
+ package java8;
+
+import com.java8.Employee;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class Java8MethodCheatSheet {
+
+    public static void main(String[] args) {
+
+
+        List<Employee> employees = EmployeeDataBase.getAllEmployees();
+
+
+
+      // forEach
+        //employees.forEach(e-> System.out.println(e.getName()+" : "+e.getSalary()));
+
+        //employees.stream().forEach(System.out::println);
+
+        //filter
+        //.collect
+
+        Map<Integer, String> developmentEmployees = employees.stream()
+                .filter(e -> e.getDept().equals("Development") && e.getSalary() > 80000)
+                .collect(Collectors.toMap(Employee::getId, Employee::getName));
+
+       // System.out.println(developmentEmployees);
+
+        //map
+        //distinct
+        List<String> depts = employees.stream()
+                .map(Employee::getDept)
+                .distinct()
+                .collect(Collectors.toList());
+        //System.out.println(depts);
+
+        List<Stream<String>> projectNames = employees.stream()
+                .map(e -> e.getProjects()
+                        .stream().map(p -> p.getName())).collect(Collectors.toList());
+
+     //can you print above in sop of projectNames
+         projectNames.stream().forEach(project -> System.out.println("LRK values are "+project.collect(Collectors.toList())));
+
+
+
+        List<List<Project>> collect = employees.stream()
+            .map(e -> e.getProjects()).collect(Collectors.toList());
+        collect.stream().forEach(project -> System.out.println("values are "+project.get(0).getName()));
+       // System.out.println("Final list "+collect);
+
+        //System.out.println("projecitNames"+projectNames.stream().collect(Collectors.toList()));
+        //flatMap
+
+        List<String> projects = employees.stream()
+                .flatMap(e -> e.getProjects().stream())
+                .map(p -> p.getName()).distinct()
+                .collect(Collectors.toList());
+
+        //System.out.println(projects);
+
+
+        //sorted
+        //asc
+        List<Employee> ascSortedEmployees = employees.stream()
+                .sorted(Comparator.comparing(Employee::getSalary))
+                .collect(Collectors.toList());
+
+//        ascSortedEmployees.get(0);
+
+        //ascSortedEmployees.forEach(System.out::println);
+
+        //desc
+        List<Employee> descSortedEmployees = employees.stream()
+                .sorted(Collections.reverseOrder(Comparator.comparing(Employee::getSalary)))
+                .collect(Collectors.toList());
+
+//        descSortedEmployees.get(0);
+
+        //descSortedEmployees.forEach(System.out::println);
+
+        //min & max
+        Optional<Employee> highestPaidEmployees = employees.stream()
+                .max(Comparator.comparingDouble(Employee::getSalary));
+
+       // System.out.println("Highest paid employee : "+highestPaidEmployees);
+
+        Optional<Employee> lowestPaidEmployees = employees.stream()
+                .min(Comparator.comparingDouble(Employee::getSalary));
+
+        //System.out.println("Lowest paid employee : "+lowestPaidEmployees);
+
+        //groupingBy
+
+        Map<String, List<Employee>> employeeGroup = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getGender));
+
+        //System.out.println(employeeGroup);
+
+        //Gender -> [names]
+        Map<String, List<String>> employeeGroupNames = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getGender,
+                        Collectors.mapping(Employee::getName, Collectors.toList())
+                ));
+
+        //System.out.println(employeeGroupNames);
+
+        //Gender -> [count]
+        Map<String, Long> employeeGroupCountMap = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getGender, Collectors.counting()));
+        System.out.println(employeeGroupCountMap);
+
+        //findFirst
+
+        Employee findFirstElement = employees.stream()
+                .filter(e -> e.getDept().equals("Development"))
+                .findFirst()
+                .orElseThrow(()->new IllegalArgumentException("Employee not found "));
+
+//        System.out.println(findFirstElement.get());//NPE
+//
+//        if(findFirstElement.isPresent()){
+//            System.out.println(findFirstElement.get());
+//        }
+//
+//        findFirstElement.ifPresent(e-> System.out.println(e.getName()));
+
+        //System.out.println(findFirstElement);
+
+        //findAny
+
+        Employee findAnyElement = employees.stream()
+                .filter(e -> e.getDept().equals("Development"))
+                .findAny()
+                .orElseThrow(()->new IllegalArgumentException("Employee not found "));
+
+       // System.out.println(findAnyElement);
+
+        //anyMatch(Predicate) , allMatch(Predicate) , noneMatch(Predicate)
+
+        boolean developmentEmpAnyMatch = employees.stream()
+                .anyMatch(e -> e.getDept().equals("Development"));
+        //System.out.println("is there any employee match from development dept "+developmentEmpAnyMatch);
+
+
+        boolean developmentEmpAllMatch = employees.stream()
+                .allMatch(e -> e.getSalary()>50000);//55000
+        //System.out.println(developmentEmpAllMatch); //false
+
+
+        boolean isNoneMatch = employees.stream()
+                .noneMatch(e -> e.getDept().equals("abc"));
+        //System.out.println(isNoneMatch);
+
+        //limit(long)
+
+        List<Employee> topPaidEmployees = employees.stream()
+                .sorted(Comparator.comparing(Employee::getSalary).reversed())
+                .limit(4)
+                .collect(Collectors.toList());
+
+        topPaidEmployees.forEach(e-> System.out.println(e.getName()));
+
+        //skip(long)
+        List<Employee> skipEmployees = employees.stream().skip(10)
+                .collect(Collectors.toList());
+
+
+//
+//        forEach(Consumer)
+//        filter(Predicate)
+//        collect(Collector)
+//        map(Function)
+//        distinct()
+//        flatMap(Function)
+//        sorted(Comparator both ASC and DESC)
+//        min() & max()
+//        GroupBy
+//        findFirst()
+//        findAny()
+//        anyMatch(Predicate)
+//        allMatch(Predicate)
+//        noneMatch(Predicate)
+//        limit(long maxSize)
+//        skip(long n)
+
+
+    }
+}
+
+
+ public static void main(String[] args) {
+    System.out.println("Starting ");
+    EmployeeRealList employeeList = new EmployeeRealList();
+    List<EmployeeReal> employeeListVar = employeeList.getEmployeeList();
+    //java stream to get the count of male and female employees
+    /*long maleCount = employeeListVar.stream().filter(employee -> employee.getGender().equalsIgnoreCase("Male")).count();
+    long femaleCount = employeeListVar.stream().filter(employee -> employee.getGender().equalsIgnoreCase("Female")).count();
+
+    System.out.println("Number of Male Employees: " + maleCount);
+    System.out.println("Number of Female Employees: " + femaleCount);
+    System.out.println("Ending ");*/
+
+    //print count of male and female
+    long totalCount = employeeListVar.stream().count();
+    System.out.println("Total list count: " + totalCount);
+    long male = employeeListVar.stream()
+        .filter(employeeS -> employeeS.getGender().equalsIgnoreCase("male")).count();
+    long female = employeeListVar.stream()
+        .filter(employeeS -> employeeS.getGender().equalsIgnoreCase("female")).count();
+    System.out.println("male count " + female);
+
+    //get all the departments using filter and collect in java 8
+
+    employeeListVar.stream()
+        .filter(employeeReal -> employeeReal.getDepartment().equalsIgnoreCase("HR")).collect(
+            Collectors.toList()).
+        forEach(employeeReal ->
+            System.out.println("Department name  " + employeeReal.getDepartment()
+                + " Name of an employee" + employeeReal.getName()));
+
+    employeeListVar.stream().
+        map(employeeReamMap -> employeeReamMap.getDepartment())
+        .distinct()
+        .collect(Collectors.toList())
+        .forEach(f -> System.out.println("Department name" + f));
+    /// average age of maile and female employees
+    double averageAgeOfMaleEmployees = employeeListVar.stream()
+        .filter(employeeReal -> employeeReal.getGender().equalsIgnoreCase("Male"))
+        .mapToInt(employeeReal -> employeeReal.getAge())
+        .average()
+        .orElse(0);
+    double male1 = employeeListVar.stream()
+        .filter(emplloyeeMale -> emplloyeeMale.getGender().equalsIgnoreCase("Male"))
+        .mapToInt(employeeMale -> employeeMale.getAge())
+        .average()
+        .orElse(0);
+    System.out.println("Average " + male1);
+
+    Map<String, Double> collectAverageAge = employeeListVar.stream().collect(
+        Collectors.groupingBy(EmployeeAgeAverage -> EmployeeAgeAverage.getGender(),
+            Collectors.averagingDouble(EmployeeReal::getAge)));
+    System.out.println("average age of male ane female employees " + collectAverageAge);
+
+    //highest salary
+
+    Optional<EmployeeReal> collectMasSalary = employeeListVar.stream().
+        collect(
+            Collectors.
+                maxBy(
+                    Comparator.comparingDouble(
+                        employeeMax -> employeeMax.getSalary()
+                    )
+                )
+        );
+
+    System.out.println("Max Salary" + collectMasSalary.get());
+
+    //get employees who have joined after a given date
+    employeeListVar.stream()
+        .filter(emmployeeJoinedDate -> emmployeeJoinedDate.getYearOfJoining() > 2015)
+        .collect(Collectors.toList()).
+        forEach(employeeReal -> System.out.println(
+            "Name of the emoloyee" + employeeReal.getName() + "Date of Joining"
+                + employeeReal.getYearOfJoining() + "Department" + employeeReal.getDepartment()
+                + "Gender" + employeeReal.getGender() + "Salary" + employeeReal.getSalary()));
+/*
+
+    double averageAgeOfFemaleEmployees = employeeListVar.stream()
+       .filter(employeeReal -> employeeReal.getGender().equalsIgnoreCase("Female"))
+       .mapToInt(employeeReal -> employeeReal.getAge())
+       .average()
+       .orElse(0);
+*/
+
+    //System.out.println("Average age of male employees: " + averageAgeOfMaleEmployees);
+    //System.out.println("Average age of female employees: " + averageAgeOfFemaleEmployees);
+
+    //sort the list of employees by their ages
+
+    // count the number of employees in each department
+    Map<String, Long> collectDepartmentCount = employeeListVar.stream()
+        .collect
+            (
+                Collectors.groupingBy(employeeReal -> employeeReal.getDepartment(),
+                    Collectors.counting()));
+
+    System.out.println("Departmetn count " + collectDepartmentCount);
+    Set<Entry<String, Long>> entries = collectDepartmentCount.entrySet();
+
+    for (Entry<String, Long> entry : entries) {
+      System.out.println(
+          "Department:  " + entry.getKey() + " Number of employees:" + entry.getValue());
+    }
+
+    ///get the averge slary of each deplartment
+    Map<String, Double> departmentAverageValues = employeeListVar.stream().collect(
+        Collectors.groupingBy(employeeDept -> employeeDept.getDepartment(),
+            Collectors.averagingDouble(departmentAverage -> departmentAverage.getSalary())));
+
+    Set<Entry<String, Double>> deptEntries = departmentAverageValues.entrySet();
+    for (Entry<String, Double> entires : deptEntries) {
+      System.out.println(
+          "Department:  " + entires.getKey() + " Average salary:" + entires.getValue());
+    } //
+    //get the youngest mail emollyee and product department
+
+    Optional<EmployeeReal> minValue = employeeListVar.stream().filter(employeeYougest ->
+            employeeYougest.getGender().equalsIgnoreCase("Male")
+                && employeeYougest.getDepartment().equalsIgnoreCase("Product Development"))
+        .min(Comparator.comparingInt(agevalue -> agevalue.getAge()));
+
+    System.out.println("minValue Age " + minValue.get().getName());
+
+    //get the oldeest employee in Office
+    Optional<EmployeeReal> first = employeeListVar.stream()
+        .sorted(Comparator.comparingInt(employeeOldest -> employeeOldest.getYearOfJoining()))
+        .findFirst();
+    System.out.println(
+        "Oldest Employee in office " + first.get().getName() + " Year Of Joining " + first.get()
+            .getYearOfJoining());
+    //," Age of joining " + first.get().getYearOfJoining());
+
+    EmployeeReal employeeReal = employeeListVar.stream().
+        min(Comparator.comparingInt(employee -> employee.getYearOfJoining())).get();
+    System.out.println("Comparison valuues " + employeeReal.getName() + " Year of joining "
+        + employeeReal.getYearOfJoining());
+
+    //how many emmployees male and female and department in the sales and marketing
+    Map<String, Long> sales_and_marketing = employeeListVar.stream()
+        .filter(employee -> employee.getDepartment().equalsIgnoreCase("Sales And Marketing"))
+        .collect(
+            Collectors.groupingBy(employeeRealV -> employeeRealV.getGender(),
+                Collectors.counting()));
+    System.out.println("sales and marketing " + sales_and_marketing);
+
+    //average salary for make and femaile
+    Map<String, Double> collectAvgSalaryMaleFemale = employeeListVar.stream().collect(
+        Collectors.groupingBy(employeeAvgSalary -> employeeAvgSalary.getGender(),
+            Collectors.averagingDouble(employeeAvgSalary -> employeeAvgSalary.getSalary())));
+    System.out.println("collectAvgSalaryMaleFemale Values are" + collectAvgSalaryMaleFemale);
+
+    //get all employees for all departments
+    Map<String, List<EmployeeReal>> collectGroupDept = employeeListVar.stream().collect(
+        Collectors.groupingBy(employeeRealGroupDept -> employeeRealGroupDept.getDepartment(),
+            Collectors.toList()));
+    System.out.println("collectGroupDept Values are " + collectGroupDept);
+    Set<Entry<String, List<EmployeeReal>>> entries1 = collectGroupDept.entrySet();
+    for (Entry<String, List<EmployeeReal>> entry : entries1) {
+      System.out.println(
+          "Department:  " + entry.getKey());//+" Employees:"+entry.getValue()  );    }
+      List<EmployeeReal> valueDept = entry.getValue();
+      for (EmployeeReal emp : valueDept) {
+        System.out.println(
+            "Employee Name:  " + emp.getName() + " Department: " + emp.getDepartment()
+                + " Year of joining: " + emp.getYearOfJoining());
+      }
+
+    }
+    //what is the average salary and total salary
+    DoubleSummaryStatistics collectDoubleSummary = employeeListVar.stream().
+        collect(Collectors.summarizingDouble(value -> value.getSalary()));
+    System.out.println("Average Salary: " + collectDoubleSummary.getAverage());
+    System.out.println("Total Salary: " + collectDoubleSummary.getSum());
+    System.out.println("Minimum salary: " + collectDoubleSummary.getMin());
+    //find the employee with highest salary
+
+    //print the employess whose age is > 25 and  and older than 25 years of age
+    Map<Boolean, List<EmployeeReal>> collectBy25 = employeeListVar.stream()
+        .collect(Collectors.partitioningBy(employeeReal1 -> employeeReal1.getAge() > 25));
+    Set<Entry<Boolean, List<EmployeeReal>>> entries2 = collectBy25.entrySet();
+    for (Entry<Boolean, List<EmployeeReal>> entry : entries2) {
+      System.out.println(
+          "Age <25:  " + entry.getKey());//+" Employees:"+entry.getValue()  );    }
+      if(entry.getKey()) {
+        System.out.println(
+            "Age < 25:  new employees Values  " );
+      } else
+      {
+        System.out.println(
+            "Age ? 25:  Older Values  " );//+" Employees:"+entry.getValue()  );    }
+      }
+      List<EmployeeReal> value25 = entry.getValue();
+      for (EmployeeReal emp : value25) {
+        System.out.println(
+            "Employee Name:  " + emp.getName() + " Department: " + emp.getDepartment()
+                + " Year of joining: " + emp.getYearOfJoining());
+      }
+    }
+    System.out.println("values are collectBy25 "+collectBy25);
+
+    ///*************************************//
+    List<String> cities = new ArrayList<>();
+    cities.add("Delhi");
+    cities.add("Mumbai");
+    cities.add("Goa");
+    cities.add("Pune");
+    cities.stream().forEach(s -> System.out.println(s));
+  }
+
+}
+
+
+
+  //who has the most working experiene in organiztion
+
+
+
+Aggregator service
+Simplifed UI
+Optimized Performance
+Data Enrichment easy
+Better Resillence
+Security Enhancement
+
+
+findNthOccurent(int rank )
+
+folderPath from the folder
+Files.walk(start:parth.get(folder_Path)
+   :filter(Files::isRegualarFile)
+   .collect(Collector.toList())
+ 
+  //read each file and directly update store the frequency
+ 
+  for(Path file:files)
+  Files.lines(file)
+  .flatMap(line -> Arrays.steam(line.split(""));
+ 
+  map.merge(word,,1L,Long::sum));
+ 
+     
+________________________________________
+
+ 
+    public CompletableFuture<Product> getProductById(long productId) {
+        return CompletableFuture
+                .supplyAsync(() -> productService.findById(productId));
+    }
+
+    public CompletableFuture<Price> getPriceByProductById(long productId) {
+        return CompletableFuture
+                .supplyAsync(() -> priceService.getPriceByProductId(productId));
+    }
+
+    public CompletableFuture<Inventory> getInventoryByProductId(long productId) {
+        return CompletableFuture
+                .supplyAsync(() -> inventoryService.getInventoryByProductId(productId));
+    }
+
+ CompletableFuture.allOf(priceFuture, productFuture, inventoryFuture);
+ Product product = productFuture.join();
+        Price price = priceFuture.join();
+        Inventory inventory = inventoryFuture.join();
+
+CompletableFuture :A ne
+
+Features,executorService,callBack interface
+In cannto be manually completed
+mutliple Fturue cannot be chained together
+we can not combine  multile futures together
+no proper exceptionhandling mechanism
+
+
+ExecutorService service=Exectuorrs.newFixedTreadPool(10)
+Future<List<Integer> future=service.submit()
+
+runAsync() //do not want to reutn
+supplyAsync--want to reurn from that task
+in runAsycn(Runnable) it will execute from pergman pool
+runAsync(Runnable,Exectuor) it will execute from custom thread 
+
+
+ 
+    public CompletableFuture<Product> getProductById(long productId) {
+        return CompletableFuture
+                .supplyAsync(() -> productService.findById(productId));
+    }
+
+    public CompletableFuture<Price> getPriceByProductById(long productId) {
+        return CompletableFuture
+                .supplyAsync(() -> priceService.getPriceByProductId(productId));
+    }
+
+    public CompletableFuture<Inventory> getInventoryByProductId(long productId) {
+        return CompletableFuture
+                .supplyAsync(() -> inventoryService.getInventoryByProductId(productId));
+    }
+     CompletableFuture.allOf(priceFuture, productFuture, inventoryFuture);
+   Product product = productFuture.join();
+        Price price = priceFuture.join();
+        Inventory inventory = inventoryFuture.join();
+
+CompletableFuture :A ne
+
+Features,executorService,callBack interface
+In cannto be manually completed
+mutliple Fturue cannot be chained together
+we can not combine  multile futures together
+no proper exceptionhandling mechanism
+
+
+ExecutorService service=Exectuorrs.newFixedTreadPool(10)
+Future<List<Integer> future=service.submit()
+
+runAsync() //do not want to reutn
+supplyAsync--want to reurn from that task
+in runAsycn(Runnable) it will execute from pergman pool
+runAsync(Runnable,Exectuor) it will execute from custom thread 
+
+Thread.currentThread.getName()
+thenApply(Function
+Thenaccept(Consumer
+thenRun
+
+
+thenApplyAsync(Function
+ThenacceptAsync(Consumer
+thenRunAsync
+
+//combine depednet feature
+//combine independnt feature
+comibe multiple future
+//comibe multipl ftuure (no need to wait for all )
+
+thenCompose if you are using multiple compataiblefuturue 
+
+
+
+Part1 
+a)Testing concepts 
+b)SOAP UI Testing 
+c)Basic SQL Testing 
+d)Debugging skills 
+e)performance testing
+f)Testing scenarios either front end or backend 
+
+Part2)
+We can plan more specific skills Backend/Frontend/Playwright/ETL/Cypress
+ 
+ Comibne Feature 
+//employee -- > Ratings 
+CompletableFuture.supplyAsync(()  ->
+{
+return employeeDatabase.fetchEmployes
+Combine Independent Feature
+ 
+Combine Multiple Future 
+combine multiple future (no need to wait for all )
+
+we can use thenCompose to retrive nested CompletableFuture 
+
+Comibne Feature  getEmployeeDetails and getRatings method 
+
+
+  CombineCompletableFutureDemo cf = new CombineCompletableFutureDemo();
+
+        CompletableFuture<Integer> thenComposeResults = cf.getEmployeeDetails()
+                .thenCompose(cf::getRatings);
+				
+				 System.out.println("ratings : " + thenComposeResults.get());
+				 
+				  public CompletableFuture<Employee> getEmployeeDetails() {
+        return CompletableFuture.supplyAsync(() -> {
+            System.out.println("getEmployeeDetails() " + Thread.currentThread().getName());
+            return EmployeeDatabase.fetchEmployees()
+                    .stream()
+                    .filter(emp -> "79-021-3776".equals(emp.getEmployeeId()))
+                    .findAny().orElse(null);
+        });
+    }
+
+    public CompletableFuture<Integer> getRatings(Employee employee) {
+        return CompletableFuture.supplyAsync(() -> {
+            System.out.println("getRatings() " + Thread.currentThread().getName());
+            return employee.getRating();
+        });
+    }
+	
+	
+	  //combine independent future (2) -> thenCombine
+        //1-  group employee and counts
+
+        CompletableFuture<Map<String, Long>> employeeMapFuture = CompletableFuture
+                .supplyAsync(() -> {
+                    return EmployeeDatabase.fetchEmployees()
+                            .stream()
+                            .collect(Collectors.groupingBy(
+                                    Employee::getGender,
+                                    Collectors.counting()
+                            ));
+                });
+
+        //2- get all emails
+
+        CompletableFuture<List<String>> emailsFuture = CompletableFuture
+                .supplyAsync(() -> {
+                    return EmployeeDatabase.fetchEmployees()
+                            .stream()
+                            .map(Employee::getEmail)
+                            .collect(Collectors.toList());
+                });
+
+        CompletableFuture<String> thenCombineResults = employeeMapFuture.thenCombine(emailsFuture, (empMap, emails) -> empMap + " " + emails);
+        System.out.println(thenCombineResults.get());
+
+    //combine multiple independent future (more than 2) -> allOf(n task)
+        //-> weatherDetailsAPI
+        //-> news apis
+        //-> stockPrice apis
+		
+		//wait for all future to complete
+        CompletableFuture<Void> allFutures = CompletableFuture.allOf(weatherFuture, newsFuture, stockPriceFuture);
+
+        //process results after all future are completed
+        allFutures.thenRun(() -> {
+            String weather = weatherFuture.join();
+            String news = newsFuture.join();
+            String stock = stockPriceFuture.join();
+            System.out.println("Aggregated Data : ");
+            System.out.println(weather);
+            System.out.println(news);
+            System.out.println(stock);
+        }).join();
+		
+		 //combine multiple independent future (more than 2) -> anyOf(n task) (no need to wait for all)
+        //Location -> X Y -> result
+        //stock price -> x ,y , z ->
+		
+		  //Use anyOf to wait any of the future to complete
+        CompletableFuture<Object> anyOfResults = CompletableFuture.anyOf(api1Results, api2Results);
+
+ 
+
+CompletableFuture<Void> runAsyncFuture=CompletableFuture.runAsync(
+                () -> {
+                      try {
+                          List<Employee> employees = mapper
+                                  .readValue(jsonFile, new TypeReference<<List<Employee>()
+                                          {
+
+                                          }
+                                  );
+                          System.out.println("Thread : " + Thread.currentThread().getName());
+                          employees.stream().forEach(employee -> System.out.println(employee));
+                          System.out.println(employees.size());
+                } catch (Exception e )
+                      {
+                          System.out.println("Exception values are "+e.getMessage());
+                      }
+                    }, executor);
+				
+				
+   CompletableFuture<Void> runAsyncFuture = CompletableFuture.runAsync(
+
+                () -> {
+                    try {
+                        List<Employee> employees = mapper
+                                .readValue(jsonFile, new TypeReference<List<Employee>>() {
+                                });
+                        //write logic t save list of employee to database
+                        //repository.saveAll(employees);
+                        System.out.println("Thread : " + Thread.currentThread().getName());
+                        employees.stream().forEach(employee -> System.out.println(employee));
+                        System.out.println(employees.size());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                },executor);nConsumerDemo 
+				
+				@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+  
+
+
+ 
+1)How JVM works ?
+ans: Once we create Java file Helloworld.java
+Step1) javac it convers class file 
+Step2) Class file it converst byte code 
+STep3) Byte code is independent of operation system it can be executed every where ,for ex ,Windows,MAc,Linux 
+Step4) JIT(Just in time) converst the byte code into machine language 
+
+How the memory works for JVM 
+When we execute java HelloWorld 
+The File is loaded in classloader and class loader it contains  different methods
+1) Method aread,Heap ,Stack,PC Registers ,Native Method Stack 
+When class loaders the class file ,it class is laoded into Method area ,based on the parameters it will try to load into heap memory or stack memory 
+Stack memory --will contain the local varaibles and methods and reference variable of object 
+It will removed the method from the method once executedd 
+Heap Memory --It contains the class varaibles and other reference variable of other classs ,it can be shared for multiple threads and each thread will have own copy 
+PC Registers --it will maintain the execution of methods steps 
+Native Method stack --it will load dynamically the jre libraries files of Java at run time 
+
+Stack will load all local methods and varaibles and disappers of each method executes ,where as Heap memory it stores the new object and class variables for 
+ex :Employye e =new Employee() it will create a new object in heap memory 
+ int a =30
+ Person p=new Person 
+ 
+ EmployeeImpl =
+ {
+ Employee eRefer=new Employee
+}
+the reference variabe will point to heap memory 
+*******************************
+Garbage collector (GarbageCollection.java) 
+***************
+Is unrefenced object
+it is the process of reclaming the runtime unused memory automaticaly 
+What is meant by Unreference object 
+please find the below conditions 
+a)By nulling the reference
+b)By assinging the referenc
+c)by creating anonymous object 
+
+
+Pergem
+
+java -XX:+PrintFlagsFinal -version | findstr/i "HeapSize PermSize ThreadStackSize"
+
+C:\Users\radhakrishna.l>java -XX:+PrintFlagsFinal -version | findstr/i "HeapSize PermSize ThreadStackSize"
+     intx CompilerThreadStackSize                   = 0                                   {pd product}
+    uintx ErgoHeapSizeLimit                         = 0                                   {product}
+    uintx HeapSizePerGCThread                       = 87241520                            {product}
+    uintx InitialHeapSize                          := 266338304                           {product}
+    uintx LargePageHeapSizeThreshold                = 134217728                           {product}
+    uintx MaxHeapSize                              := 4234149888                          {product}
+     intx ThreadStackSize                           = 0                                   {pd product}
+     intx VMThreadStackSize                         = 0                                   {pd product}
+java version "1.8.0_381"
+Java(TM) SE Runtime Environment (build 1.8.0_381-b09)
+Java HotSpot(TM) 64-Bit Server VM (build 25.381-b09, mixed mode)
+
+Garbage collection is used Mark and Sweep Arorgithm 
+
+PeRMGEN --called as permanent generation 
+It's different from Heap space 
+the permantent generation consits of class declarations loaded and stored into pergem 
+it will load the all the values in the JVM when the application starts and destroys when we exit the application  ends
+it will stores the class names and methods and fielts and byte code 
+Constant Pool information 
+For Ex :Properties file or classpath setting the libraries 
+Objecct array and type arrays 
+Just In  Time compiler Optimizations 
+
+
+Heap --- 
+Old Tenured Gneration 
+and young generation (Survior1 and survior 2)
+
+Heap and permgen sizes depend 
+
+java -XX:+PrintFlagsFinal-version |findstr/i "HeapSize PermSize ThreadStackSize"
+Mark and sweep alogrithm 
+
+The mark object which is reacble we can say reachable and the objects which is not reachable is called non reachable which is names as Sweep Alorgithm 
+
+GC Image
+there are two types new generation and old generation 
+New Generation there are there types will be available in EDEN,Survior1,survior2 and Old Generation 
+It creates new objects in ob1,obj2 ,obj3 in eden  
+
+EDEN  
+Once minor GC is executed it will move th Survior1 and after 4 to 5 executes it will move to survior2 and if the object is available more then Minor GC executes it will move to older generation 
+For Major GC executes,Object will go in sweep mode
+
+Pergem was part of heap  space ,where metaspace is not part of native heap memore where it consumes the memory of operations system and i may go down due to the more consumption of an applicaiton ,so we need to set MetaspaceMAx what is the memory we can use the applicaiton 
+
+-XX:+PrintGCDetails-XX:+PrintGCDateStamps-Xloggc:<filePath>
+
+From java 9
+
+-Xlog:gc*:file=<File-path>
+
+GC
+
+	
+
+
+Creatintg a stream in pipeline 
+intermediate operation for transforming the initial stream into others or filtering etc
+map,flatap,filter
+Applying a terminal ooeration to produce a result 
+collect 
+
+MAp is intermediate operation  funciton 
+Foreach is terminal opration is consumer 
+
+flat map is combination of map and flat that is the reason called as flat map 
+
+filter is predicate funcition is usued 
+iterate.skip(10).limit(20 ) 
+
+peek is used for debuggin purpose where you want to see the elemetns aas they flow past a cettain point in a pipeline.
+reduce method which accepts 2 parameters and combile all the resule in one element using reduce method 
+
+stream.iterate()
+
+collect method is terminal opertion 
+toSet
+ToCookection
+toMap
+Couting
+Joining
+minBy
+MaxBy
+reducing
+CollectAndThen(we use 2 parameters one is condition and other paraeter is doing validaton and print the result ) 
+
+groubpingBy
+partinonayBy --based on the criteria 
+
+
+
+1. run() Method
+A method in the Runnable interface.
+It contains the code you want your thread to execute.
+How it works:
+You implement the Runnable interface or pass a lambda expression to a Thread.
+When you call start() on the thread, it internally calls the run() method.
+Runnable task = () -> System.out.println("Running task");
+Thread t = new Thread(task);
+t.start(); // internally, this calls task.run()
+run() does NOT start a new thread on its own. It's like a regular method.
+To run in a new thread, you must call start(), which internally calls run()
+
+2. execute() Method
+
+A method in the ExecutorService interface.
+It submits a task to be run asynchronously.
+
+You provide a Runnable task to execute().
+The ExecutorService manages how and when to run the task, usually on a thread pool.
+
+ExecutorService executor = Executors.newFixedThreadPool(2);
+executor.execute(() -> System.out.println("Executing task via executor"));
+executor.shutdown();
+
+3. complete() in CompletableFuture
+
+CompletableFuture<String> future = new CompletableFuture<>();
+// Some other thread or code can:
+future.complete("Done!"); // Marks the future as completed
+Once complete() is called, any dependent code waiting for the future (like thenApply() or get()) will immediately proceed.
+
+
+Aspect	**`run()`**	**`execute()` / Thread**	**`CompletableFuture`**	
+Purpose	Define task code that runs in the current thread	Run code asynchronously in a thread pool	Run async tasks, get results, chain tasks	
+Result access	Cannot get result (just runs code)	Cannot get result directly	Can get result with get() or join()	
+Thread management	No thread management	Yes, managed by ExecutorService	Yes, runs asynchronously with internal thread management	
+Multiple joins	Not possible	Not directly, need to manage threads	Easy to combine and wait for multiple futures	
+
+Top 100 Java Core Interview Questions with Explanations
+1. What is Java?
+Java is a high-level, object-oriented, platform-independent programming language developed by Sun Microsystems.
+
+2. What are the main features of Java?
+Platform independence, object-oriented, robust, secure, multithreading, architecture-neutral, high performance.
+
+3. What is JVM?
+Java Virtual Machine - An abstract machine that executes Java bytecode and makes Java platform-independent.
+
+4. What is JRE?
+Java Runtime Environment - JVM + libraries to run Java applications.
+
+5. What is JDK?
+Java Development Kit - JRE + tools like compiler (javac) for developing Java applications.
+
+6. What are the primitive data types?
+int, float, double, char, boolean, byte, short, long.
+
+7. Explain the difference between a class and an object.
+Class: Blueprint or template.
+Object: Instance of a class with actual data.
+
+8. What is inheritance?
+Ability of a class to acquire properties and behaviors of another class.
+
+9. What is method overloading?
+Same method name, different parameters within same class.
+
+10. What is method overriding?
+Child class defines a method with the same signature as parent class to customize behavior.
+
+11. What is encapsulation?
+Binding data and methods in a single unit and hiding internal details.
+
+12. What are access modifiers?
+Keywords like public, private, protected, default, which control visibility.
+
+13. What is abstraction?
+Hiding complex implementation details and showing only essential features using abstract classes or interfaces.
+
+14. What is an interface?
+An abstract type that contains abstract methods; classes implement interfaces.
+
+15. Difference between abstract class and interface?
+Abstract class can have implementations; interface can contain only abstract methods (Java 8+ supports default methods).
+
+16. What is polymorphism?
+Ability of an object to take many forms, mainly through method overriding.
+
+17. What is a constructor?
+Special method to initialize objects, same name as class, no return type.
+
+18. What is the this keyword?
+Refers to the current instance of a class.
+
+19. What is the super keyword?
+Refers to the parent class of the object.
+
+20. What is exception handling?
+Handling runtime errors using try, catch, finally, throw, throws.
+
+21. What are checked exceptions?
+Exceptions checked at compile time like IOException, SQLException.
+
+22. What are unchecked exceptions?
+Runtime exceptions like NullPointerException, ArithmeticException.
+
+23. What is the immutability of String?
+String objects in Java are immutable; their state cannot be changed after creation.
+
+24. Difference between String, StringBuilder, StringBuffer?
+String: Immutable
+StringBuilder: Mutable, not thread-safe
+StringBuffer: Mutable, thread-safe
+25. What are collections?
+Framework that provides data structures like List, Set, Map.
+
+26. Difference between ArrayList and LinkedList?
+ArrayList: Resizable array, faster for random access.
+LinkedList: Doubly linked list, faster for insertions/removals.
+
+27. What is a HashMap?
+A key-value pair collection with fast lookup.
+
+28. Difference between HashMap and Hashtable?
+HashMap: not synchronized, allows null keys and values.
+Hashtable: synchronized, no null keys/values.
+
+29. What is synchronization?
+Mechanism to control access to shared resources between threads.
+
+30. What are threads?
+Independent paths of execution within a process.
+
+31. How to create a thread?
+Implement Runnable or extend Thread class.
+
+32. What is the start() method?
+Starts a new thread and executes the run() method.
+
+33. What is the run() method?
+Contains the code that executes in the thread.
+
+34. Difference: start() vs run()?
+start(): Thread begins execution with new thread.
+run(): Executes in the current thread.
+
+35. What is the join() method?
+Waits for a thread to complete.
+
+36. What are daemon threads?
+Background threads that do not block JVM from shutting down.
+
+37. What is garbage collection?
+Automatic memory management to delete objects no longer in use.
+
+38. How to prevent memory leaks?
+Close resources, avoid unnecessary references.
+
+39. What are annotations?
+Metadata like @Override, @Deprecated for providing information about code.
+
+40. What does the final keyword do?
+Prevents inheritance or method overriding; makes variables constant.
+
+41. Difference: == and .equals()?
+==: Checks reference equality.
+.equals(): Checks value/content equality.
+
+42. What are wrapper classes?
+Classes that wrap primitives: Integer, Double, Boolean, etc.
+
+43. What is autoboxing and unboxing?
+Automatic conversion between primitives and wrappers.
+
+44. What is singleton class?
+Class with only one instance; implemented with private constructor and static instance.
+
+45. How to create singleton?
+Using private constructor, static getInstance() method, or enum.
+
+46. What is serialization?
+Converting an object into a byte stream for storage or transmission.
+
+47. How to prevent serialization?
+Mark fields as transient.
+
+48. What does the static keyword indicate?
+Belongs to class rather than object, shared among all instances.
+
+49. What is abstract?
+A class that cannot be instantiated; may contain abstract methods.
+
+50. What is an enum?
+Special data type with fixed set of constants.
+
+51. What is a volatile keyword?
+volatile ensures visibility of changes to variables across threads. It prevents threads from caching variable values locally.
+volatile ensures that changes made to a variable by one thread are immediately visible to other threads. It prevents the thread from caching the variable locally, which can cause inconsistent behavior in multi-threaded scenarios.
+
+52. What is lazy initialization?
+Deferring object creation until it's needed. Improves performance by avoiding unnecessary object creation.
+
+53. What is a transient variable?
+A variable marked transient is not serialized when saving the object's state.
+
+54. Explain the clone() method.
+Creates a copy of an object. The class must implement Cloneable. By default, performs shallow copy.
+
+55. What are the different types of inner classes?
+Member Inner Class
+Static Inner Class
+Local Inner Class
+Anonymous Inner Class
+56. What is instanceof operator?
+Checks whether an object is an instance of a specific class or interface.
+
+57. What is a thread-safe class?
+A class designed to function correctly when accessed by multiple threads concurrently.
+
+58. What is deadlock?
+A situation where two or more threads are waiting indefinitely for resources held by each other.
+
+59. What are Java APIs?
+Predefined classes and interfaces provided by Java libraries.
+
+60. How do you implement thread communication?
+Using methods wait(), notify(), and notifyAll() between threads.
+
+61. What is BlockingQueue?
+A thread-safe queue that blocks producers when full and consumers when empty.
+
+62. What is a Producer-Consumer problem?
+Multithreading scenario where producers produce data and consumers consume data, synchronized via shared resources.
+
+63. What is volatile?
+Ensures visibility of variable updates across threads.
+
+64. How to make a class immutable?
+Make fields final, don't provide setters, and ensure no mutable objects are referenced.
+
+65. What does the default keyword in interface mean?
+Allows providing default method implementations in interfaces (Java 8+).
+
+66. What is type casting?
+Converting data from one type to another.
+Example: casting double to int reduces decimal precision.
+
+67. What are generics?
+Allow classes/methods to operate on objects of various types while providing compile-time type safety.
+
+68. Explain the try-with-resources statement.
+Introduced in Java 7, automatically closes resources such as streams.
+
+69. What is enum?
+A special class representing fixed set of constants, e.g., days of the week.
+
+70. What is the difference between HashMap and TreeMap?
+HashMap: Unordered, constant-time performance.
+TreeMap: Sorted, log(n) performance.
+
+71. What is a LinkedHashMap?
+HashMap that maintains insertion order.
+
+72. What is a WeakReference?
+Reference that does not prevent its referent from being garbage collected.
+
+73. What is an identity HashMap?
+Uses reference equality (==) instead of equals() for keys.
+
+74. What are sealed classes? (Java 15+)
+Classes that restrict which other classes or interfaces may extend or implement them.
+
+75. What are Records? (Java 14+)
+A special kind of class for immutable data carriers with minimal boilerplate.
+
+76. How does Java handle memory management?
+Using heap and stack, with garbage collection automatic clean-up.
+
+77. What are lambda expressions?
+Anonymous functions allowing functional programming inspired by languages like Python.
+
+78. What is the Stream API?
+Allows processing collections in a functional style, with filter, map, reduce, etc.
+
+79. How do you handle multiple exceptions in Java?
+Using multi-catch block:
+
+java
+
+Collapse
+Save
+Copy
+1
+2
+3
+4
+5
+⌄
+⌄
+try {
+  // code
+} catch (IOException | SQLException e) {
+  // handle both
+}
+80. What is the difference between a List, Set, and Map?
+List: Ordered, allows duplicates.
+Set: Unordered (or sorted), no duplicates.
+Map: Key-value pairs, keys are unique.
+81. What is the purpose of the instanceof operator?
+To test whether an object is of a specific type or implements an interface.
+
+82. What are annotations?
+Metadata to provide information to the compiler or runtime, e.g., @Override.
+
+83. How do you prevent method overriding?
+Make the method final. To prevent class inheritance, declare class final.
+
+84. What is dependency injection?
+A design pattern where an object’s dependencies are provided by an external entity rather than the object itself.
+
+85. What are Java modules? (Java 9+)
+Encapsulate packages and reveal only specific parts of code outside.
+
+86. What is the try-catch-finally block?
+Exception handling construct. finally executes regardless of exceptions, used for cleanup.
+
+87. What is multithreading?
+Running multiple threads concurrently within a process for better CPU utilization.
+
+88. What is the Runnable interface?
+Functional interface with a run() method to define task code for threads.
+
+89. What are the benefits of multithreading?
+Improved performance, responsiveness, resource utilization.
+
+90. Describe the thread life cycle.
+States: New, Runnable, Running, Blocked/Waiting, Terminated.
+
+91. What is a synchronized method?
+A method that locks the object or class to prevent concurrent access issues.
+
+92. How to prevent deadlock?
+Avoid nested locks, acquire locks in consistent order, use tryLock().
+
+93. What is the difference between volatile and synchronized?
+volatile: For visibility, not atomicity.
+synchronized: For mutual exclusion and atomicity.
+
+94. What are issues with multithreading?
+Race conditions, deadlocks, thread starvation, starvation, livelock.
+
+95. How to improve thread safety?
+Use synchronization, thread-safe collections (e.g., ConcurrentHashMap), immutability.
+
+96. Explain the producer-consumer problem.
+Multiple producers generate data, consumers process data. Proper synchronization needed.
+
+97. What is Fork/Join framework?
+A framework for parallel computation, dividing tasks recursively for multiple cores.
+
+98. When to use volatile?
+When only visibility is needed but no atomicity.
+
+99. How do you create a thread-safe singleton class?
+Using enum singleton, static inner class, or double-checked locking.
+
+100. What is the impact of multithreading on performance?
+While it can improve performance, improper handling causes issues like deadlocks.
+
+Interview one‑liners you can use
+
+ReentrantLock: “I prefer ReentrantLock for complex critical sections needing features like tryLock(timeout) and interruptibility, and I always release in a finally block to avoid deadlocks.”
+Atomic variables: “For counters under high concurrency, I use AtomicInteger or LongAdder; they’re lock‑free and avoid contention.”
+Idempotent design: “I design operations to be idempotent using idempotency keys and computeIfAbsent in memory, and enforce uniqueness at the database with unique indexes and upserts.”
+
+Comibne Feature 
+//employee -- > Ratings 
+CompletableFuture.supplyAsync(()  ->
+{
+return employeeDatabase.fetchEmployes
+Combine Independent Feature
+ 
+Combine Multiple Future 
+combine multiple future (no need to wait for all )
+
+we can use thenCompose to retrive nested CompletableFuture 
+
+Comibne Feature  getEmployeeDetails and getRatings method 
+
+
+  CombineCompletableFutureDemo cf = new CombineCompletableFutureDemo();
+
+        CompletableFuture<Integer> thenComposeResults = cf.getEmployeeDetails()
+                .thenCompose(cf::getRatings);
+				
+				 System.out.println("ratings : " + thenComposeResults.get());
+				 
+				  public CompletableFuture<Employee> getEmployeeDetails() {
+        return CompletableFuture.supplyAsync(() -> {
+            System.out.println("getEmployeeDetails() " + Thread.currentThread().getName());
+            return EmployeeDatabase.fetchEmployees()
+                    .stream()
+                    .filter(emp -> "79-021-3776".equals(emp.getEmployeeId()))
+                    .findAny().orElse(null);
+        });
+    }
+
+    public CompletableFuture<Integer> getRatings(Employee employee) {
+        return CompletableFuture.supplyAsync(() -> {
+            System.out.println("getRatings() " + Thread.currentThread().getName());
+            return employee.getRating();
+        });
+    }
+	
+	
+	  //combine independent future (2) -> thenCombine
+        //1-  group employee and counts
+
+        CompletableFuture<Map<String, Long>> employeeMapFuture = CompletableFuture
+                .supplyAsync(() -> {
+                    return EmployeeDatabase.fetchEmployees()
+                            .stream()
+                            .collect(Collectors.groupingBy(
+                                    Employee::getGender,
+                                    Collectors.counting()
+                            ));
+                });
+
+        //2- get all emails
+
+        CompletableFuture<List<String>> emailsFuture = CompletableFuture
+                .supplyAsync(() -> {
+                    return EmployeeDatabase.fetchEmployees()
+                            .stream()
+                            .map(Employee::getEmail)
+                            .collect(Collectors.toList());
+                });
+
+        CompletableFuture<String> thenCombineResults = employeeMapFuture.thenCombine(emailsFuture, (empMap, emails) -> empMap + " " + emails);
+        System.out.println(thenCombineResults.get());
+
+    //combine multiple independent future (more than 2) -> allOf(n task)
+        //-> weatherDetailsAPI
+        //-> news apis
+        //-> stockPrice apis
+		
+		//wait for all future to complete
+        CompletableFuture<Void> allFutures = CompletableFuture.allOf(weatherFuture, newsFuture, stockPriceFuture);
+
+        //process results after all future are completed
+        allFutures.thenRun(() -> {
+            String weather = weatherFuture.join();
+            String news = newsFuture.join();
+            String stock = stockPriceFuture.join();
+            System.out.println("Aggregated Data : ");
+            System.out.println(weather);
+            System.out.println(news);
+            System.out.println(stock);
+        }).join();
+		
+		 //combine multiple independent future (more than 2) -> anyOf(n task) (no need to wait for all)
+        //Location -> X Y -> result
+        //stock price -> x ,y , z ->
+		
+		  //Use anyOf to wait any of the future to complete
+        CompletableFuture<Object> anyOfResults = CompletableFuture.anyOf(api1Results, api2Results);
+
+ 
+
+CompletableFuture<Void> runAsyncFuture=CompletableFuture.runAsync(
+                () -> {
+                      try {
+                          List<Employee> employees = mapper
+                                  .readValue(jsonFile, new TypeReference<<List<Employee>()
+                                          {
+
+                                          }
+                                  );
+                          System.out.println("Thread : " + Thread.currentThread().getName());
+                          employees.stream().forEach(employee -> System.out.println(employee));
+                          System.out.println(employees.size());
+                } catch (Exception e )
+                      {
+                          System.out.println("Exception values are "+e.getMessage());
+                      }
+                    }, executor);
+				
+				
+   CompletableFuture<Void> runAsyncFuture = CompletableFuture.runAsync(
+
+                () -> {
+                    try {
+                        List<Employee> employees = mapper
+                                .readValue(jsonFile, new TypeReference<List<Employee>>() {
+                                });
+                        //write logic t save list of employee to database
+                        //repository.saveAll(employees);
+                        System.out.println("Thread : " + Thread.currentThread().getName());
+                        employees.stream().forEach(employee -> System.out.println(employee));
+                        System.out.println(employees.size());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                },executor);nConsumerDemo 
+				
+				@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+  
+	1. S – Single Responsibility Principle (SRP)
+Layman Example:
+A Cashier should only handle transactions, not also manage loan approvals or customer support.
+class Invoice {
+    void calculateTotal() { /* logic */ }
+}
+
+class InvoicePrinter {
+    void print(Invoice invoice) { /* logic */ }
+}
+
+
+2. Open/Closed Principle (OCP)
+Layman Example:
+A Bank should allow adding new account types (Savings, Current) without changing existing code.
+
+
+interface Account {
+    double getInterestRate();
+}
+
+class SavingsAccount implements Account {
+    public double getInterestRate() { return 0.04; }
+}
+
+class CurrentAccount implements Account {
+    public double getInterestRate() { return 0.02; }
+}
+
+3. Liskov Substitution Principle (LSP)
+Layman Example:
+If you replace a Savings Account with a Fixed Deposit Account, the system should still work without breaking.
+
+
+interface WithdrawableAccount {
+    void withdraw(double amount);
+}
+
+class SavingsAccount implements WithdrawableAccount {
+    public void withdraw(double amount) { /* logic */ }
+}
+
+class FixedDepositAccount { /* no withdraw method */ }
+
+4. Interface Segregation Principle (ISP)
+Layman Example:
+Don’t force a Loan Account to implement withdraw() when it only needs approveLoan().
+			
+
+interface TransactionService {
+    void withdraw();
+    void deposit();
+}
+
+interface LoanService {
+    void approveLoan();
+}
+
+Dependency Inversion Principle (DIP)
+Layman Example:
+A Notification System should depend on an interface (MessageService), not a concrete EmailService.
+
+interface MessageService {
+    void sendMessage();
+}
+
+class EmailService implements MessageService {
+    public void sendMessage() { /* logic */ }
+}
+
+class SMSService implements MessageService {
+    public void sendMessage() { /* logic */ }
+}
+
+class Notification {
+    private MessageService service;
+    Notification(MessageService service) { this.service = service; }
+    void notifyUser() { service.sendMessage(); }
+}
+S: Account class only handles account logic, not printing statements.
+O: Add new account types without modifying old code.
+L: Replace account types without breaking withdrawal logic.
+I: Separate interfaces for transactions and loans.
+D: Depend on abstractions (MessageService), not concrete classes.
+
+
+ 
+
+ 

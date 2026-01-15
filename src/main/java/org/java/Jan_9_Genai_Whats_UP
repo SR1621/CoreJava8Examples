@@ -1,0 +1,358 @@
+Learn more.
+Language large model
+Fine tuning
+Self supervised
+Supervised
+Reinforcement
+Neural networks transformer
+Git fetch the latest branches
+Git log --oneline
+Git branch -a
+Git add filename
+Git commit -m "feature this is first commit"
+Git push
+Pull request from feature to main branch
+Publish branch
+Git reset --soft --mixed --hard
+Git push -f forcefully
+Mixed not in staging area and reset in staging area
+Git reset --hard
+Git commit --amend
+To modify the commit message
+Git add feature-2.txt
+Git commit --amend
+Git cherry branches
+Git cherry-pick commit of other branch
+We have different commits:
+Commit1
+Commit2
+Commit3
+Need to merge two commits 1 and 2 in single commit
+Git rebase -i commit3
+Insert command to edit mode
+Squash for commit
+New window opens
+Feature this is a squash for single message
+Git push -f
+Git rebase reorder the order
+Drop old commit
+Exec echo "this is custom command after feature branch"
+Git bisect to identify good and bad commit
+Git stash -u
+Git stash list
+Git status pop last file it retrieves
+Git stats for tracked files
+Git stash apply (will be available in stash, not empty)
+Git stash drop from stash
+Git stash show stashid (shows files)
+Git stash clear
+Git diff
+Git diff --staged
+Git diff -w --staged
+Git diff --no-index file1 file2
+Git diff commit1 commit2
+Git diff --word-diff
+Git diff --stat
+Git log --oneline
+Git log --oneline --decorate
+Git log --stat
+Git log -p (more modified changes)
+Git log --graph --oneline --decorate
+Git log --pretty=format:"%cn committed %h on %cd"
+Git log --after="2025-1-1"
+Git log --grep="functionality"
+Git ignore
+Intermediate operations:
+Filter --predicate
+Map --takes input and returns values
+flatMap
+Distinct
+Sorted
+Peek (see intermediate results of stream)
+Limit
+Skip first n elements
+Lazy operations: Filter, Peek, Map, Sorted
+Terminal operations:
+forEach
+toArray
+Reduce (aggregate function)
+Min and max
+anyMatch
+allMatch
+noneMatch
+findFirst
+findAny
+Parallel stream
+API gateway
+Saga design pattern (orchestration and choreography)
+Service registry
+CQRS design pattern (Command Query Responsibility Segregation)
+Write model or event bus for reading/writing database
+Database per microservice pattern
+Event sourcing pattern
+Strangler fig pattern (remove service piece by piece)
+Disable performance tool
+Remove banner
+Log framework == error
+Dev tools = false
+Lazy load at database
+Hikari connection pool
+Enable caching
+Spring.cache
+Asynchronous processing @EnableAsync
+application.properties
+JVM flags garbage collectors
+Actuator for monitoring
+management.endpoints.web.exposure.include=health, info, metrics
+Micrometer integration
+Prometheus enabled true
+JProfiler or VisualVM
+Git remote -v
+JDK -- JVM -- JRE
+Java techie
+GenAI@54321
+lrksai@gmail.com
+Non-synchronized (multiple threads access in parallel)
+ConcurrentHashMap is synchronized
+HashMap allows null key and values
+ConcurrentHashMap applies at segment level
+@SpringBootApplication contains:
+Enable auto-configuration
+@ComponentScan
+@Configuration (extra beans in context)
+What is auto-configuration?
+Stereotype annotations:
+@Component
+@Service
+@Repository
+@RestController or @Controller
+Dependency injection:
+Field-level injection
+Setter injection
+Constructor injection
+Constructor injection for mandatory dependencies
+Optional injection via setter
+Spring.config.import (load external file)
+@ConfigurationProperties(prefix="datasourceconfig")
+@Qualifier (by type) and @Resource (by name)
+Bean scopes:
+Singleton
+Prototype
+@Scope("prototype")
+Web-based application: Request, Session, Application context
+WebSocket connection
+HTTP request in web-based application
+Session scope
+server.session.cookie.max-age=1
+server.session.timeout=1
+Singleton vs Prototype:
+Singleton: DB config, Service layer, App config
+Prototype: User session, Thread safety, Heavy initialization
+@Lookup for creating instance in singleton
+Spring singleton (application level) vs plain singleton (JVM level)
+@BeanPostProcessor interface for customizing beans
+PostProcessor before initialization
+@PostProcessor after initialization
+Kafka template with bean post processor
+Property injection
+Aspect-oriented programming
+Custom initialization logic
+Proxy creation
+Monitoring and logging
+REST methods:
+POST
+PUT
+GET
+PATCH (partial update)
+DELETE
+@RequestMapping(value="users")
+@PathVariable (mandatory)
+@RequestParam (optional)
+@RestController vs @Controller
+Media type in controller
+JSON request to bean object via @RequestBody
+GET(produces="application/json, application/xml")
+HTTP status codes:
+400 Bad Request
+404 URL not found
+401 Authentication error
+403 Authorization error
+405 Method not allowed
+415 Unsupported media type
+500 Server error
+502 Bad gateway
+200 OK
+201 Resource created
+@CrossOrigin for Angular access
+WebMvcConfigurer
+@EnableWebMvc for cross-origin
+Multipart file
+Versioning:
+@PostMapping with version number
+@RequestParam version
+@RequestHeader version
+Swagger endpoint (OpenAPI)
+@Hidden for Swagger
+@Operation annotation
+Feign client for proxy and runtime object
+WebClient for async non-blocking (reactive programming)
+@RestControllerAdvice
+@ExceptionHandler
+ProblemDetail for error handling
+Validation annotations:
+@NotNull
+@NotEmpty
+@NotBlank
+@Min
+@Max
+@Email
+@AssertTrue
+@FutureDate
+@PastDate
+@RequestBody @Valid
+Jakarta validation classes
+Spring profiles:
+@Profile("stg")
+spring.profiles.active=prod
+@ConditionalOnProperty(prefix="app.active.env")
+AOP:
+Transactions
+Logging
+Validation
+Auditing
+Notification
+Join point (method name)
+Pointcut (expression for class/method)
+Advice types:
+Before
+After
+AfterReturning
+AfterThrowing
+Around
+JPA specification
+Hibernate implementation
+Spring Data JPA abstraction
+Entity → Repository → Database → EntityManager → TxManager
+Custom JPA query:
+JPQL: from Employee e where e.salary=?
+Native query (nativeQuery=true)
+Pagination:
+PageNumber, PageSize
+Sorting
+findAll(PageRequest.of(pageNumber, pageSize))
+Auditing:
+@EntityListeners(AuditingEntityListener.class)
+CreatedDate, CreatedBy, LastModifiedDate, LastModifiedBy
+Centralized audit service
+Transaction management:
+Isolation and propagation
+Isolation: thread updates visible to others
+Propagation types: Required, Supports, Mandatory, RequiresNew, NotSupported, Never, Nested
+Transactions don’t work on private methods
+Redis for DB and cache
+AWS ECS (Elastic Container Service) for Docker orchestration
+AWS Fargate with ECS for monitoring
+ECR (Elastic Container Registry)
+AWS services: EC2, Elasticsearch, SQS, SNS, Secrets Manager, API Gateway, DynamoDB, RDS, Lambda, ECS, Fargate
+Task definition
+Docker tag image name URL
+Docker push URL
+AWS CodeBuild → Elastic Beanstalk → CodePipeline (similar to Jenkins)
+buildspec.yml for CodeBuild
+Kafka:
+Producer
+Consumer
+Broker
+Cluster
+Topic
+Partitions for high availability
+Offset for consumer state
+Consumer group
+ZooKeeper for coordination
+Confluent Kafka for security/monitoring
+Managed Kafka (AWS)
+Steps:
+Start ZooKeeper (port 2181)
+Start Kafka server (port 9092)
+Create topic (partitions, replication factor)
+List topics
+Describe topics
+Offset Explorer for viewing topics
+Consumer rebalancing
+Kafka serialization/deserialization
+Send to specific partition
+Kafka integration tests with Testcontainers
+Dead letter queue
+@RetryableTopic
+@DltHandler
+Exclude retry for specific error
+Avro schema registry
+Avro serializer/deserializer
+Register schema in application.properties
+Manual commit vs auto commit
+commitSync vs commitAsync
+Java Streams:
+Arrays.asList(11,12,14,34,45)
+Filter(num → String.valueOf(num).startsWith("1"))
+Peek for debugging
+Intermediate ops: filter, map, sorted
+Terminal ops: collect, forEach, reduce
+Shortcutting ops: anyMatch, allMatch, noneMatch, findFirst, findAny
+Palindrome check
+Nth smallest in array
+Collectors.joining(",","[","]")
+Sum of first 2 numbers
+Count vowels
+Sort by word length
+Detect duplicates with Set
+Callable for returning from thread
+ThreadLocal
+Executor execute vs submit
+Volatile for visibility
+AtomicInteger for atomicity
+MTLS
+401 Authentication
+403 Authorization
+Spring Security:
+Exclude SecurityAutoConfiguration
+In-memory authentication
+Password encryption
+HttpBasic auth
+SecurityFilterChain in Spring 3
+CSRF for authentication
+@EnableGlobalMethodSecurity
+@PreAuthorize for role-based access
+Authentication flow: AuthenticationManager → ProviderManager → AuthenticationProvider → UserDetailsService
+SecurityContextHolder
+JWT: header, payload, signature (HS256)
+Jwts.builder.setClaims.setSubject.setIssuedAt.setExpiration.signWith(secretKey)
+OncePerRequestFilter for token extraction
+Authorization header starts with "Bearer"
+Chat models:
+GPT-4, GPT-5
+OpenAI
+Tokens
+ChatModel.call for AI integration
+ImageResponse, ImageOptions for image generation
+Retrieval-Augmented Generation (RAG):
+Document readers → embedding model → tokens → vector DB
+User query → context retrieval → LLM
+OAuth2:
+Client ID → username/password → authorization server → token → resource server
+Order service → payment service → user service
+Circuit breaker states:
+Closed (success)
+Open (threshold, reset timeout)
+Half-open
+Cron schedule:
+Second, minute, hour, day, month, day of week
+Spring Batch:
+JobLauncher → Job → Step → ItemReader → ItemProcessor → ItemWriter
+JobRepository
+StepBuilderFactory.chunkSize(10)
+TaskExecutor for multi-threading
+FaultTolerant()
+skipLimit(100)
+skip(NumberFormatException)
+noSkip(FileNotFoundException)
+SkipListener: onSkipInRead, onSkipInWrite, onSkipInProcess

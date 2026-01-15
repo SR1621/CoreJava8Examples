@@ -1,0 +1,879 @@
+Eureta Netflix server 
+which registerers others services 
+1) Netflix Ribbon  --LB 
+2) Eurekat Server --serice discover /registry 
+3) Eurkeaa discoverr client 
+
+Erureka server 
+server.port=8761
+sapring-applicaton.name=Eureka-server 
+
+@EnableEureaServer 
+
+Eurekat server --zoo kepper 
+
+FinClient --interface 
+
+AWS---Relation Database System
+
+RDS --DNS system name which will take primary and secondary data base 
+
+Performance 
+
+Userms 
+---
+Read to prmaryd tabase 
+
+read database to other database  --asyncrhosue databse to other database replica
+
+
+Interprocess communication 
+
+
+ActiveMQ/RabbitMQ (Broker) 
+Kafka (own broker )
+reply-to-headere :quename
+Akka (Actor based) 
+Lagon (akka based ) 
+Spring-even -sourcing --
+
+Transaction --Saga Pattern and distribtued pattern 
+
+ZUUL 
+Api gaeway 
+logging 
+validation 
+security 
+proxy url hiding 
+throttle 
+ratelimit 
+
+sleuthh --distrubuted tracking logs with spring cloud sleuth
+***************
+
+
+
+********************
+
+orderms and userms 
+spring.applicaiton.name=orderms 
+#eurkea configration 
+eureka.client.serviceurl.defaultZone=http://locahost:8761/eureka
+
+@EnableEurekaclient
+ 
+
+@SpringBootApplication--main class 
+@RunWith(SpringRunner.class)
+@SpringBootTest
+
+@RestController
+@GetMapping(path = "/hello-world")
+@GetMapping(path = "/hello-world/path-variable/{name}")
+	public HelloWorldBean helloWorldPathVariable(@PathVariable String name) {
+		return new HelloWorldBean(String.format("Hello World, %s", name)); ---%s replaces name
+	}
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class UserNotFoundException extends RuntimeException {
+@Component
+************
+ResponseEntityExceptionHandler ----need to write exception handler 
+@ControllerAdvice
+
+ResponseEntity 
+
+
+	@Size(min=2, message="Name should have atleast 2 characters")
+	private String name;
+
+	@Past
+	private Date birthDate;
+	
+Valdaiton for parameters 	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation Failed",
+				ex.getBindingResult().toString());
+		return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST);
+	}
+
+@Bean
+	public LocaleResolver localeResolver() {
+		AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+		localeResolver.setDefaultLocale(Locale.US);
+		return localeResolver;
+	}
+	
+	Controllerr 
+		@GetMapping(path = "/hello-world-internationalized")
+	public String helloWorldInternationalized() {
+		return messageSource.getMessage("good.morning.message", null, 
+									LocaleContextHolder.getLocale());
+	}
+
+	
+	convert from json to xml 
+	
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+
+
+http://localhost:8080/swagger-ui.html
+
+http://localhost:8080/v2/api-docs
+
+
+Acutator 
+
+
+Latest 
+
+@Entity is a JPA annotation to make this object ready for storage in a JPA-based data store.
+There are multiple repository implementations besides JPA. You can use Spring Data MongoDB, Spring Data GemFire, Spring Data Cassandra, etc. For this tutorial, we’ll stick with JPA.
+
+@SpringBootApplication is a meta-annotation that pulls in component scanning, autoconfiguration, and property support.
+@RestController indicates that the data returned by each method will be written straight into the response body instead of rendering a template.
+@ControllerAdvice
+class EmployeeNotFoundAdvice {
+
+  @ResponseBody
+  @ExceptionHandler(EmployeeNotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  String employeeNotFoundHandler(EmployeeNotFoundException ex) {
+    return ex.getMessage();
+  }
+
+@ExceptionHandler configures the advice to only respond if an EmployeeNotFoundException is thrown.
+
+
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-hateoas</artifactId>
+</dependency>
+
+it generates the link in response 
+{
+    "id": 1,
+    "name": "LRK",
+    "role": "burglar",
+    "_links": {
+        "self": {
+            "href": "http://localhost:8080/employees/1"
+        },
+        "employees": {
+            "href": "http://localhost:8080/employees"
+        }
+    }
+}
+
+The return type of the method has changed from Employee to EntityModel<Employee>. EntityModel<T> is a generic container from Spring HATEOAS that includes not only the data but a collection of links.
+
+
+CollectionModel<> is another Spring HATEOAS container aimed at encapsulating collections. It, too, also lets you include links. Don’t let that first statement slip by. What does "encapsulating collections" mean? Collections of employees?
+
+
+This simple interface has one method: toModel(). It is based on converting a non-model object (Employee) into a model-based object (EntityModel<Employee>).
+
+All the code you saw earlier in the controller can be moved into this class. And by applying Spring Framework’s @Component, this component will be automatically created when the app starts.
+
+
+************************
+spring container 
+Microservices
+small autonomous applicatin which can be deployoed indepedntly 
+it's light weight mechanism
+which exposed by rest 
+small well chosen deployable units 
+cloud enabled
+
+set of smaller microservices 
+
+Micorserices1--A1,A2
+micrservices--ba1234
+microservices-c1
+
+Challanges 
+Bounder Context ---
+4 or 5 microservices 
+deciding  the boundaries
+**********
+Configuration Management 
+multiple instance 
+***********
+Dynamic configruation managment system 
+*************
+visibility
+********
+Pack of CARDs
+*********
+
+Sping cloud 
+Netflix (Eurekat,Hystrix,zuual)
+Spring cloud config 
+
+*************
+
+SpnfingCloudonfguuration --microserices 
+
+********
+Dynamic scal up and scale down 
+
+Naming sever 
+*************
+Eureka 
+Ribbon Cient Side Load Balancing 
+Feign 
+
+************
+Important topics 
+Using -Dspring.profiles.active=prod in VM Arguments
+Ctrl 1 
+Save format code changes 
+
+Objects 
+@PostMapping("/surveys/{surveyID}/questions")
+public ResponseEntity<void> addQuestionToSurvery(@PathVariable String surveyId,@RequestBody Question Question)
+
+URI Location=ServicletUriComponentBuilder.fromCurrentRequest().path("/{id}).buildAndExpand(question.getId)).tiUri();  
+
+return ResponseEntity.created(location).build();
+
+Required classes 
+Features 
+Exception handlig 
+Configuration prooperties 
+Dynamic properrties 
+Sprign boot acutator 
+HAL Browser 
+Profile 
+
+Jacksond -datafromt-xml 
+point tomcat  server to other server 
+SPIRNG JPA
+exclusinng tomcat 
+
+CRUD Repository 
+UserCommandLinErunnuer 
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.data.jpa.repositories.bootstrap-mode=default
+
+h2-console 
+
+Spring Rest 
+pagingAndSortringRepository 
+@RepostioryRestResource(path="users" ,collectionResourceRel="users")
+MainClass  extends PagingAndSortingRepository
+
+Automation testing springs 
+
+spring boot startest test 
+TestRestTemplate 
+
+
+Features 
+Exception handlig 
+Configuration prooperties 
+Dynamic properrties 
+Sprign boot acutator 
+HAL Browser 
+Profile 
+
+Jacksond -datafromt-xml 
+point tomcat  server to other server 
+SPIRNG JPA
+exclusinng tomcat 
+
+CRUD Repository 
+UserCommandLinErunnuer 
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.data.jpa.repositories.bootstrap-mode=default
+
+h2-console 
+
+Spring Rest 
+pagingAndSortringRepository 
+@RepostioryRestResource(path="users" ,collectionResourceRel="users")
+MainClass  extends PagingAndSortingRepository
+
+Automation testing springs 
+
+spring boot startest test 
+TestRestTemplate 
+
+Udemy  course 
+https://github.com/in28minutes/spring-boot-master-class/tree/master/02.Spring-Boot-Web-Application
+
+https://github.com/in28minutes/spring-boot-master-class
+
+
+@SpringbootControlorer 
+@Controller 
+@Requestmapping 
+@RequestBody
+
+@Component is a generic stereotype for any Spring-managed component or bean.
+@Repository is a stereotype for the persistence layer.
+@Service is a stereotype for the service layer.
+
+@Form Bean Packing which we pass parameter as bean in contorllerr 
+
+@ExceptionHandler(Exception.class)
+    public ModelAndView handleError(HttpServletRequest req, Exception ex) {
+        logger.error("Request: " + req.getRequestURL() + " raised " + ex);
+
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("exception", ex);
+        mav.addObject("url", req.getRequestURL());
+        mav.setViewName("error");
+        return mav;
+    }
+
+
+Spring boot paretns provides lot of plugins 
+1.4.0 
+
+
+spring boot web serivces lot of dependinces 
+sprign bood srarter test 
+
+jdbc 
+security 
+data jpa 
+rest services 
+
+Spring is depedncy inject 
+autowiring 
+inversion of control 
+
+2005 
+ejb jdbc code 
+unit testing is very difficutl to control 
+
+Testing will be easy usign spring boots 
+
+lot of xml configuraton is defined in xml file 
+
+session factory 
+spring mvc 
+
+monlothi applicaiton to micro services 
+framework 
+deployment --configurability 
+logging transaftion managemnet 
+monitoring 
+webserver configuration 
+
+spring boot makes it easy to create stand-alone,production-grade spring based applicatiosn that you can "just run"
+
+
+it proiceds emebedd server 
+security 
+metrics 
+health checks 
+************
+MessageConverted from list to json object 
+
+Jackson Databind converts from list to Json 
+***************
+***@GetMapping 
+   @PathVariable string survieid 
+   @PathVariable String questionId
+{
+return s
+} 
+
+
+@GetMappings 
+
+*******
+These will not trigger restart - /META-INF/maven, /META-INF/resources ,/resources ,/static ,/public or /templates *****
+Folders can be configured : spring.devtools.restart.exclude=static/**,public/** 
+
+
+
+mocktio Exam test 
+
+ Which scope is this ModelMap object in? is it in request scope?
+No, Modelmap object will be used internally by spring handler methods to add the user defined objects (to be presented in UI) into the http response.
+
+webjars used for java script and css 
+
+
+
+step 12 completed 
+https://github.com/in28minutes/spring-boot-master-class/blob/master/02.Spring-Boot-Web-Application/Step12.md
+
+Questions  ?
+<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+
+Username: betha.rajaramesh@globallogic.com
+Password: All15well(*
+
+
+
+netflix Zuul)
+Sleuth
+ 
+ istio servesh mesh 
+
+
+web --database/API 
+
+endpoint
+timeout
+retries
+encryption 
+
+pilot ,gallery,mixed ,Cital 
+
+pilit annd gallery (config management) 
+
+Gallery ---certiicats ,
+Citadel is a 
+
+
+
+
+8328162427
+
+
+
+
+
+session1
+
+sticky sessions
+database 
+new nodes horizontal scaling 
+auto scaling 
+SOA
+MS 
+cohesion 
+Choesion is a measure of the strength of the dependencies within a component
+
+Coupling is a measure of the strenth of the dependiceices betwen compoents 
+
+A good design shoulld be higly cohesive 
+Isolation 
+
+deployed jar files independtelty 
+SOA (ESB) 
+SOA ESB  is Bottel neck Single point fo failure 
+
+@coponeent scan
+
+@service  it crates the instance of the class 
+ 
+@springbootconfiguratin is a component which we can put all classes 
+@enableautoconfiguration it adds all hbase and webcomponent classes 
+
+
+Model is a bean  class where we have getters and setters and it will be created as a table name using entity and table 
+
+Repository is a interface which extends JpaRespository (which consistits all data persistance related information ) 
+
+Service is a class which consists of DAO methods where we create varible of repository and invoke all datbase methods like find all findby id 
+
+@Service 
+Service IMPL Class   creat Repository variable and implement all methods 
+@Repostiory ---Repostiory class 
+Main Class
+@RestController
+
+
+
+Monolith Model
+deploy in single war file 
+
+
+44
+
+Microservces divide applicaiton into small models mini nature applications 
+
+
+orderms ,inventoryms 
+userms ,shipmentms 
+  
+code Repo 
+
+userms--dev-test-build--release
+orderms--dev-test-build--release
+inverotryms--dev-test-build--release
+shipments --dev-test-build--release
+
+microservce is more agile
+
+in monolith application if any module goes down then total application will be down 
+
+in ms each module will have seperate database 
+
+
+Resilency--
+in among 4 moudles(userms,inverntoryms,orderms,shipmentms),if shipmentms fails from userms service send request to shipmentms for multiple times and using retry 3 tmes pers sec and all others modules will consume all CPU +memory + io resources and it will delay the all other resources to aviod this resources consumption we have concept called Resillency   if any modules fails 
+----------
+circuit breaker ----------pattern-->Netflix Hystrix  is implemented in micro services 
+******************
+small autnomous team 
+*************
+team 1 --3to 5 ms 
+team2 --3to 5 
+team3 --t to 5 
+
+Heterogenity ot technolgy
+****** 
+we can use multiple database for diffrent modules 
+ 
+pricipales of mciroserves 
+*********
+Cutlrue of a)automation 
+b)Hide implentatin deetails 
+c)deccentrals all the things 
+4)deploy idenepently 
+5)consumer first 
+6)isolate failure 
+7)Highly observable 
+8)modelled around business domain 
+**************
+SOAVSMicorservices 
+SOA is a like an orchetra where each artist is pefrorming with h his/her instrucment while the music director guies them all 
+
+With microservies each is indedeppndent and know what they to do.
+If they miss some steps they know how to get back on the sequence 
+
+************
+spring data rest be used without creating any controllers 
+
+**********
+loadbalancer 
+serviceregisgry/Discovery 
+add source and destination system ip address in registry 
+
+the load balacer will be configrued in source projet like userms
+************
+spring-Cloud-discovery registry 
+
+Eureka server 
+
+***********
+1)netflix Ribbon:Load balancer 
+Client side LB 
+
+2) netflix Eurekt Service Discovver Regostry 
+Seperate MS 
+
+*********
+Fen client is same as RestControl
+restcontrol is part of netflex eureka server 
+***********
+netflix-AMI
+What is AMI?
+
+misbah.architect@gmail.com
+
+@SpringBootApplicaiton 
+3 combiatnions 
+@componentScan 
+@springBootconfigration 
+@EneableAutoConfiguration
+
+@Service,Repostiory 
+This below is visible to Main application using combinationScan 
+UserRepostiory Extends JpaRepository 
+ 
+
+userResource-->userService>>UserRepository>>userdb(Embeded Database)
+
+netstat -ano | findstr :80 //find process id in windows 
+taskkill /PID 4 /F
+
+Module 3
+
+*********
+SAGA Pattern 
+for distributed tansactions 
+
+what is Lambok?
+
+Logging Api Gateway
+***********
+Logging 
+validation security 
+proxy URL hiding 
+Throttle rate limit 
+(netflix Zuul)
+Sleuth
+
+@EnableSwagger
+Integration with spring and Swagger 
+
+put will update only required fields and other fields will send as null and 0 
+
+patch will update with new values and it will not update old values.
+
+AWS-- Relational Database service 
+to write we need to use primary database 
+and for reading we need to use secondary database.
+ 
+Messaging 
+Point to point 
+Publlish subscriber 
+
+JMS 
+****
+AMQP (Advance Message Queue Protocol) 
+
+ActiveMQ(comuunication betwen microse services )/RabbitMQ(config server -
+
+Kafka:Own protocol 
+Message Protocol --messagign solution 
+**********
+Advance Topics 
+Event Sourcing 
+CQRS 
+
+Frameworks : 
+Akka(Actor based) --> in general 
+Lagom (Akka based)>MSA
+spring-event-sourcing--MSA
+
+ 
+
+
+
+mvn spring-boot:run
+
+
+Lab run 
+Part1 
+Order Service 
+Payment Service 
+regiser in Eurkea Service Registry 
+
+Request -->
+API Gateway
+--Order service and Payment Service 
+
+OrderService MS 
+-------------
+Create Entity bean object 
+Package --servie,controller,entity,repository
+
+EntityClass 
+Order 
+@Entity
+@Table (name="order_db")
+@Data
+@AllArgsContstrucor 
+@NoArgsConsturutt
+
+****************
+OrderRepostiory Extends JPARepository(OrderEntity,Integer)
+**************
+@Service
+OrderService
+@Autowired
+Private OrderRepository repository
+
+public Order saveOrder(Orderr order) 
+{
+return repository.save(order)
+}
+
+*************
+RestController
+@RestController 
+@RequestMapping("/orders)
+public class OrderController{
+@Autowired 
+private OrderService service;
+@PostMapping("/bookorder)
+public Order bookOrder(@RequestBody Order order) 
+{
+return service.saveOrder(order)
+}
+} 
+***********
+PaymentServiceMS
+Enitty,service,repositry,controller create package 
+
+Create Entity Class 
+@Enitity
+@Table(name="entity_tb")
+@Data
+@AllArgsConstructor
+@NoArgsConstrucotr
+@Id
+@GeneratedValue 
+private int paymentId
+private string paymentStatus
+private string paymentTransactioId
+***********
+PaymentRepositry extends JPARepostiry(EntityId,Integer)
+************
+@Service 
+PaymentService class
+{
+Create Repositryvariable of Payment
+
+@Autowired 
+private PaymentRepository repository 
+
+public Payment doPayment(Payment payment) {
+payment.setTransactionId(Uuid.randomUID.toString);
+return repositry.save(payment)
+}
+ 
+
+}
+
+*********
+@RestController 
+@RequestMapping("/payment")
+PaymentController {
+
+private PaymentSerivce service;
+public Payment @PostMapping("/doPayment")
+doPayment(@RequestBody Payment payment)
+service.doPayment(payment)
+}
+
+************
+Part2
+Eureka server 
+and micro services 
+Eureka server is the load balancer url between two microservices 
+need to look once again 
+************
+
+Part3
+***************
+gateway
+Spring Cloud routing 
+Alternate Dependcies 
+Zuul ---api gateway 
+zuul is disadvantage  supports for non blocking api it buid  on servlet 2.5 
+
+
+Module4 
+*****************************
+Domain Driven Design : 
+Domain is the heart 
+Business experts 
+
+Online Retail Domain=Retail
+************
+
+Domain 
+Context
+Bound Context 
+Ubiquitous languague 
+
+Custoemr class 
+--custid,custname,pno,address,email
+
+Customer-Application 
+
+Inventory & Order Application :
+Customer Class :
+**********
+Inventory & Order Application 
+customerId,orderHistory,OpenOrders,scheduledeOrders
+*****************
+Billing & Finance application 
+CustomerClass:
+-customerId,creditCardNumber,billingAddress,billingHistory,schedueedPayment
+******************
+OLTP(online transaction processing)
+OLAP: Online analytics processing-->Big data 
+
+
+1)Intgeration Patternn 
+a)Api gateway 
+bggregatry 
+Proxy 
+c)Chained 
+Bracch 
+d)Client-side UI 
+Composition 
+
+Database 
+a)database per service 
+b)shared
+c)saga
+
+cross cuttng concen patters 
+a)service discovery 
+b)circuuti breakr 
+c)external confiuration 
+
+Decompostion patters
+a)strangler viene 
+
+Observaibility paterns 
+a)loggin pattern 
+b)distributed tracining 
+c)health check 
+performance metrics 
+
+
+Aggregator pattern 
+Ex :Report service 
+calling multiple patterns 
+a single web page invokes multiple microservices 
+
+************
+proxy patern 
+***********
+Zuull 
+
+Chainged pattern 
+
+Orderms--Inventory>Payment-->shipment
+
+*********
+Branch  pattern is aggregator and chained patten
+***************
+shared data pattern 
+*************
+external configuration 
+******************
+
+Git repository<-- Config server 
+get notificatio from git repository 
+
+Congigserver-->update the configuration 
+Spring-cloud-us 
+RabbitMQ(Broker)
+
+webhooks inform to git repository to send notifciation 
+
+**********
+Congif server notification 
+eureka discovery client 
+config servever
+spring boot acutator 
+
+
+
+
+
+
+
+
+
+
+
+https://www.udemy.com/course/spring-boot-tutorial-for-beginners/
+
+
+ 

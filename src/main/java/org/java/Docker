@@ -1,0 +1,571 @@
+there are many docker images available on hub.docker.com, we can just pull them & start running containers
+
+	docker search <image name> -- to search the docker images from command line
+	docker pull <image name> -- to pull a docker image from docker hub	
+
+	docker images -- to display the images on your local machine
+	docker history < image name > -- to know the changes done to the image
+	docker inspect < image name > -- to view the detaied information in JSON output
+	docker rmi <image name> -- to remove a image from local machine
+	docker image prune -- to remove all unused images from local machine
+	
+how to run containers from a docker image 
+
+	two ways we can run the images 
+		interative mode ( -it )
+		detached mode  ( -d )
+	
+	docker run -d nginx ( always creates new container & detaches from the terminal you are working on ( goes in background process )) 
+	docker run -it nginx bash ( always creates new container & gets inside the container )
+	docker ps -- to check all running containers 
+	docker ps -a -- to check all running + exited/stopped containers
+	
+	docker stop <container id> -- to stop a container 
+	docker start <container id> -- to start a stopped container 
+	docker restart <container id> -- to restart a container 
+	docker inspect <container id> -- to view detailed information about the continaer in JSON format
+	docker rm <container id> -- to remove a stopped/exited container
+	docker rm -f <container id> -- to remove a container forcefully though it is in running state 
+	docker container prune -- to remove all stopped/exited containers
+	
+how to get inside a running container
+
+	docker run -d nginx ( creates a new container in detached mode )
+	docker ps  -- displays the running containers, note down the container id
+	docker exec -it <container id> bash 
+
+how to come out of a container
+	ctrl pq ( it is mandatory to use this command always )
+	
+how to access the applications running inside the container from external world ( browser )
+	
+	services running inside a container can never be accessed direcltry, we always need to publish/expose them on to docker host while we create the containers 
+	
+	we need to publish/expose the services using -P (capital) OR -p (small) with in the docker run command  
+	
+	ex: -P ( capital ) -- docker will publish/expose the port number dynamically on docker host & maps with port running inside the cont
+	
+		docker run -d -P nginx -- which create a new port mapping from docker host to the service inside the container 
+		docker ps -- to check the container port 
+		to access : in the browser http://<docker host IP>:<exposed port>  ex: http://52.14.62.88:32768
+	
+		-p ( small ) -- we need to assign a port on docker host & map to the port inside the container 
+		
+		docker run -d -p 1234:80 nginx ( always port-on-docker-host : process-port-inside-container )
+		docker ps -- to check the container port 
+		to access : in the browser http://<docker host IP>:<exposed port>  ex: http://52.14.62.88:1234
+
+===============================================================================================================================
+
+Advanced Container commands 
+
+limit container resources
+	docker run -d --restart unless-stopped -p 8080:80 --memory 500M --memory-reservation 256M nginx
+	docker run -d -P --cpus=".5" nginx
+
+Run a docker container, overriding the system default logging driver settings:
+	docker run --log-driver json-file --log-opt max-size=50m nginx
+
+updating container network 
+	docker network disconnect bridge <contid>
+	docker network connect myb <contid>
+
+	docker run -itd --net net1 alpine
+	docker network connect net2 contid
+	( container will be present in both net1 & net2 networks )
+
+--restart flag: specify when the container should be automatically restarted
+	1) no(default): Never restart the container
+	2) on-failure: only if the container fails (exits with non-zero exit code)
+	3) always: Always restart the container whether it succeeds or fails. Also start the container automatically on  daemon startup
+	4) unless-stopped: Always restart the container whether it succeeds or fails, and the daemon startup, unless the container was manually stopeed
+	
+	
+	
+	
+	
+	service docker status
+cd /var/lib/docker 
+
+docker pull lerndevops/samplejavaapp
+docker pull ubuntu
+
+docker images
+
+docker ps --to check the running status 
+
+
+docker run -d -P lerndevops/samplejavaapp 
+
+There are two ways to container 
+Detach mode 
+interactive mode 
+
+when you starrt cont from iamge if it starts your application and process then you can run it in detach mode 
+
+ubuntu in intractive mode theere is nothing to run it 
+
+docker ps -a it shows all containers 
+and we can see ubunti exited mode 
+docker run -it ubunto bash ----give men interactive terminal(it) as bash terminal 
+
+
+now we are inside into container of ubunto 
+
+cat /etch/os-rlease 
+it is ubutno library 
+vi test.txt command not found 
+minimum libararr we got it 
+
+apt-get update 
+apt-get install -y vim 
+
+***************
+ps -ef 
+
+command come ouut of the container
+ctrl pq to come out the container 
+docker ps 
+we can see ubunto is running it 
+
+docker stop containerrid
+
+docker stop containerid,1containerid2 --multiple containers stop 
+
+docker start containerid
+
+docker restart containerid
+
+docker ps -a 
+
+
+
+docker kill containerid
+
+ how to get inside the containerr 
+docker exec -it containerid bash 
+
+dockerr stats containreid
+
+df -k 
+
+docker logs containerid
+
+
+docker ps 
+
+docker rm dockerid 
+to stop container 
+
+docker rm -f dockerid
+
+
+docker run -d -P ngnix 
+
+docker ps 
+docer inspect containerid
+to give more information 
+
+docker run -d ngnix 
+docker run -d -P ngnix 
+
+--p create the publich pport number 
+
+docker rn -d -p 9080:80 nginx 
+we will create with portnmber of docker and imager server 
+
+docker pull tomcat 
+docker images
+
+
+how to create own docker image 
+ 
+manual process 
+automated process 
+
+manual process 
+**************
+docker run -it ubunto bash
+apt-get update 
+apt-get install -y nginx 
+
+cd /etc/ngnix
+ls -l
+
+cd sites-enabled
+ls -l
+more defualt 
+cd /var/www/html 
+echo "hi there y first dcoker images" > index.nginx-debian.html 
+
+*********
+inside the container 
+
+ctrl pq 
+come out of the container 
+now we are in root 
+docker ps 
+docker commit -m "mngniximage" containerid myngnix:v1
+---generatesrates new image 
+
+docker images
+
+we get new images 
+mynginx --new images 
+
+docker commit -m "mngniximage" -c "CMD /usr/sbin/nginx -g 'daemon off;'" -c "expose 80" containerid myngnix:v1
+
+
+FROM 
+RUN 
+RUN 
+RUN 
+EXPOSE 80
+
+docker build -f dokcerfile -t mynginx:v3 .
+
+
+
+
+
+1.30 minutes 
+
+
+FROM  ubunto:18.04
+RUN apt-get -y update
+run apt-get -y install openjdk-8-jdk wget
+RUN mkdir /opt/tomcat
+ADD tomcat-8.5.37.tar.gz /tmp
+RUN mv /tmp/apache-tomcat-8.4/* /opt/tomcat
+copy mywapp.war /opt/tomcat/webapps
+expose 8080 
+ENTRYPOINT is same as CMD 
+ENTRYPOINT["/opt/tomcat/bin/catalina.sh","run"]
+---ADD unzip file and copy to command 
+
+
+docker build -f dockerfile_myapp -t lrkmyApp:v1  /root/labs/labs/docker/code
+
+
+dcoker cp sourcepath containerid  :/opt/tomcat/webapps
+
+
+push to docker login 
+
+docker login 
+username and password 
+
+docker push imagename:v1 
+we get errro it's pushing to find the library 
+The push refers to repository [docker.io/library/mlrkyapp]
+
+
+docker tag myapp:v1  lerndevops/loginapp:v1
+dockage images
+docker push lerndevops/loginapp:v1
+
+lrksai/testrepository
+
+docker tag local-image:tagname new-repo:tagname
+docker push new-repo:tagname
+
+
+docker image rm  lrksai/testrepository:v1
+
+docker run -d -P (without port ) imageid
+Docker Volumes 
+*************
+docker ps -a 
+
+log files are inside container 
+docker exec -it containerid
+
+cd /opt/tomcat
+cd logs 
+
+df -h 
+it displays all the space 
+
+
+docker volume create myvold
+docker volume ls 
+docker volume inspect myvol
+
+mount folder  to run my volume command 
+
+docker run -d -P -v myvol:/opt/tomcat/logs maapp:v1
+
+cd volume docker path 
+
+docker run -d -P -v /opt/tomcatlogs:/opt/tomcat/logs:rw(read write) myyapp:v1
+
+we can map multiple volumes to docker container 
+
+log rotation policy we need to create it 
+
+Docker Compose 
+****************
+image --multiple containers 
+docker un -d -P nginx (this will always create 1 cont) 
+100 cont from nginx
+
+Orchestration how to create multiple containers from a single image with a single command 
+how to create cotnainer from multiple imags with a single command 
+ms1-4--im1
+ms2-19-img1
+ms3-5-img3
+db-2-img4 
+
+docker composer is a tool which helps to create multiple containers from a single/multiple images 
+
+declarivte model?
+docker run --docker-compose.yml file 
+
+
+
+YAML --data serialization 
+humand readiable data 
+indentation --saces 
+strings 
+key: value
+car: bmw
+name: naresh
+class: devlops 
+dictonarly/map
+car:
+  name: bmw
+  colr: red
+  engine: 3l
+  
+array/lisit 
+
+cars:
+  - bmw:
+      name: mycar
+      color:white 
+      engine: 2.5l
+  - audi
+  - rr
+  
+
+
+docker-compose -v
+vi docker-compose.yml
+version: "3"
+services:
+  web:
+   image: nginx
+   ports:
+     -"80"
+   volumes:
+  ms1:
+   image: myapp:v1
+   ports:
+     -"8080"
+ms2:
+   image: tomcat
+   ports:
+     -"8080"
+     -/tmp/ngnix/logs:/var/log/nginx
+
+docker-compose -f docker-compse.yml up --scale web=5 --scale ms=2 --scale ms3=3-d 
+
+
+ 
+
+dockeer ps 
+
+docker-compose -f docker-compse.yml down
+
+
+Dcoker swarm is clusteign machine 
+which contains manager node and worker node 
+
+docker swarm init
+
+
+kubeadm  version -o short
+
+
+kubelet --version 
+
+18.5 version 
+kubetctl version --short --client 
+
+MAster is called control Plane 
+
+6443 is default port number 
+
+hostname -
+
+overlay is the defualt networn in network swarm which is been taken care by docker swarm
+
+Network is taken care in docker but not in kubernates 
+
+network kubernates 
+flannel 
+calico 
+weave 
+containrer network solutions 
+**********
+kubetcl get pods --all-namespaces
+**********
+Kubernates architecutre 
+Master Node    ---- workder noderr 
+kubectl get pods --all-namespaces 
+
+
+Cluseter/Home 
+room1 room2 room3 
+
+room1 and room2 are living independntly ,,,we can't see of other room 
+every room is called a namespace 
+it allows the resoruces to give speicif resources to seperate namespace .
+
+kubetcl get  namespace 
+kubectl create namepsace qa
+kubectl create namepsace prod
+kubecl get pods -n dev(name space name)
+
+
+Master Node 
+***********
+API  Server 
+etcd cluster  store 
+schedular 
+controller manager
+master components 
+
+
+node componensts 
+
+kublet 
+docker --container runtime 
+kube-rpxy 
+
+
+kubetcl get nodes it always goes to API Server which runs on 6443 
+
+API server takes the request and send the response ---it doen't store any data 
+***********
+ETCD (cluseter store ) every information is stored in the etcd cluster store 
+the container details is stored in ETCD (cluster store ) 
+**********************************************************************************
+
+kubetcl create nginx creating container 
+API server which gives command to schedular and check all nodes and creaes a contaner 
+-------------------------------------------------------------------------------------
+Scheduler identified the nodes availability  and sends to API servers 
+API Servers sends the command kublet and kublet creatss a docker 
+
+kublet is an agent which commincates with API Server and creates a container and sends back to API serves and api servers sends to data to ETCD cluster data store 
+
+
+Control manager is responsible for maintaining desired state (auto healing feature )if any servers goes the control manager need to maintain the desired state and create a new one 
+
+Control manager talks to api servers and check the etcd cluster store (DB) 
+
+***********
+Kube-Proxy 
+is responsible for network route to the container external world .it creats the ip address for the container kube proxy will communicat4es with weave network 
+
+container ==pod
+
+a container run always in pod 
+
+we can run two containers in same pod ,same netowrk ,storage
+
+*************
+docker run -d -p image1
+
+kubectl run mypod --image=nginx
+
+kubetcl get pods 
+
+kubectl get pods -o wide(it gives wider output)
+
+kubectl describe pod podname 
+kubectl is sending the ccommand to 
+APISERVER-->Scheduded --?
+APISERVER -->Kublet>>is pulling image --Create The container
+
+kubectl get pods 
+
+
+kubectrl expose pod mypod --name mysvc --port 80 --type NodePort
+
+kubetcl get service
+
+
+kubectl delete pd mypod 
+
+
+*********
+
+kubectl run mypod --image=nginx --dry-run=client -o yaml
+
+it generates yaml filel using dry run 
+they will look only 4 key workds 
+
+kind:
+apiVersion:
+metadata:
+spec: 
+
+
+kind:
+its just the value like Pod,Service,
+apiVersion:
+it depend on the value of Kind 
+kubectl explain pod 
+
+Kind : Pod
+Version :v1 
+metadata:
+  name   : naresh
+  labels:
+    skill1: trainer
+skill2: sysadmiin 
+  namespace: dev
+
+spec: 
+  containers:  
+  -name: cont1
+image:nginx 
+ports: 
+ -containerrPort : 80 
+
+
+kubectrl api-resources it list all kind values  like Pod,service .,,secret,etc
+
+kubectl explain pod 
+
+Kind : Pod
+Version :v1 
+
+spec: 
+
+
+kubectl create -f pod.yml 
+
+
+kubectl get pods -n dev 
+
+*************
+service 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

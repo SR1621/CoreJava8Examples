@@ -1,0 +1,1321 @@
+What is loose coupling?
+Tight coupling
+public class TodoBusinessService {
+TodoDataServiceImpl dataService = new TodoDataServiceImpl();
+public class ComplexAlgorithmImpl {
+BubbleSortAlgorithm bubbleSortAlgorithm
+= new BubbleSortAlgorithm();
+
+Loose Coupling 
+
+@Component
+public class TodoBusinessService {
+@Autowired
+TodoDataService dataService;// = new TodoDataService()
+
+public TodoBusinessService(TodoDataService dataService) {
+this.dataService = dataService;
+}
+public interface TodoDataService {
+List<String> retrieveTodos(String user);
+}
+
+@Component
+public class ComplexAlgorithmImpl {
+@Autowired
+private SortAlgorithm sortAlgorithm;
+
+public interface SortAlgorithm {
+public int[] sort(int[] numbers);
+}
+public class QuickSortAlgorithm implements SortAlgorithm {
+
+public class BubbleSortAlgorithm implements SortAlgorithm {
+
+****************
+What is a Dependency?
+
+We use Spring Framework to instantiate beans and
+wire dependencies
+ComplexAlgorithmImpl binarySearch =
+new ComplexAlgorithmImpl(new QuickSortAlgorithm());
+@Component
+public class ComplexAlgorithmImpl {
+@Autowired
+private SortAlgorithm sortAlgorithm;
+
+Wec >> Business >> DATA 
+
+**********************
+
+
+What is IOC (Inversion of Control)?
+
+spring frame work will take contorl to create a bean @Comonent or @Autowired
+*********
+
+What is Dependency Injection?
+
+
+********************
+Can you give few examples of Dependency
+Injection?
+What is Auto Wiring?
+It creates an object 
+
+*******************************
+IOC COntainer 
+Find beans 
+Wire dependices 
+manage life cycle fo rbean 
+Indenfies beans like component and wire depencies like @Autowired 
+********************
+
+Bean Factory  
+Find beans 
+Wire dependices 
+manage life cycle fo rbean 
+
+*******************
+Application Context
+Bean Factory++
+AOP Features 
+i18n capabilites 
+Webapplcation contxt for web applictons etc 
+we use most of the appiication aplicaton context 
+*******************
+two ways to create applicaton context 
+xml file 
+@Configuration in java 
+AP 
+
+****************
+How does Spring know where to search for
+Components or Beans?
+What is a component scan?
+How do you define a component scan in XML and
+Java Configurations?
+How is it done with Spring Boot?
+
+
+@Configuration
+@ComponentScan(basePackages = {
+"com.in28minutes.spring.example1.businessservice",
+"com.in28minutes.spring.example1.dataservice.stub" })
+class SpringContext
+
+using sring boot 
+package com.in28minutes.spring.basics.springin5steps;
+@SpringBootApplication
+public class SpringIn5StepsApplication {
+package com.in28minutes.spring.basics.springin5steps;
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class SpringIn5StepsApplicationTests {
+
+
+suubpackage and comoonect scan will search if it is other folder we need to declare @ComponsenScan(basepakage)
+
+
+**************
+What does @Component signify?
+What does @Autowired signify?
+What’s the difference Between @Controller,
+@Component, @Repository,
+@Componenet should manage the bean 
+Generic component 
+@Autowired --find and macthing the bean 
+WeB ---> Businsess >>Data 
+Componetn can b eused any of the component 
+
+@Controller can be used at web layer using the MVC pattern 
+@Repository tyypically used at Data layer 
+@Service can be used at Business layaer 
+
+@Repsotiory --spring automaticly add jdbc exception and translated in specific exception 
+
+****************
+Questions
+What is the default scope of a bean?
+Are Spring beans thread safe?
+What are the other scopes available?
+How is Spring’s singleton bean
+
+singleton - One instance per Spring Context
+prototype - New bean whenever requested
+request - One bean per HTTP request. Web-aware
+Spring ApplicationContext.
+session - One bean per HTTP session.
+Defualt is singleton context 
+singleton Class 
+public class SingleObject {
+
+   //create an object of SingleObject
+   private static SingleObject instance = new SingleObject();
+
+   //make the constructor private so that this class cannot be
+   //instantiated
+   private SingleObject(){}
+
+   //Get the only object available
+   public static SingleObject getInstance(){
+      return instance;
+   }
+
+   public void showMessage(){
+      System.out.println("Hello World!");
+   }
+}
+Spring beans are not thread safe 
+No ?
+
+
+Sington instance is once per applicaiton context 
+
+****************************
+
+
+What are the different types of dependency
+injections?
+What is setter injection?
+What is constructor injection?
+How do you choose between setter and constructor
+injections?
+
+public class TodoBusinessService {
+TodoDataService dataService;
+@Autowired
+public void setDataService
+(TodoDataService dataService) {
+this.dataService = dataService;
+}
+//Through Reflection
+@Component
+public class TodoBusinessService {
+@Autowired
+TodoDataService dataService;
+
+
+Construction injection 
+
+@Component
+public class TodoBusinessService {
+TodoDataService dataService;
+@Autowired
+public TodoBusinessService(TodoDataService dataService) {
+super();
+this.dataService = dataService;
+}
+
+
+@Autowired ---relfection is a like setter conjuection 
+
+consturction injection for mandatory dependencies 
+
+Imputable bean  which will be not changed frequentlly  
+
+
+setter injection for optional dependcies 
+
+***********************
+
+
+XML vs Java Configuration
+With Spring Boot, we are slowly moving towards
+complete Java Configuration.
+package com.in28minutes.spring.basics.springin5steps;
+@SpringBootApplication
+public class SpringIn5StepsApplication {
+
+
+
+**********************
+
+How does Spring do Autowiring?
+What are the different kinds of matching used by
+Spring for Autowiring?
+
+byType
+
+by Type - Class or Interface
+@Component
+public class ComplexAlgorithmImpl {
+@Autowired
+private SortAlgorithm sortAlgorithm;
+public interface SortAlgorithm {
+public int[] sort(int[] numbers);
+}
+@Component
+public class QuickSortAlgorithm implements SortAlgorithm {
+by Name
+@Component
+public class ComplexAlgorithmImpl {
+@Autowired
+private SortAlgorithm quickSortAlgorithm;
+public interface SortAlgorithm {
+public int[] sort(int[] numbers);
+}
+@Component
+public class QuickSortAlgorithm implements SortAlgorithm {
+@Component
+public class BubbleSortAlgorithm implements SortAlgorithm {
+
+
+********
+How do you debug problems with Spring
+Framework?
+NoUniqueBeanDefinitionException --two match componensts 
+if it finds two componets on name but we get above exception 
+
+
+
+NoSuchBeanDefinitionException ---if no @Comonent we get the above exception 
+if it is in other package we may get above exceptionn 
+@Component
+@Primary
+public class BubbleSortAlgorithm implements SortAlgorithm {
+What is @Qualifier?
+@Component
+public class ComplexAlgorithmImpl {
+@Autowired
+@Qualifier("mainAlgorithm")
+private SortAlgorithm sortAlgorithm;
+@Component
+@Qualifier("mainAlgorithm")
+public class BubbleSortAlgorithm implements SortAlgorithm {
+
+
+******************
+Context depencny injection 
+Java EE Dependency Injection Standard (JSR-330)
+Spring Supports most annotations
+@Inject in cdi (@Autowired)
+@Named in cdi  (@Component & @Qualifier)
+@Singleton in CDI  (Defines a scope of Singleton)
+
+*****************
+CDI defines API  JSR 330 
+
+***********************
+Notes
+Spring 2.5 made annotation-driven configuration --bean defined in xml 
+possible.
+Spring 3.0 made great use of the
+Spring 3.0 made great use of the Java 5
+improvements in language.
+
+
+Spring 4.0
+First version to fully support Java 8 features.
+Minimum version of Java to use Spring 4 is Java SE
+6.
+Introduced @RestController annotation
+Spring 4.1 supports JCache (JSR-107) annotations
+
+
+Spring 5.0
+Functional web framework
+Support for Jigsaw (Java Modularity)
+Support for reactive programming --building application using events 
+Support for Kotlin ---java application less number of lines 
+
+
+*****************
+Spring modules 
+********************
+Spring Projects
+Spring Boot
+Spring Cloud
+Spring Data
+Spring Integration
+Spring Batch
+Spring Security
+Spring HATEOAS
+Spring Web Services
+Spring Session
+
+**********
+Core Container 
+Dependcey ijjnection ,Atuatworinng ,managing thhe beans, context ,spring beans expresssion langauge 
+
+***************
+DATA Layer 
+Spring JDBC------talks to realtioonal database
+ Spring ORM --object relational framework (popular ) 
+ Spring OXM --- Object XML Mapping 
+ Spring JMS --JMS implematnation 
+ Spring Transaction ---JPA Transaction 
+ *********************
+ Web 
+ *******
+ serverlts 
+ portlet 
+ web ---it supports rest 
+ websocket 
+ 
+ 
+ corss cutting concerns 
+ ****************
+ AOP ,Aspects ,Instcrumentation,Messaging 
+ 
+ *****************************************
+ Test 
+ 
+ **********************************
+ Spring boot application 
+ ****************************
+ 
+Spring boot  --micorservices application 
+sprig cloud ---build cloud native applications 
+spring data ---consistent data access 
+spring integration -- application intgeration 
+spring hateoas --realtedd links to understand where to go 
+spring security ---protect your applications  for rest basic auth and oath2 
+spring batch ---restart whre it failed ,minute details tracking 
+
+spring other --sprign web sercies and spring sessions 
+
+
+*******************************************
+Spring dependencies
+Use a BOM material dependenciels 
+
+Dependcmy managment 
+
+
+<dependencyManagement>
+<dependencies>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-framework-bom</artifactId>
+<version>5.0.0.RELEASE</version>
+<type>pom</type>
+<scope>import</scope>
+</dependency>
+</dependencies>
+</dependencyManagement>
+<dependencies>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-context</artifactId>
+</dependency>
+<dependency>
+<groupId>org.springframework</groupId>
+<artifactId>spring-web</artifactId>
+</dependency>
+
+
+Name some of the design patterns used in Spring
+
+Design Patterns in Spring
+Front Controller - Dispatcher Servlet
+Prototype - Beans  
+Dependency Injection
+Factory Pattern - Bean Factory & Application Context
+Template Method
+org.springframework.web.servlet.mvc.AbstractController --JDBC ,JMS ,REST Template 
+Framework?
+
+
+Questions
+What are some of the important Spring annotations
+
+Annotations
+@Component, @Service, @Repository, @Controller
+@Autowired
+@Primary
+@Qualifier
+@Configuration  --- it defines the cspring context 
+
+****************
+What do you think about Spring Framework?
+
+Why is Spring Popular?
+Archtiecture --flexible and No Restrictions 
+Desinged loosely couples 
+Code easy unit testing 
+Features --dependeccny injection ,IOC 
+Container bean factory and pplication context 
+Auto wiring ,Component scan 
+Can you give a big picture of the Spring Framework?
+Spring moudles 
+spring projeccts 
+
+
+Spring MVC 
+
+**************
+Model 1 architecutre 
+
+Broser --Jsp-->Model 
+
+JSP is handling all logic 
+
+What is model2 
+
+Request --Servlet(cotnroller) > View -- > Model --(database)
+
+
+
+model2 
+
+Browsere -->Front controller --> 
+Servlet1 --Model
+Frontcotnroller-->View 
+
+
+****************
+Spring MVC 
+
+Can you show an example controller method in
+Spring MVC?
+Can you explain a simple flow in Spring MVC?
+What is a ViewResolver?
+What is Model?
+What is ModelAndView?
+What is a RequestMapping?
+
+@RequestMapping(value = "/list-todos",
+method = RequestMethod.GET)
+
+public String listTodos(ModelMap model) {
+model.addAttribute("todos",
+service.retrieveTodos(retrieveLoggedinUserName()));
+return "list-todos"; //jsp 
+}
+View resolver will get the display 
+
+ViewResolver
+<bean
+class=
+"org.springframework.web.servlet.view.InternalResourceViewResolver
+<property name="prefix">
+<value>/WEB-INF/views/</value>
+</property>
+<property name="suffix">
+<value>.jsp</value>
+</property>
+</bean>
+need to put the data into Model 
+
+  
+
+
+Broswr -->DispatcherServlet-->Cotnroller--->Model 
+                       >>View Resolver-->Model (append prefix and suffix)
+					   --> View 
+					   --> Controller2 
+					   ---> View 
+					   
+
+Model vs ModelAndView
+@RequestMapping(value = "/", method = RequestMethod.GET)
+public String showLoginPage(ModelMap model) {
+model.put("name", "in28Minutes");
+return "welcome";
+}
+@RequestMapping(value = "/", method = RequestMethod.GET)
+public ModelAndView showLoginPage() {
+ModelAndView mv = new ModelAndView();
+mv.addObject("name", "in28Minutes");
+mv.setViewName("welcome");
+}
+					   
+
+
+
+you have used?
+
+Model
+To provide a view with usable data, we simply add this data to its Model object. Additionally, maps with attributes can be merged with Model instances:
+
+@GetMapping("/showViewPage")
+public String passParametersWithModel(Model model) {
+    Map<String, String> map = new HashMap<>();
+    map.put("spring", "mvc");
+    model.addAttribute("message", "Baeldung");
+    model.mergeAttributes(map);
+    return "viewPage";
+}
+
+
+ModelMap
+Just like the Model interface above, ModelMap is also used to pass values to render a view.
+
+The advantage of ModelMap is it gives us the ability to pass a collection of values and treat these values as if they were within a Map:
+
+@GetMapping("/printViewPage")
+public String passParametersWithModelMap(ModelMap map) {
+    map.addAttribute("welcomeMessage", "welcome");
+    map.addAttribute("message", "Baeldung");
+    return "viewPage";
+}
+
+
+ModelAndView
+The final interface to pass values to a view is the ModelAndView.
+
+This interface allows us to pass all the information required by Spring MVC in one return:
+
+@GetMapping("/goToViewPage")
+public ModelAndView passParametersWithModelAndView() {
+    ModelAndView modelAndView = new ModelAndView("viewPage");
+    modelAndView.addObject("message", "Baeldung");
+    return modelAndView;
+}
+
+
+****************
+<servlet>
+<servlet-name>dispatcher</servlet-name>
+<servlet-class>org.springframework.web.servlet.DispatcherServlet
+<init-param>
+<param-name>contextConfigLocation</param-name>
+<param-value>/WEB-INF/todo-servlet.xml</param-value>
+</init-param>
+<load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+<servlet-name>dispatcher</servlet-name>
+<url-pattern>/</url-pattern>
+</servlet-mapping>
+
+
+
+************
+Validation 
+What is a form backing object?
+@RequestMapping(value = "/add-todo",
+method = RequestMethod.GET)
+public String showTodoPage(ModelMap model) {
+model.addAttribute("todo", new Todo(0,
+retrieveLoggedinUserName(), "",
+new Date(), false));
+return "todo";
+}
+
+<form:form method="post" commandName="todo">
+<fieldset>
+<form:label path="desc">Description</form:label>
+<form:input path="desc" type="text"/>
+<form:errors path="desc"/>
+</fieldset>
+<fieldset>
+<form:label path="targetDate">Target Date</form:label>
+<form:input path="targetDate" type="text" />
+<form:errors path="targetDate"/>
+</fieldset>
+<input type="submit" value="Submit" />
+</form:form> after submit 
+
+@RequestMapping(value = "/add-todo", method = RequestMethod.POST)
+public String addTodo(ModelMap model, @Valid Todo todo,
+BindingResult result) {
+if (result.hasErrors()) {
+return "todo";
+}
+service.addTodo(retrieveLoggedinUserName(), todo.getDesc(), new
+false);
+model.clear();
+return "redirect:list-todos";
+}
+How is validation done using Spring MVC?
+public class Todo {
+private int id;
+private String user;
+@Size(min = 6, message = "Enter atleast 6 characters")
+private String desc;
+Hibrante validation is used 
+What is BindingResult?
+How do you map validation results to your view?
+What are Spring Form Tags?
+
+*****************
+
+What is a Path Variable?
+http://localhost:8080/todos/1
+@RequestMapping(value = "/todos/{id}")
+public Todo retrieveTodo(@PathVariable int id) {
+return
+What is a Model Attribute? for drop down in the ui we use @modelAttribute
+@ModelAttribute
+public void addAttributes(Model model) {
+model.addAttribute("options",
+Arrays.asList(
+"Option 1","Option 2","Option 3" ));
+}
+Model attributes 
+
+Indicates the purpose of that method is to add one
+or more model attributes.
+Invoked before @RequestMapping methods.
+Used to fill the model with commonly needed
+attributes
+Drop down values for form
+What is a Session Attribute?
+
+List the names of model attributes which should be
+transparently stored in the session or some
+conversational storage.
+@SessionAttributes("name")
+
+
+
+**************
+What is a init binder?
+How do you set default date format with Spring?
+
+@InitBinder
+protected void initBinder(WebDataBinder binder) {
+SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy"
+binder.registerCustomEditor(Date.class, new CustomDateEditor(
+dateFormat, false));
+}
+public class TodoController {
+
+
+
+
+**************
+How do you implement common logic for
+Controllers in Spring MVC?
+What is a Controller Advice?
+What is @ExceptionHandler?
+
+How to handle exceptions for web applications?
+What are the important things to think about when
+implementing Exception Handling?
+How do you implement Specific Error Handling for a
+Spring MVC Controller?
+
+
+
+@ControllerAdvice
+public class ExceptionController {
+private Log logger = LogFactory.getLog(ExceptionController.class);
+@ExceptionHandler(value = Exception.class)
+public String handleException
+(HttpServletRequest request, Exception ex) {
+logger.error("Request " + request.getRequestURL()
++ " Threw an Exception", ex);
+return "error";
+}
+}
+
+
+
+************
+Why is spring popular ?
+Clear Seperation of Concerns
+Dispatcher Servlet
+View Resolver
+View
+Model
+
+
+
+
+
+***************
+What is Spring Boot?
+in spring lot of confiuraton dispatcher erver ,compone scan ,view resolver web jars ,boot strap 
+world is movign towards microservices 
+we don't have lot of time to setup 100 micorsereces 
+What are the important Goals of Spring Boot?
+
+quick start to spring project 
+Be opinionated (it takes opionion and implemente very fast) 
+Non Functional features  
+like montitoring error handling 
+No code generation 
+
+Features 
+Auto configuration --JPA it entitry manager ,database  
+Spring boot starter projects
+--like web,JPA ,webservices
+Spring boot Acutator 
+---monitoring applicaiton 
+Embedded Server 
+Tomcat server ,jetty included in jar file 
+
+
+
+Compare Spring Boot vs Spring?
+Compare Spring Boot vs Spring MVC?
+
+Most important feature of Spring
+Framework is Dependency Injection. At
+the core of all Spring Modules is
+Dependency Injection or IOC Inversion
+of Control.
+
+@Component
+public class WelcomeService {
+//Bla Bla Bla
+}
+@RestController
+public class WelcomeController {
+@Autowired
+private WelcomeService service;
+@RequestMapping("/welcome")
+public String welcome() {
+return service.retrieveWelcomeMessage();
+}
+}
+
+Problems Spring Solves
+Problem 1 : Duplication/Plumbing Code
+Problem 2 : Good Integration with Other
+Frameworks.
+
+Spring MVC Framework provides
+decoupled way of developing web
+applications. With simple concepts like
+Dispatcher Servlet, ModelAndView and
+View Resolver, it makes it easy to
+develop web applications.
+
+Eliminates all configuration needed by Spring and
+Spring MVC and auto configures it
+No need for @ComponentScan. Default
+Component Scan.
+No need to configure DispatcherServlet
+No need to configure a Data Source, Entity
+
+Spring Boot Thinking
+Can we bring more intelligence into
+this? When a spring mvc jar is added
+into an application, can we auto
+configure some beans automatically?
+
+
+**********************
+What is the importance of @SpringBootApplication?
+
+
+@SpringBootConfiguration
+configuration for spring boot applicaton is similar @Configuration 
+@EnableAutoConfiguration
+auto congigruation based on the classpath 
+@ComponentScan
+it scans all componets in the package 
+public @interface SpringBootApplication {
+
+@SpringBootconfiguratin --for spring boot application is similar @Configuration 
+Manager Factory or Transaction Manager.
+}
+
+
+What are the important Features of Spring Boot?
+
+
+**************
+
+Auto configuration 
+Spring Boot looks at a) Frameworks
+available on the CLASSPATH b) Existing
+configuration for the application.
+Based on these, Spring Boot provides
+basic configuration needed to
+configure the application with these
+frameworks. This is called Auto
+Configuration.
+
+spring-boot-autoconfigure.jar
+To get more details
+Turn on Debug logging
+logging.level.org.springframework:
+DEBUG
+Use Spring Boot Actuator
+
+
+***************
+What is an embedded server? Why is it important?
+What is the default embedded server with Spring
+Boot?
+
+
+Server is embedded as part of the deployable - jar.
+Removes the need to have the server pre-installed
+on the deployment environment.
+Default is Tomcat.
+Spring Boot also supports Jetty and UnderTow.
+What are the other embedded servers supported by
+Spring Boot?
+
+
+exclue tomcat 
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-web</artifactId>
+<exclusions>
+<exclusion>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-tomcat</artifactId>
+</exclusion>
+</exclusions>
+</dependency>
+<dependency>
+<groupId>org.springframework.boot</groupId>
+<artifactId>spring-boot-starter-jetty</artifactId>
+</dependency>
+
+
+
+spring starter web pom.xml contains 
+<dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>2.3.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-json</artifactId>
+      <version>2.3.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+      <version>2.3.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <scope>compile</scope>
+    </dependency>
+	
+	****************************
+	JPA 
+	 <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+      <version>2.3.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+      <version>2.3.1.RELEASE</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.transaction</groupId>
+      <artifactId>jakarta.transaction-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.persistence</groupId>
+      <artifactId>jakarta.persistence-api</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>jaxb-api</artifactId>
+          <groupId>javax.xml.bind</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>javax.activation-api</artifactId>
+          <groupId>javax.activation</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>javax.persistence-api</artifactId>
+          <groupId>javax.persistence</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+          <groupId>org.jboss.spec.javax.transaction</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-jpa</artifactId>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>aspectjrt</artifactId>
+          <groupId>org.aspectj</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-aspects</artifactId>
+      <scope>compile</scope>
+    </dependency>
+	
+	
+	
+	
+spring-boot-starter-web-services - SOAP
+WebServices
+spring-boot-starter-web - Web & RESTful
+applications
+spring-boot-starter-test - Unit, Integration Testing
+spring-boot-starter-jdbc - Traditional JDBC
+spring-boot-starter-hateoas - HATEOAS features
+spring-boot-starter-security - Authentication and
+Authorization using Spring Security
+spring-boot-starter-data-jpa - Spring Data JPA with
+Hibernate
+spring-boot-starter-cache - Enabling Spring
+Framework’s caching support
+spring-boot-starter-data-rest - Expose Simple REST
+Services using Spring Data REST
+***********************************
+
+
+What is application.properties?
+What are some of the important things that can
+customized in application.properties?
+
+logging.file=
+logging.level.*=
+spring.autoconfigure.exclude=
+spring.profiles.active=
+server.error.path=/error
+server.port=8080
+spring.http.converters.preferred-json-mapper=jackson
+
+*****************
+YAML --Yet Another markup language 
+How do you externalize configuration using Spring
+Boot?
+How can you add custom application properties
+using Spring Boot?
+What is @ConfigurationProperties?
+
+
+
+
+************************
+import
+org.springframework.boot.context.properties.ConfigurationProperties;
+@Component
+@ConfigurationProperties("basic")
+public class BasicConfiguration {
+private boolean value;
+private String message;
+
+
+
+@Autowired
+private BasicConfiguration configuration;
+@RequestMapping("/dynamic-configuration")
+public Map dynamicConfiguration() {
+// Not the best practice to use a map to store differnt types!
+Map map = new HashMap();
+map.put("message", configuration.getMessage());
+map.put("number", configuration.getNumber());
+map.put("key", configuration.isValue());
+
+
+application.properties
+application.yaml
+basic.value= true
+basic.message= Dynamic Message
+basic.number= 100
+basic:
+value: true
+message: Dynamic Message YAML
+number: 100
+
+return map;
+}
+private int number;
+
+
+
+What is a profile?
+How do you define beans for a specific profile?
+How do you create application configuration for a
+specific profile?
+
+How do you have different
+configuration for different
+environments?
+
+
+application-dev.properties
+application-qa.properties
+application-stage.properties
+application-prod.properties
+application.properties
+
+Based on the active profile, appropriate
+configuration is picked up.
+Used to Configure Resources - Databases, Queues,
+External Services
+
+
+*******************************
+
+JDBC - Update Todo
+Connection connection = datasource.getConnection();
+PreparedStatement st = connection.prepareStatement(
+"Update todo set user=?, desc=?, target_date=?, is_done=? where id=?"
+st.setString(1, todo.getUser());
+st.setString(2, todo.getDesc());
+st.setTimestamp(3, new Timestamp(todo.getTargetDate().getTime()));
+st.setBoolean(4, todo.isDone());
+st.setInt(5, todo.getId());
+st.execute();
+st.close();
+connection.close();
+
+
+jdbcTemplate
+.update
+("Update todo set user=?, desc=?, target_date=?, is_done=? where id=?"
+todo.getUser(), todo.getDesc(),
+new Timestamp(todo.getTargetDate().getTime()),
+todo.isDone(), todo.getId());
+jdbcTemplate.update("delete from todo where id=?",
+id);
+
+
+
+new BeanPropertyRowMapper(Todo.class)
+class TodoMapper implements RowMapper<Todo> {
+@Override
+public Todo mapRow(ResultSet rs, int rowNum)
+throws SQLException {
+Todo todo = new Todo();
+todo.setId(rs.getInt("id"));
+todo.setUser(rs.getString("user"));
+todo.setDesc(rs.getString("desc"));
+todo.setTargetDate(
+rs.getTimestamp("target_date"));
+todo.setDone(rs.getBoolean("is_done"));
+return todo;
+}
+}
+
+return jdbcTemplate.query(
+"SELECT * FROM TODO where user = ?",
+new Object[] { user }, new TodoMapper());
+return jdbcTemplate.queryForObject(
+"SELECT * FROM TODO where id=?",
+new Object[] { id }, new TodoMapper())
+
+
+
+@Entity
+@Table(name = "Todo")
+public class Todo {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private int id;
+private String user;
+private String desc;
+private Date targetDate;
+private boolean isDone;
+
+
+public class TodoJPAService implements TodoDataService {
+@PersistenceContext
+private EntityManager entityManager;
+@Override
+public void updateTodo(Todo todo) {
+entityManager.merge(todo);
+}
+
+@Entity
+public class Passport {
+....
+// Inverse Relationship
+// bi-directional OneToOne relationship
+// Column will not be created in the table
+// Try removing mappedBy = "passport" => You will see that student_// will be created in passport
+@OneToOne(fetch = FetchType.LAZY, mappedBy = "passport")
+private Student student;
+@Entity
+@Table(name = "Student")
+public class Student {
+@OneToOne
+private Passport passport;
+
+
+
+@Entity
+public class Project {
+@OneToMany(mappedBy = "project")
+private List<Task> tasks;
+@Entity
+public class Task {
+@ManyToOne
+@JoinColumn(name="PROJECT_ID")
+private Project project;
+
+
+
+@Entity
+public class Project {
+@ManyToMany
+// @JoinTable(name="STUDENT_PROJ",
+// joinColumns=@JoinColumn(name="STUDENT_ID"),
+// inverseJoinColumns=@JoinColumn(name="PROJECT_ID"))
+private List<Student> students;
+public class Student {
+@ManyToMany(mappedBy = "students")
+private List<Project> projects;
+
+
+
+@Service
+public class StudentService {
+@Autowired
+StudentRepository service;
+@Transactional
+public Student insertStudent(Student student) {
+return service.insertStudent(student);
+}
+@Service
+@Transactional
+public class StudentService {
+@Autowired
+StudentRepository service;
+
+
+Duplication in JPA Repositories
+Passport Repository
+@PersistenceContext
+private EntityManager entityManager;
+public Passport getPassport(final long id) {
+Passport passport = entityManager
+.find(Passport.class, id);
+return passport;
+}
+public Passport createPassport(Passport passport) {
+return entityManager.merge(passport);
+}
+Duplication in JPA Repositories
+Student Repository
+@PersistenceContext
+private EntityManager entityManager;
+public Student retrieveStudent(final long id) {
+return entityManager.find(Student.class, id);
+}
+public Student createStudent(Student student) {
+return entityManager.merge(student);
+}
+
+
+Spring Data
+Common Abstractions to store and
+retrieve data from data stores
+Independent of type of data store
+
+Using Spring Data JPA
+public interface StudentRepository extends CrudRepository<Student
+}
+public interface PassportRepository extends CrudRepository<Passport
+}
+
+
+Questions
+What is a CrudRepository?
+public interface CrudRepository<T, ID> extends Repository<T, ID>
+<S extends T> S save(S entity);
+Optional<T> findById(ID id);
+boolean existsById(ID id);
+Iterable<T> findAll();
+void deleteById(ID id);
+long count();
+//Other Methods
+}
+What is a PagingAndSortingRepository
+
+public interface PagingAndSortingRepository<T, ID>
+extends CrudRepository<T, ID> {
+Iterable<T> findAll(Sort sort);
+Page<T> findAll(Pageable pageable);
+}
+Sort sort = new Sort(Sort.Direction.DESC,"field_name");
+passportRepository.findAll(sort);
+//Page Size - 10
+PageRequest pageable = new PageRequest(0,10);
+Page<Passport> page = passportRepository.findAll(pageable);
+System.out.println(userPage.getTotalPages());
+System.out.println(userPage.nextPageable());
+
+
+Mocktito 
+
+public class SomeBusinessImpl {
+private DataService dataService;
+//Constructor - public SomeBusinessImpl(DataService dataService)
+int findTheGreatestFromAllData() {
+int[] data = dataService.retrieveAllData();
+int greatest = Integer.MIN_VALUE;
+for (int value : data) {
+if (value > greatest) {
+greatest = value;
+}
+}
+return greatest;
+}
+}
+
+
+@Test
+public void testFindTheGreatestFromAllData() {
+DataService dataServiceMock = mock(DataService.class);
+when(dataServiceMock.retrieveAllData())
+.thenReturn(new int[] { 24, 15, 3 });
+SomeBusinessImpl businessImpl =
+new SomeBusinessImpl(dataServiceMock);
+int result = businessImpl.findTheGreatestFromAllData();
+assertEquals(24, result);
+}
+
+
+@RunWith(MockitoJUnitRunner.class)
+public class SomeBusinessMockAnnotationsTest {
+@Mock
+DataService dataServiceMock;
+@InjectMocks //by usign injectmocks there is no need to pass any impl class 
+SomeBusinessImpl businessImpl;
+@Test
+public void testFindTheGreatestFromAllData() {
+when(dataServiceMock.retrieveAllData())
+.thenReturn(new int[] { 24, 15, 3 });
+assertEquals(24, businessImpl.findTheGreatestFromAllData());
+}
+
+Agent AI Model 
+Key Idea
+
+Rather than fine-tuning, we use Retrieval-Augmented Generation (RAG):
+
+Fetch the most relevant passages from your docs at runtime,
+Feed those into the LLM prompt,
+The LLM then generates an answer grounded in those passages
+Key Idea
+
+Rather than fine-tuning, we use Retrieval-Augmented Generation (RAG):
+
+Fetch the most relevant passages from your docs at runtime,
+Feed those into the LLM prompt,
+The LLM then generates an answer grounded in those passages.
+
+Planner: A “brain” loop that decides next steps.
+Retriever: Finds the right snippets from your supporting documents (vector search).
+Tools: Anything the agent can call—APIs, calculators, code execution, web search.
+Memory (optional): Stores facts across turns/tasks.
+LLM: The language model that reasons, plans, and writes.
+
+
+

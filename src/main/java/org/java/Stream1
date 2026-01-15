@@ -1,0 +1,461 @@
+package streams;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+/**
+ * 50 Real-time Java Stream API Scenarios with Explanations
+ * Each example uses the Employee list for demonstration.
+ */
+public class StreamUseCases1 {
+    public static void main(String[] args) {
+        EmployeeList employeeListObj = new EmployeeList();
+        List<Employee> employees = employeeListObj.getEmployeeList();
+
+        List<String> emploeeNames = employees.stream().map(e -> e.getName()).collect(Collectors.toList());
+        for(String name:emploeeNames){
+        //    System.out.println(name);
+        }
+        // 2. Count employees in HR department
+        long count1=employees.stream().filter(e->e.getDepartment().equals("HR")).count();
+//        System.out.println("HR Count: "+count1);
+        // 3. Find the highest salary
+        Optional<Employee> c=employees.stream().max(Comparator.comparingDouble((employees1->employees1.getSalary())));
+        //System.out.println("Max Salary Employee: "+c.get().getName()+" with salary: "+c.get().getSalary());
+                //filter(e->e.getSalary()).collect(Collectors.toList()).stream().max()
+        // 3. Find the highest salary
+        // This finds the highest salary among all employees.
+        double maxSalary = employees.stream()
+                .mapToDouble(Employee::getSalary)
+                .max()
+                .orElse(0);
+       // System.out.println("Max Salary: " + maxSalary);
+
+        // 4. List employees older than 30
+        List<Employee> listEmployeelessThanAge=employees.stream().filter((employee -> employee.getAge()>30))
+                .collect(Collectors.toList());
+        for(Employee e:listEmployeelessThanAge){
+           // System.out.println("Employee older than 30: "+e.getName()+" Age: "+e.getAge());
+        }
+        OptionalDouble productDevelopment = employees.stream().filter(employee -> employee.getDepartment().equalsIgnoreCase("Product Development"))
+                .mapToDouble(employees1 -> employees1.getSalary()).average();
+        //System.out.println("Average salary of Product Development: "+productDevelopment.getAsDouble());
+        List<String> EmployeeList=employees.stream().map(employee->employee.getDepartment())
+                .distinct().collect(Collectors.toList());
+        for( String s:EmployeeList){
+            //      System.out.println("Department: "+s);
+        }
+
+
+        // 5. Get average salary of Product Development
+        // 6. List unique departments
+        // 7. Find youngest employee
+
+        Optional<Employee> min = employees.stream().min(Comparator.comparingDouble(e -> e.getAge()));
+        //System.out.println("Youngest Employee: "+min.get().getName()+" Age: "+min.get().getAge());
+         OptionalDouble min1=  employees.stream().mapToDouble(e -> e.getAge()).min();
+
+
+
+        // 8. List employees joined after 2015
+        List<Employee> listEmployee=employees.stream().filter(e->e.getYearOfJoining()>2015).collect(Collectors.toList());
+                //.forEach(e-> System.out.println("Employee joined after 2015: "+e.getName()+" Year of joining: "+e.getYearOfJoining()));
+        for(Employee e :listEmployee){
+          //  System.out.println("Employee joined after 2015: "+e.getName()+" Year of joining: "+e.getYearOfJoining());
+        }
+        // 9. Group employees by gender
+        Map<String, List<Employee>> collect = employees.stream().collect(Collectors.groupingBy(Employee::getGender));
+       // System.out.println("By Gender       : " + collect.keySet());
+
+        // 10. Get total salary expense
+
+        double sum = employees.stream().mapToDouble(employees2 -> employees2.getSalary()).sum();
+      //  System.out.println("Total Salary: " + sum);
+        // 30. Find max salary per department
+        // This finds the employee with the highest salary in each department and prints the result as a map.
+        Map<String, Optional<Employee>> maxSalByDept = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment,
+                        Collectors.maxBy(Comparator.comparingDouble(Employee::getSalary))));
+        //maxSalByDept.values().forEach(System.out::println);
+        maxSalByDept.values().forEach(optEmp -> optEmp.ifPresent(emp -> System.out.println(emp.getName() + " : " + emp.getSalary() + " : " + emp.getDepartment())));
+
+
+//can i get the max 2 Salarys  of each department
+        Map<String, List<Employee>> top2SalariesByDept = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getDepartment,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                empList -> empList.stream()
+                                        .sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
+                                        .limit(5)
+                                        .collect(Collectors.toList())
+                        )));
+
+
+
+ /*       top2SalariesByDept.forEach((dept, empList) -> {
+            System.out.print("Department: " + dept + " | Top 2 Salaries: ");
+            System.out.println(empList.stream()
+                    .map(emp -> String.valueOf(emp.getSalary()))
+                    .collect(Collectors.joining(", ")));
+        });*/
+        top2SalariesByDept.forEach((dept, empList) -> {
+            System.out.print("Department: " + dept + " | Top 2 Salaries: ");
+            System.out.println(empList.stream()
+                    .map(emp -> emp.getSalary() + " (" + emp.getName() + ")")
+                    .collect(Collectors.joining(", ")));
+        });
+
+        // 13. Check if all employees are older than 20
+        // This checks if every employee is older than 20 years.
+        boolean allAbove20 = employees.stream()
+                .allMatch(e -> e.getAge() > 20);
+        System.out.println("All > 20: " + allAbove20);
+ employees.stream()
+                .filter(e -> e.getAge() > 20);
+        System.out.println("All > 20: " + allAbove20);
+
+        // 1. Print all employee names
+        // This prints the name of every employee in the list.
+  /*      List<String> employeeNames = employees.stream()
+            .map(e -> e.getName())
+            .collect(Collectors.toList());
+        for (String name : employeeNames) {
+            System.out.println(name);
+        }*/
+
+        //LRK Started from here
+
+
+  /*
+        // 2. Count employees in HR department
+        // This counts how many employees are in the HR department.
+        long hrCount = employees.stream()
+            .filter(e -> e.getDepartment().equals("HR"))
+            .count();
+        System.out.println("HR Count: " + hrCount);
+
+        // 3. Find the highest salary
+        // This finds the highest salary among all employees.
+        double maxSalary = employees.stream()
+            .mapToDouble(Employee::getSalary)
+            .max()
+            .orElse(0);
+        System.out.println("Max Salary: " + maxSalary);
+
+        // 4. List employees older than 30
+        // This prints the names of employees who are older than 30 years.
+        employees.stream()
+            .filter(e -> e.getAge() > 30)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 5. Get average salary of Product Development
+        // This calculates the average salary of employees in the Product Development department.
+        double avgPD = employees.stream()
+            .filter(e -> e.getDepartment().equals("Product Development"))
+            .mapToDouble(Employee::getSalary)
+            .average()
+            .orElse(0);
+        System.out.println("Avg PD Salary: " + avgPD);
+
+        // 6. List unique departments
+        // This prints the name of each unique department in the company.
+        employees.stream()
+            .map(Employee::getDepartment)
+            .distinct()
+            .forEach(System.out::println);
+
+        // 7. Find youngest employee
+        // This finds and prints the name of the youngest employee.
+        Employee youngest = employees.stream()
+            .min(Comparator.comparingInt(Employee::getAge))
+            .orElse(null);
+        System.out.println("Youngest: " + (youngest != null ? youngest.getName() : "None"));
+
+        // 8. List employees joined after 2015
+        // This prints the names of employees who joined after the year 2015.
+        employees.stream()
+            .filter(e -> e.getYearOfJoining() > 2015)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 9. Group employees by gender
+        // This groups employees by gender and prints the gender categories.
+        Map<String, List<Employee>> byGender = employees.stream()
+            .collect(Collectors.groupingBy(Employee::getGender));
+        System.out.println("By Gender: " + byGender.keySet());
+
+        // 10. Get total salary expense
+        // This calculates and prints the total salary paid to all employees.
+        double totalSalary = employees.stream()
+            .mapToDouble(Employee::getSalary)
+            .sum();
+        System.out.println("Total Salary: " + totalSalary);
+
+        // 11. List all employee IDs
+        // This prints the ID of every employee.
+        List<Integer> employeeIds = employees.stream()
+            .map(e -> e.getId())
+            .collect(Collectors.toList());
+        for (Integer id : employeeIds) {
+            System.out.println(id);
+        }
+
+        // 12. Check if any employee earns more than 35000
+        // This checks if there is at least one employee with a salary greater than 35000.
+        boolean anyHighEarner = employees.stream()
+            .anyMatch(e -> e.getSalary() > 35000);
+        System.out.println("Any salary > 35000: " + anyHighEarner);
+
+        // 13. Check if all employees are older than 20
+        // This checks if every employee is older than 20 years.
+        boolean allAbove20 = employees.stream()
+            .allMatch(e -> e.getAge() > 20);
+        System.out.println("All > 20: " + allAbove20);
+
+        // 14. Find first employee in Sales And Marketing
+        // This finds and prints the name of the first employee in the Sales And Marketing department.
+        Employee firstSales = employees.stream()
+            .filter(e -> e.getDepartment().equals("Sales And Marketing"))
+            .findFirst()
+            .orElse(null);
+        System.out.println("First Sales: " + (firstSales != null ? firstSales.getName() : "None"));
+
+        // 15. Sort employees by salary descending
+        // This prints employee names and salaries, sorted from highest to lowest salary.
+        employees.stream()
+            .sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
+            .forEach(e -> System.out.println(e.getName() + ": " + e.getSalary()));
+
+        // 16. Get names of employees in a Set
+        // This collects all employee names into a Set (no duplicates) and prints the set.
+        Set<String> namesSet = employees.stream()
+            .map(e -> e.getName())
+            .collect(Collectors.toSet());
+        System.out.println("Names Set: " + namesSet);
+
+        // 17. Partition employees by gender
+        // This splits employees into two groups: male and not male, and prints the size of the male group.
+        Map<Boolean, List<Employee>> partitioned = employees.stream()
+            .collect(Collectors.partitioningBy(e -> e.getGender().equals("Male")));
+        System.out.println("Partitioned by Male: " + partitioned.get(true).size());
+
+        // 18. Find employee with second highest salary
+        // This finds and prints the name of the employee with the second highest salary.
+        Employee secondHighest = employees.stream()
+            .sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
+            .skip(1)
+            .findFirst()
+            .orElse(null);
+        System.out.println("Second Highest: " + (secondHighest != null ? secondHighest.getName() : "None"));
+
+        // 19. List employees whose name starts with 'A'
+        // This prints the names of employees whose name starts with the letter 'A'.
+        employees.stream()
+            .filter(e -> e.getName().startsWith("A"))
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 20. Find sum of salaries for employees joined in 2015
+        // This calculates and prints the total salary of employees who joined in 2015.
+        double sum2015 = employees.stream()
+            .filter(e -> e.getYearOfJoining() == 2015)
+            .mapToDouble(Employee::getSalary)
+            .sum();
+        System.out.println("Sum 2015: " + sum2015);
+
+        // 21. List employees in Infrastructure department
+        // This prints the names of employees in the Infrastructure department.
+        employees.stream()
+            .filter(e -> e.getDepartment().equals("Infrastructure"))
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 22. Find employee with minimum salary
+        // This finds and prints the name of the employee with the lowest salary.
+        Employee minSalaryEmp = employees.stream()
+            .min(Comparator.comparingDouble(Employee::getSalary))
+            .orElse(null);
+        System.out.println("Min Salary: " + (minSalaryEmp != null ? minSalaryEmp.getName() : "None"));
+
+        // 23. List employees sorted by age
+        // This prints employee names and ages, sorted from youngest to oldest.
+        employees.stream()
+            .sorted(Comparator.comparingInt(Employee::getAge))
+            .forEach(e -> System.out.println(e.getName() + ": " + e.getAge()));
+
+        // 24. Get all employee names as a comma-separated string
+        // This joins all employee names into a single string, separated by commas.
+        List<String> allNames = employees.stream()
+            .map(e -> e.getName())
+            .collect(Collectors.toList());
+        String namesCSV = String.join(", ", allNames);
+        System.out.println("Names CSV: " + namesCSV);
+
+        // 25. Find employees with salary between 20000 and 30000
+        // This prints the names of employees whose salary is between 20000 and 30000.
+        employees.stream()
+            .filter(e -> e.getSalary() >= 20000 && e.getSalary() <= 30000)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 26. Get list of employee ages
+        // This collects all employee ages into a list and prints it.
+        List<Integer> ages = employees.stream()
+            .map(e -> e.getAge())
+            .collect(Collectors.toList());
+        System.out.println("Ages: " + ages);
+
+        // 27. Find employees with even IDs
+        // This prints the names of employees whose ID is an even number.
+        employees.stream()
+            .filter(e -> e.getId() % 2 == 0)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 28. List employees whose name contains 'n'
+        // This prints the names of employees whose name contains the letter 'n' (case-insensitive).
+        employees.stream()
+            .filter(e -> e.getName().toLowerCase().contains("n"))
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 29. Count employees per department
+        // This counts how many employees are in each department and prints the result as a map.
+        Map<String, Long> countByDept = employees.stream()
+            .collect(Collectors.groupingBy(Employee::getDepartment, Collectors.counting()));
+        System.out.println("Count by Dept: " + countByDept);
+
+        // 30. Find max salary per department
+        // This finds the employee with the highest salary in each department and prints the result as a map.
+        Map<String, Optional<Employee>> maxSalByDept = employees.stream()
+            .collect(Collectors.groupingBy(Employee::getDepartment,
+                Collectors.maxBy(Comparator.comparingDouble(Employee::getSalary))));
+        System.out.println("Max Salary by Dept: " + maxSalByDept);
+
+        // 31. List employees joined before 2013
+        // This prints the names of employees who joined before the year 2013.
+        employees.stream()
+            .filter(e -> e.getYearOfJoining() < 2013)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 32. Find average age of employees
+        // This calculates and prints the average age of all employees.
+        double avgAge = employees.stream()
+            .mapToInt(Employee::getAge)
+            .average()
+            .orElse(0);
+        System.out.println("Avg Age: " + avgAge);
+
+        // 33. List employees with names in uppercase
+        // This prints the names of all employees in uppercase letters.
+        List<String> upperNames = employees.stream()
+            .map(e -> e.getName().toUpperCase())
+            .collect(Collectors.toList());
+        for (String name : upperNames) {
+            System.out.println(name);
+        }
+
+        // 34. Find employees with salary less than 15000
+        // This prints the names of employees whose salary is less than 15000.
+        employees.stream()
+            .filter(e -> e.getSalary() < 15000)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 35. Get department names as a List
+        // This collects all unique department names into a list and prints it.
+        List<String> deptList = employees.stream()
+            .map(e -> e.getDepartment())
+            .distinct()
+            .collect(Collectors.toList());
+        System.out.println("Dept List: " + deptList);
+
+        // 36. Find employees whose name ends with 'a'
+        // This prints the names of employees whose name ends with the letter 'a'.
+        employees.stream()
+            .filter(e -> e.getName().endsWith("a"))
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 37. List employees sorted by year of joining
+        // This prints employee names and their year of joining, sorted from earliest to latest.
+        employees.stream()
+            .sorted(Comparator.comparingInt(Employee::getYearOfJoining))
+            .forEach(e -> System.out.println(e.getName() + ": " + e.getYearOfJoining()));
+
+        // 38. Find employees with odd ages
+        // This prints the names of employees whose age is an odd number.
+        employees.stream()
+            .filter(e -> e.getAge() % 2 != 0)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 39. Get all employee objects as a Set
+        // This collects all employee objects into a Set (no duplicates) and prints the set size.
+        Set<Employee> empSet = employees.stream().collect(Collectors.toSet());
+        System.out.println("Emp Set size: " + empSet.size());
+
+        // 40. Find employees with salary above average
+        // This prints the names of employees whose salary is above the average salary.
+        double avgSal = employees.stream().mapToDouble(Employee::getSalary).average().orElse(0);
+        employees.stream()
+            .filter(e -> e.getSalary() > avgSal)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 41. List employees with name length > 10
+        // This prints the names of employees whose name has more than 10 characters.
+        employees.stream()
+            .filter(e -> e.getName().length() > 10)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 42. Find employees in Account And Finance
+        // This prints the names of employees in the Account And Finance department.
+        employees.stream()
+            .filter(e -> e.getDepartment().equals("Account And Finance"))
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 43. Get all unique ages
+        // This collects all unique ages of employees into a set and prints it.
+        Set<Integer> uniqueAges = employees.stream()
+            .map(e -> e.getAge())
+            .collect(Collectors.toSet());
+        System.out.println("Unique Ages: " + uniqueAges);
+
+        // 44. Find employees with salary divisible by 1000
+        // This prints the names of employees whose salary is exactly divisible by 1000.
+        employees.stream()
+            .filter(e -> e.getSalary() % 1000 == 0)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 45. List employees whose name contains 'i'
+        // This will print the names of all employees whose name contains the letter 'i' (case-insensitive).
+        employees.stream()
+            .filter(e -> e.getName().toLowerCase().contains("i"))
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 46. Find employees joined in or after 2016
+        // This will print the names of employees who joined the company in 2016 or later.
+        employees.stream()
+            .filter(e -> e.getYearOfJoining() >= 2016)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 47. Get sum of all employee ages
+        // This calculates and prints the total sum of ages of all employees.
+        int sumAges = employees.stream().mapToInt(Employee::getAge).sum();
+        System.out.println("Sum of Ages: " + sumAges);
+
+        // 48. List employees with salary as integer value
+        // This prints the names of employees whose salary is a whole number (no decimal part).
+        employees.stream()
+            .filter(e -> e.getSalary() == Math.floor(e.getSalary()))
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 49. Find employees with name having more than 2 words
+        // This prints the names of employees whose name consists of more than two words (e.g., 'John Michael Doe').
+        employees.stream()
+            .filter(e -> e.getName().trim().split(" ").length > 2)
+            .forEach(e -> System.out.println(e.getName()));
+
+        // 50. List employees whose name is palindrome (ignoring case and spaces)
+        // This prints the names of employees whose name reads the same forwards and backwards, ignoring spaces and case (e.g., 'Anna', 'Bob').
+        employees.stream()
+            .filter(e -> {
+                String n = e.getName().replaceAll(" ", "").toLowerCase();
+                return n.equals(new StringBuilder(n).reverse().toString());
+            })
+            .forEach(e -> System.out.println(e.getName()));
+    }*/
+    }
+}

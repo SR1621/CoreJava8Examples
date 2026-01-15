@@ -1,0 +1,337 @@
+public class MyClass {
+    public static void fibonnic(int n)
+    {
+        int n1=0,n2=1;
+        for (int i =0 ;i<=n ;i++)
+        {
+            System.out.println(n1+"");
+            int n3=n1+n2;
+            n1=n2;
+            n2=n3;
+        }
+        System.out.println();
+    }
+    
+    public static void reverofStringPalindrome(String str)
+    {
+        StringBuilder sb=new StringBuilder();
+        sb.append(str);
+        sb.reverse();
+        if(str.toString().equals(sb.toString()))
+        {
+            System.out.println("True");
+        } else {System.out.println("False");}
+        
+    }
+    
+    public static void reverofStringPalindromeNormal(String str1)
+    {
+        boolean conditona1=false;
+        char charArray[]=str1.toCharArray();
+        
+        int i =0,j=charArray.length-1;
+        
+        while(i < j)
+        {
+            if(charArray[i] != charArray[j]) {
+            conditona1=false;
+            i++;
+            j--;
+            break;
+                
+            } else {
+                conditona1=true;
+                break;
+            }
+        } 
+        
+        System.out.println(" values"+conditona1);
+    }
+	
+	 public static void reverseOfString(String arr)
+    {
+        char charArrray[]=arr.toCharArray();
+        int i=0,j=charArrray.length-1;
+        boolean codition=false;
+        
+        while(i<j)
+        {
+             System.out.println("first");
+            if(charArrray[i] != charArrray[j] ) {
+                System.out.println("first123");
+            i++;
+            j--;
+            codition=true; 
+            break;
+                
+            }
+            else 
+            {
+                codition=false;
+                break;
+            }
+            
+        }
+        if(codition){ System.out.println("trule"); } else {
+        System.out.println("False");}
+    }
+        */
+         public static void reverofStringPalindromeNormal(String str1)
+    {
+        boolean conditona1=false;
+        char charArray[]=str1.toCharArray();
+        
+        int i =0,j=charArray.length-1;
+        
+        while(i < j)
+        {
+            if(charArray[i] != charArray[j]) {
+            conditona1=false;
+            i++;
+            j--;
+            break;
+                
+            } else {
+                conditona1=true;
+                break;
+            }
+        } 
+        
+        System.out.println(" values"+conditona1);
+    }
+	
+	
+public static String reverseString(String s) {
+    char[] a = s.toCharArray();
+    int i = 0, j = a.length - 1;
+    while (i < j) {
+        char tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+        i++;
+        j--;
+    }
+    return new String(a);
+}
+
+    
+    public static void print12345decrease1(int n)
+    {
+        //12345
+		 //1234
+		 //123
+		 //12
+		 //1
+        System.out.println("True value");
+        for(int j=n; j>=1;j--)
+        {
+            for(int i=1;i<=j;i++)
+            {
+                System.out.print(i+"");
+            }
+            System.out.println();
+            
+        }
+    }
+    public static void method5(int n)
+    {
+        //1
+        //12
+        //123
+        //1234
+        //12345
+        for(int j=1; j<=n;j++)
+        {
+            for(int i=1;i<=j;i++){
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+        
+    }
+    public static void factoramethod6(int n)
+    {
+        int finalvalue=1;
+        for(int i=n;i>1;i--)
+        {
+             finalvalue=finalvalue*i;
+            
+        }
+        System.out.println(finalvalue);
+    }
+    
+    public static void vowelsFindinng(String str)
+    {
+        
+        char char1[]=str.toUpperCase().toCharArray();
+        int len=char1.length;
+        for(int i=0 ;i<len;i++)
+        {
+            System.out.println("values are "+char1[i]);
+            if(char1[i]=='A' || char1[i]=='E' || char1[i]=='I' ||char1[i]=='O' || char1[i]=='U' )
+            {
+                System.out.print("it contains AEIOU");
+                //break;
+            } else {
+                System.out.print("it will not contiane the AEIOU");
+            //    break;
+            }
+        }
+    }
+      public static void method7(String str)
+    {
+        
+        char char2[]=str.toUpperCase().toCharArray();
+        int len=char2.length;
+        boolean val=false;
+        int charACount=0,charECount=0,charICount=0,charOCount=0,charUCount=0;
+        for(char char1 : char2 )
+        {
+            System.out.println("values are "+char1);
+          if(char1=='A' || char1=='E' || char1=='I' ||char1=='O' || char1=='U' )
+            {
+                //System.out.print("it contains AEIOU");
+                //break;
+                val=true;
+                //break; 
+                if(char1=='A' ) charACount++;
+                else if (char1=='E' ) charECount++;
+                else if (char1=='I' ) charICount++;
+                else if (char1=='O' ) charOCount++;
+                else if (char1=='U' ) charUCount++;
+                
+            } 
+        }
+        if(val)
+        {
+            System.out.print("Vowel is present");
+        } else { System.out.print("Vowek is not present"); }
+        
+        System.out.print("A COUNT "+charACount+"\n E Count "+charECount+"\n I Count "+charICount+"\n O Count "+charOCount+"\n U Count "+charUCount);
+    }
+	 public static void bubbleSortNew(int sort[])
+    {
+        int sortSize=sort.length;
+        for(int values:sort)
+        {
+            System.out.println(values);
+        }
+        int temp=0;
+        for(int i=0; i<sortSize;i++)
+        {
+            for(int j=0;j<sortSize-1;j++)
+            {
+                if(sort[j]> sort[j+1])
+                {
+                    temp=sort[j];
+                    sort[j]=sort[j+1];
+                    sort[j+1]=temp;
+                }
+            }
+        }
+        for(int sortArray1:sort )
+        {
+             System.out.print(sortArray1+"");
+        }
+        
+    }
+	
+	public static void quickSort(int arr[],int low,int high)
+	{
+		if(low<high)
+		{
+			int pi=partionNew(arr,low,high);
+			quickSort1(arr,low,pi-1);
+			quickSort1(arr,pi+1,high);
+			
+		}
+	}
+	public static int partionNew(int arr[],int low,int high)
+	{
+		int pivot=arr[high];
+	}
+	public static int partion(int arr[],int low,int high)
+{
+int pivot=arr[high];
+int i =low -1;
+int temp=0;
+for(int j=low;j<high;j++)
+{
+
+if(arr[j]<pivot)
+{
+i++;
+temp=arr[i];
+arr[i]=arr[j];
+arr[j]=temp;
+}
+}
+temp=arr[i+1];
+arr[i+1]=arr[high];
+arr[high]=temp;
+return i+1;
+
+}
+
+
+
+import java.util.Arrays;
+
+public class SortWithComparable {
+    public static void main(String[] args) {
+        // Use Integer[] instead of int[] because Comparable works with objects
+        Integer[] arr = {7, 3, 4, 1, 19, 11, 8};
+
+        // Uses Integer's natural order (Comparable)
+        Arrays.sort(arr);
+
+        System.out.println(Arrays.toString(arr)); // [1, 3, 4, 7, 8, 11, 19]
+    }
+}
+
+
+Integer[] arr = {7, 3, 4, 1, 19, 11, 8};
+
+        // Reverse of Comparable's natural order
+        Arrays.sort(arr, Collections.reverseOrder());
+
+        System.out.println(Arrays.toString(arr)); // [19, 11, 8, 7, 4, 3, 1]
+
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class CountAllCharacters {
+    public static void main(String[] args) {
+        String str = "ILOVEJAVA";
+        Map<Character, Integer> charCountMap = new HashMap<>();
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            charCountMap.put(ch, charCountMap.getOrDefault(ch, 0) + 1);
+        }
+
+        // Print the result
+        for (Map.Entry<Character, Integer> entry : charCountMap.entrySet()) {
+            System.out.println(entry.getKey() + " : " + entry.getValue());
+        }
+    }
+}
+
+
+  public static void main(String args[]) {
+    int x=10;
+    int y=25;
+    int z=x+y;
+
+    //System.out.println("Sum of x+y = " + z);
+    //method1(5);
+    //method2("level123");
+     //method3("level123");
+     //method4(5);
+     //method5(5);
+     //method6(5);
+     method7("ILOVEJAVATTECHIE");
+    
+  }
+}

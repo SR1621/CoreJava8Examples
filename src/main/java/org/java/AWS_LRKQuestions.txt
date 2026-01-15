@@ -1,0 +1,542 @@
+1)EBS --is used for sotrage and it is good when the EC2 is shutdown but still the data is available in EBS 
+false --
+2)Stopping the the ece server not charging in billing 
+3)We can set the false ,it will terminate the EC2 Instance
+
+EBS to stop deletion --we can click make the deletion on termination as false 
+
+spot instance and demand instance 
+on demand cost is more compared to spot instance 
+
+Vertical(Single server and same machineand increare more more memory and VMS ) and horgointal scaling ( Two machines and increase the resouce)
+
+VPC is the best way of connecting to your cloud resouces from your own data center.Once you connect your datacenter to the VPIC in which your instacnes are present ,each isntance is assinged a private IP address that can be accessed from your data center
+
+Process state controler 
+P -state  P0 to P15
+C statie --Co to C6
+
+How to transfer an existing domain name registraion to Amazon Route 53 with 
+Route 53's managment console 
+
+Elastic BeansStalk is an easy to use service which is used for deploying and scaling web applicaitons 
+
+AWS Ops works --- integeated with platfomr managment which is used for Devops
+Spring boot reactive Programming 
+Asysnchrons  non blocking 
+Functional style code
+Data flow as event driven system 
+Backpressure on data strean 
+
+Scope of bean 
+IOC 
+core Java Collections 
+
+1)EBS --is used for sotrage and it is good when the EC2 is shutdown but still the data is available in EBS 
+false --
+2)Stopping the the ece server not charging in billing 
+3)We can set the false ,it will terminate the EC2 Instance
+
+EBS to stop deletion --we can click make the deletion on termination as false 
+
+spot instance and demand instance 
+on demand cost is more compared to spot instance 
+
+Vertical(Single server and same machineand increare more more memory and VMS ) and horgointal scaling ( Two machines and increase the resouce)
+
+VPC is the best way of connecting to your cloud resouces from your own data center.Once you connect your datacenter to the VPIC in which your instacnes are present ,each isntance is assinged a private IP address that can be accessed from your data center
+
+Process state controler 
+P -state  P0 to P15
+C statie --Co to C6
+
+How to transfer an existing domain name registraion to Amazon Route 53 with 
+Route 53's managment console 
+
+Elastic BeansStalk is an easy to use service which is used for deploying and scaling web applicaitons 
+
+AWS Ops works --- integeated with platform  managment which is used for Devops
+Spring boot reactive Programming 
+Asysnchrons  non blocking 
+Functional style code
+Data flow as event driven system 
+Backpressure on data strean 
+
+Scope of bean 
+IOC 
+core Java Collections 
+
+
+
+
+
+Public ip (Internet)
+Private IP --address (internal
+IPV4 --32 (4 million ip address)
+
+
+IPV6--128 
+
+
+5 clases 
+Class A (0-126)
+Class B (128-191)
+Class C 192-223 )
+Class D --224.0.0.0 --239.255.255.255. Boradcasting/Multicasting
+Class E- 240 --R&D 
+
+127 : Loopback/Localhost ip address 
+
+
+Rotuer --Public ip address --
+private ip range will be configured to ip router 
+
+
+CLASS A  NHHH --127 networks 16M Hosts
+CLASS B :NNHH--16000 and 65000 hosts  
+CLASS C :NNNH --2M Networks --256 Hosts 
+
+Class A 
+1.000
+1001
+1002
+2
+1.(0-255)(0-255)(0-255)
+**************
+Class B  --
+172.16.00
+
+Class C 
+192.168.00 
+
+
+
+************
+
+
+We nee to use 
+
+2 Ip address reserve for general network 
+AWs Reserve Anohter 3 IPS address 
+
+
+
+
+Aws Bean stalk will use auto scaling to automatcially launch a new instance 
+
+
+Load Balancgin --Over Flow ,LC(least connections it sends the client to the site which has the lease count of current connections)
+RR(round Robin)
+
+expose reverse proxy cache
+Elastic bean stack 
+
+Define Automate deployment 
+
+Servless Aproach --when the code is in operation (less amount
+)
+Amazon clou dwatch --monitoring the services 
+
+Cloudwatch Logs 
+Reak time montoring 
+
+
+Indiviual IAM 
+
+Lamda time out is 3 seconds defaul 
+We can set up 300 seconds
+
+SQS --Simple Queue Service\
+Route 53 is wathce for DNS Services 
+
+Configuration Managment 
+
+AWS Certifaate manager is used for websites for trustable 
+Disaster Recovery 
+RTO(Recovery  Time Object )/ RPO(Recovery Point Objective) 
+
+AWS Cloud watch & AWS Compute Optimizer
+
+yum install java-1.8jdk 
+java -version 
+alternatives --config java 
+select number option1 and option2 
+
+wget download jar file from ect instance 
+java -jar filename.jar 
+
+
+
+
+************Docker  STart 
+from oepnjdk:8
+expose 8080
+
+add target/jarfileName jarfileName
+entrypoint["java",*.jar" ,jarfileName
+filename ]"
+
+docker build -t filename.jar 
+
+docker image ls //to show the list 
+dock
+er run -p 9090:8080 filename.kar 
+
+docer tag imagename  javatechie/imagename.jar
+docler image ls 
+docker push javatechie/jarname 
+docker pull javavatechie/imagename.jar 
+docker run -p 9090:8080 javatechoe/jariflename
+
+build image using mave
+
+mvn spring-bbot:build-image 
+
+docker run --ty --publish 8089:8080
+
+
+
+google jib it creats automatically 
+
+no dcoker installation 
+no dcoker file requiredno 
+no manual buld and deploy 
+ add plug in com.google.cloud.tools 
+
+configuration 
+ <to?
+ registry --docker hb/javatechie 
+ </to>
+ need to give credntials  docker hub in m2 settings 
+
+ settings 
+ 
+ servers 
+ id 
+ name 
+ password
+ 
+ mvn clean compile jib:build 
+ 
+ docker run -it =p 8089:8080 imagename.jar 
+ 
+ in jenkins post scm we need to ***** /for every commit we need to run the build 
+ 
+ build goal :install 
+ 
+**************
+
+
+************* Dcoker End 
+
+Kubernates start 
+Kubernates start
+ 
+ Kuberantes is container managment tool 
+ 
+ Container -->Pods -->Node -->Cluster 
+ 
+ service is going to connectt betwen pods 
+ Service is going to handle the Load balancer urls also 
+ 
+ Deployments are kuberanates objects that uare used for managing pods 
+ 
+  kubetcl create deployment first-deployment image=<Docker-Image-Name>--port=8080 --replicas=4
+ 
+ you can scale your applicaiton by increasing he numboe or running pids and update the running applicaiton using deployment objects 
+ 
+ secret and config map 
+ password  can be stored in secret and plain test can be stored in config map  
+ 
+  kuberantes uses etcd as a key lavalu edatabas store 
+ it stores all the configuraiton of the kubernates cluster in etcd 
+ it stores all the secret and configmap data inside the etcd database 
+ 
+ max limt is 1 mb to store secrets 
+ 
+ Master node -- > Worker node (n) --Pods(n)
+
+Cluster is nothing orgainzaiton
+
+Master Node 
+API Server  (Kubectl get nods or kubectl get pods )
+Scheduler will take the decision based on the load of the worker node and availability 
+Controll manager  --will cehck the status of the workder node and if the pod crashes and it immidealty informs the to schedule and take the decision (Node controller ,replcaiton controller ,endpoints controller and service account & Token controller )
+
+ETCD --all infofmation of nods and pods are stored in database  
+Workder node 
+
+Kublet (kublet is an agent running on each node and kublet communicate with master node using API Server )
+it defines pod spec .A podspec is a yaml or JSON Object that describes about your pods .
+Kube PRoxy (is a network agent which runs on each node and it is responsible for maintaing network configuratin and rules 
+Container runtime --a container runtime ,also known as container engiine and it helps to run container insdie pods 
+
+
+ kubetcl create deployment rprign -bbot-k8s --image=springboot-k8s-demo:1.0 --port:8080
+kubetcl get deployment
+kubectl describe deployment
+
+kubectl get pods 
+kubectl logs pod name
+
+kubectl expose deployment spring-bbot-k8s --type=NodePort
+kubecl service -servicename --url
+kubectl delete service servicename
+
+ubectl delete deployment servicename
+
+kubectl get nodes -o wide
+kubectl apply -f filename.yaml file 
+
+echo -n "root" | base64 ///convert plain text to base64 algorithm 
+*
+
+  
+k**************
+Kubernates End 
+ 
+ Kuberantes end 
+ ********
+
+
+1)EBS --is used for sotrage and it is good when the EC2 is shutdown but still the data is available in EBS 
+false --
+2)Stopping the the ece server not charging in billing 
+3)We can set the false ,it will terminate the EC2 Instance
+
+EBS to stop deletion --we can click make the deletion on termination as false 
+
+spot instance and demand instance 
+on demand cost is more compared to spot instance 
+
+Vertical(Single server and same machineand increare more more memory and VMS ) and horgointal scaling ( Two machines and increase the resouce)
+
+VPC is the best way of connecting to your cloud resouces from your own data center.Once you connect your datacenter to the VPIC in which your instacnes are present ,each isntance is assinged a private IP address that can be accessed from your data center
+
+Process state controler 
+P -state  P0 to P15
+C statie --Co to C6
+
+How to transfer an existing domain name registraion to Amazon Route 53 with 
+Route 53's managment console 
+
+Elastic BeansStalk is an easy to use service which is used for deploying and scaling web applicaitons 
+
+AWS Ops works --- integeated with platfomr managment which is used for Devops
+Spring boot reactive Programming 
+Asysnchrons  non blocking 
+Functional style code
+Data flow as event driven system 
+Backpressure on data strean 
+
+Scope of bean 
+IOC 
+core Java Collections 
+
+
+
+Aws Bean stalk will use auto scaling to automatcially launch a new instance 
+
+
+Load Balancgin --Over Flow ,LC(least connections it sends the client to the site which has the lease count of current connections)
+RR(round Robin)
+
+expose reverse proxy cache
+Elastic bean stack 
+
+Define Automate deployment 
+
+Servless Aproach --when the code is in operation (less amount
+)
+Amazon clou dwatch --monitoring the services 
+
+Cloudwatch Logs 
+Reak time montoring 
+
+
+Indiviual IAM 
+
+Lamda time out is 3 seconds defaul 
+We can set up 300 seconds
+
+SQS --Simple Queue Service\
+Route 53 is wathce for DNS Services 
+
+Configuration Managment 
+
+AWS Certifaate manager is used for websites for trustable 
+Disaster Recovery 
+RTO(Recovery  Time Object )/ RPO(Recovery Point Objective) 
+
+AWS Cloud watch & AWS Compute Optimizer
+
+yum install java-1.8jdk 
+java -version 
+alternatives --config java 
+select number option1 and option2 
+
+wget download jar file from ect instance 
+java -jar filename.jar 
+
+ 
+
+
+
+
+from oepnd 
+expose 8080 
+att target
+
+
+docker build -t filename.jar 
+docker image ls //to show the list 
+docker run -p 9090:8080 filename
+
+docker build -t filename.jar
+docker image ls 
+docer run -p 9090;8080 filename 
+
+docker build 0t file
+
+docker run -
+docke rimage ls
+docker push 
+docker pull 
+docker run 
+google jib it create atumation 
+
+
+docke
+
+MAster 
+API Server KUBECTL get nods 
+Scheduler 
+controller 
+ETCD 
+
+Workder 
+Kublet is an agent between master node and worker node 
+kube proxy is a  network agent which runs on each node and it is responsle 
+ 
+ 
+ RDS --Relation database system 
+
+Multi AZ Setup for DR (Disaster Recovery )
+RDS Storeae Auto scaling 
+Cross AZ or Cross Region 
+
+RDS From Single AZ to Multi -AZ 
+M (master will take the DB Snapshot 
+SQL Electrn is SQL UI Databas 
+
+Aurora is comforable with postgreqsl and mysql
+
+ElasticCache overview is used for caching mecahsnism  Redis or Memcached
+Redis, an in-memory data structure store, offers several advantages, including high performance through fast data access, scalability via clustering, and data persistence options, making it suitable for caching, session management, and real-time applications. 
+
+Rakesh Boomi or Saurabh rai 
+
+
+
+
+
+Public ip (Internet)
+Private IP --address (internal
+IPV4 --32 (4 million ip address)
+
+
+IPV6--128 
+
+
+5 clases 
+Class A (0-126)
+Class B (128-191)
+Class C 192-223 )
+Class D --224.0.0.0 --239.255.255.255. Boradcasting/Multicasting
+Class E- 240 --R&D 
+
+127 : Loopback/Localhost ip address 
+
+
+Rotuer --Public ip address --
+private ip range will be configured to ip router 
+
+
+CLASS A  NHHH --127 networks 16M Hosts
+VLASS B :NNHH--16000 and 65000 hosts  
+CLASS C :NNNH --2M Networks --256 Hosts 
+
+Class A 
+1.000
+1001
+1002
+2
+1.(0-255)(0-255)(0-255)
+**************
+Class B  --
+172.16.00
+
+Class C 
+192.168.00 
+
+
+
+************
+
+
+We nee to use 
+
+2 Ip address reserve for general network 
+AWs Reserve Anohter 3 IPS address 
+
+
+
+
+Aws Bean stalk will use auto scaling to automatcially launch a new instance 
+
+
+Load Balancgin --Over Flow ,LC(least connections it sends the client to the site which has the lease count of current connections)
+RR(round Robin)
+
+expose reverse proxy cache
+Elastic bean stack 
+
+Define Automate deployment 
+
+Servless Aproach --when the code is in operation (less amount
+)
+Amazon clou dwatch --monitoring the services 
+
+Cloudwatch Logs 
+Reak time montoring 
+
+
+Indiviual IAM 
+
+Lamda time out is 3 seconds defaul 
+We can set up 300 seconds
+
+SQS --Simple Queue Service\
+Route 53 is wathce for DNS Services 
+
+Configuration Managment 
+
+AWS Certifaate manager is used for websites for trustable 
+Disaster Recovery 
+RTO(Recovery  Time Object )/ RPO(Recovery Point Objective) 
+
+AWS Cloud watch & AWS Compute Optimizer
+
+yum install java-1.8jdk 
+java -version 
+alternatives --config java 
+select number option1 and option2 
+
+wget download jar file from ect instance 
+java -jar filename.jar 
+
+ 
+
+
+
+
